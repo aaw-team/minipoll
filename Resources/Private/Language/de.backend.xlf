@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2017-03-13T16:38:25Z" product-name="minipoll">
+        <header/>
+        <body>
+            <trans-unit id="tca.poll.title">
+                <source>Poll</source>
+                <target>Umfrage</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.title">
+                <source>Title</source>
+                <target>Titel</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.description">
+                <source>Description</source>
+                <target>Beschreibung</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.closeDatetime">
+                <source>Close datetime</source>
+                <target>Schlusszeitpunkt</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.useCaptcha">
+                <source>Use captcha</source>
+                <target>Captcha verwenden</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.useCaptcha.enable">
+                <source>Enable</source>
+                <target>Aktivieren</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.duplicationCheck">
+                <source>Duplication check</source>
+                <target>Duplikat-Kontrolle</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.duplicationCheck.none">
+                <source>None</source>
+                <target>Keine</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.duplicationCheck.cookie">
+                <source>Cookie</source>
+                <target>Cookie</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.duplicationCheck.ip">
+                <source>IP address</source>
+                <target>IP Addresse</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.options">
+                <source>Options</source>
+                <target>Auswahl</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.palette.header">
+                <source>Base data</source>
+                <target>Basisdaten</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.sheet.settings">
+                <source>Poll settings</source>
+                <target>Umfrage-Einstellungen</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.sheet.general">
+                <source>General</source>
+                <target>Allgemein</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.sheet.language">
+                <source>Language</source>
+                <target>Sprache</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.palette.settings">
+                <source>Poll settings</source>
+                <target>Umfrage-Einstellungen</target>
+            </trans-unit>
+            <trans-unit id="tca.poll_option.title">
+                <source>Poll option</source>
+                <target>Umfrage-Auswahl</target>
+            </trans-unit>
+            <trans-unit id="tca.poll_option.field.title">
+                <source>Title</source>
+                <target>Titel</target>
+            </trans-unit>
+            <trans-unit id="tca.poll_option.field.poll">
+                <source>Poll</source>
+                <target>Umfrage</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
