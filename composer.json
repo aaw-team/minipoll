@@ -1,0 +1,32 @@
+{
+    "name": "aaw-team/minipoll",
+    "type": "typo3-cms-extension",
+    "description": "Minipoll: a simple, lightweight poll plugin for TYPO3",
+    "homepage": "https://github.com/aaw-team/minipoll",
+    "version": "1.0.0-dev",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Agentur am Wasser Team",
+            "email": "development@agenturamwasser.ch",
+            "homepage": "https://web.agenturamwasser.ch/",
+            "role": "Developer"
+        }
+    ],
+    "keywords": [
+        "TYPO3",
+        "Poll"
+    ],
+    "require": {
+        "typo3/cms": "^7.6|^8"
+    },
+    "replace": {
+        "minipoll": "self.version",
+        "typo3-ter/minipoll": "self.version"
+    },
+    "autoload": {
+        "psr-4": {
+            "AawTeam\\Minipoll\\": "Classes/"
+        }
+    }
+}
