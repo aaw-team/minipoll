@@ -15,3 +15,39 @@
  */
 
 defined ('TYPO3_MODE') or die ('Access denied.');
+
+// Configure plugin
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin('AawTeam.Minipoll', 'Poll', [
+    'Poll' => 'list,detail'
+]);
+
+// Add default typoscript setup
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup('
+/**
+ * Default plugin configuration
+ */
+plugin.tx_minipoll {
+    view {
+        layoutRootPaths.0 = EXT:minipoll/Resources/Private/Layouts
+        partialRootPaths.0 = EXT:minipoll/Resources/Private/Partials
+        templateRootPaths.0 = EXT:minipoll/Resources/Private/Templates
+    }
+}
+');
+
+// Add the plugin to new content element wizard
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
+mod.wizards.newContentElement.wizardItems.plugins {
+    elements {
+        minipoll_form {
+            # @TODO: Create/add plugin icon
+            iconIdentifier = content-plugin
+            title = LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:plugin.title
+            description = LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:plugin.description
+            tt_content_defValues {
+                CType = list
+                list_type = minipoll_poll
+            }
+        }
+    }
+}');

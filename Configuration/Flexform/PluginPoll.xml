@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<T3DataStructure>
+    <meta>
+        <langDisable>1</langDisable>
+    </meta>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:flexform.pluginPoll.sheet.general</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <switchableControllerActions>
+                        <TCEforms>
+                            <exclude>1</exclude>
+                            <label>LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:flexform.pluginPoll.field.switchableControllerActions</label>
+                            <onChange>reload</onChange>
+                            <config>
+                                <type>select</type>
+                                <items type="array">
+                                    <numIndex index="0" type="array">
+                                        <numIndex index="0">LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:flexform.pluginPoll.field.switchableControllerActions.list</numIndex>
+                                        <numIndex index="1">Poll-&gt;list;Poll-&gt;detail</numIndex>
+                                    </numIndex>
+                                    <numIndex index="1" type="array">
+                                        <numIndex index="0">LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:flexform.pluginPoll.field.switchableControllerActions.detail</numIndex>
+                                        <numIndex index="1">Poll-&gt;detail</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </switchableControllerActions>
+                    <pollUid>
+                        <TCEforms>
+                            <exclude>0</exclude>
+                            <label>LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:flexform.pluginPoll.field.pollUid</label>
+                            <displayCond>FIELD:switchableControllerActions:=:Poll-&gt;detail</displayCond>
+                            <config>
+                                <type>group</type>
+                                <internal_type>db</internal_type>
+                                <allowed>tx_minipoll_poll</allowed>
+                                <foreign_table>tx_minipoll_poll</foreign_table>
+                                <show_thumbs>0</show_thumbs>
+                                <maxitems>1</maxitems>
+                                <minitems>1</minitems>
+                                <size>1</size>
+                            </config>
+                        </TCEforms>
+                    </pollUid>
+                </el>
+            </ROOT>
+        </sDEF>
+    </sheets>
+</T3DataStructure>
