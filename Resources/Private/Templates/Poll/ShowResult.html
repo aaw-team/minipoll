@@ -1,13 +1,33 @@
+{namespace mp=AawTeam\Minipoll\ViewHelpers}
 <div class="tx_minipoll-results">
     <f:render partial="Poll/Title" arguments="{_all}" />
+    <f:render partial="Poll/Description" arguments="{_all}" />
 
-    <f:for each="{poll.options}" as="option">
-        <div>
-            {option.title}: <f:format.number decimals="0" thousandsSeparator="'"><f:count subject="{option.answers}"/></f:format.number>
+    <div class="tx_minipoll-chart">
+        <f:for each="{poll.options}" as="option">
+            <div class="tx_minipoll-option">
+                <mp:poll.option.calc pollOption="{option}" as="calc" roundPercent="2">
+                    <div class="tx_minipoll-option-text">
+                        <span class="tx_minipoll-option-title">{option.title}</span>
+                        <span class="tx_minipoll-option-votes">{calc.answers} Votes</span>
+                    </div>
+                    <div class="tx_minipoll-option-bar" style="width:{calc.percent}%">
+                        <span class="tx_minipoll-option-percentage"><f:format.number decimals="0" thousandsSeparator="'">{calc.percent}</f:format.number>%</span>
+                    </div>
+                </mp:poll.option.calc>
+            </div>
+        </f:for>
+    </div>
+
+    <div class="tx_minipoll-footer">
+        <div class="tx_minipoll-footer-left">
+            <f:format.number decimals="0" thousandsSeparator="'"><f:count subject="{poll.participations}"/></f:format.number> Votes in Total (LLL)
         </div>
-    </f:for>
 
-    <div>
-    Total votes: <f:format.number decimals="0" thousandsSeparator="'"><f:count subject="{poll.participations}"/></f:format.number>
+        <mp:ifCanVote poll="{poll}">
+            <f:link.action action="detail" arguments="{poll:poll.uid}" class="tx_minipoll-button tx_minipoll-button-gray">
+                Vote (LLL)
+            </f:link.action>
+        </mp:ifCanVote>
     </div>
 </div>
