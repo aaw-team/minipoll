@@ -28,7 +28,11 @@ $EM_CONF[$_EXTKEY] = array(
             'captcha' => ''
         )
     ),
-    'autoload' => array()
+    'autoload' => array(
+        'psr-4' => array(
+            'AawTeam\\Minipoll\\' => 'Classes/'
+        )
+    )
 );
 
 // Add dependencies to autoloading if needed. This is the case when TYPO3 does
