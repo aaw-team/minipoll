@@ -15,7 +15,11 @@
  */
 
 // Register plugin
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin('AawTeam.Minipoll', 'Poll', 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:plugin.title');
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+    'AawTeam.Minipoll',
+    'Poll',
+    'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:plugin.title',
+    'EXT:minipoll/Resources/Public/Icons/plugin-minipoll-poll.svg');
 
 // Add flexform for the plugin
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('minipoll_poll', 'FILE:EXT:minipoll/Configuration/Flexform/PluginPoll.xml');

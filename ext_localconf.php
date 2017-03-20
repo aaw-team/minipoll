@@ -66,3 +66,16 @@ mod.wizards.newContentElement.wizardItems.plugins {
         }
     }
 }');
+
+// Register icons
+/** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
+$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
+$iconRegistry->registerIcon('content-plugin-minipoll-poll', \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class, [
+    'source' => 'EXT:minipoll/Resources/Public/Icons/plugin-minipoll-poll.svg'
+]);
+$iconRegistry->registerIcon('minipoll-poll', \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class, [
+    'source' => 'EXT:minipoll/Resources/Public/Icons/poll.svg'
+]);
+$iconRegistry->registerIcon('minipoll-poll-option', \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class, [
+    'source' => 'EXT:minipoll/Resources/Public/Icons/poll-option.svg'
+]);

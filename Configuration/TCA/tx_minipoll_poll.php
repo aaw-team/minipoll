@@ -31,6 +31,9 @@ return [
         'tstamp' => 'tstamp',
         'sortby' => 'sorting',
         'title' => 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.title',
+        'typeicon_classes' => [
+            'default' => 'minipoll-poll'
+        ],
         'delete' => 'deleted',
         'crdate' => 'crdate',
         'hideAtCopy' => true,

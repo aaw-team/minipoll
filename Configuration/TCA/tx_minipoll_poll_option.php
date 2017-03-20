@@ -29,6 +29,9 @@ return [
         'tstamp' => 'tstamp',
         'hideTable' => true,
         'title' => 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll_option.title',
+        'typeicon_classes' => [
+            'default' => 'minipoll-poll-option'
+        ],
         'delete' => 'deleted',
         'crdate' => 'crdate',
         'hideAtCopy' => false,
