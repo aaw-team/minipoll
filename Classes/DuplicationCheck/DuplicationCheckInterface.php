@@ -32,7 +32,17 @@ interface DuplicationCheckInterface
 
     /**
      * @param Poll $poll
+     * @param Participation $participation
      * @return bool
      */
     public function disableVote(Poll $poll, Participation $participation);
+
+    /**
+     * This method is called, when a poll is configured to display the results
+     * only after a user has submitted his vote.
+     *
+     * @param Poll $poll
+     * @return bool
+     */
+    public function canDisplayResults(Poll $poll);
 }

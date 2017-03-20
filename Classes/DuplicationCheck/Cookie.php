@@ -39,6 +39,7 @@ class Cookie implements DuplicationCheckInterface
 
     /**
      * @param Poll $poll
+     * @param Participation $participation
      * @return bool
      */
     public function disableVote(Poll $poll, Participation $participation)
@@ -47,6 +48,15 @@ class Cookie implements DuplicationCheckInterface
         $value[] = $poll->getUid();
         $this->setCookieValue($value);
         return true;
+    }
+
+    /**
+     * @param Poll $poll
+     * @return bool
+     */
+    public function canDisplayResults(Poll $poll)
+    {
+        return !$this->canVote($poll);
     }
 
     /**

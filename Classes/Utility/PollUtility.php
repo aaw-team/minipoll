@@ -45,7 +45,7 @@ class PollUtility
 
         // Try to find out whether one has voted already
         $duplicationCheck = $this->getDuplicationCheck($poll);
-        return $duplicationCheck !== null && !$duplicationCheck->canVote($poll);
+        return $duplicationCheck->canDisplayResults($poll);
     }
 
     /**
@@ -60,7 +60,7 @@ class PollUtility
         }
 
         $duplicationCheck = $this->getDuplicationCheck($poll);
-        return $duplicationCheck === null || $duplicationCheck->canVote($poll);
+        return $duplicationCheck->canVote($poll);
     }
 
     /**
@@ -70,12 +70,12 @@ class PollUtility
     public function disableVoteInPoll(Poll $poll, Participation $participation)
     {
         $duplicationCheck = $this->getDuplicationCheck($poll);
-        return $duplicationCheck === null || $duplicationCheck->disableVote($poll, $participation);
+        return $duplicationCheck->disableVote($poll, $participation);
     }
 
     /**
      * @param Poll $poll
-     * @return \AawTeam\Minipoll\DuplicationCheck\DuplicationCheckInterface|null
+     * @return \AawTeam\Minipoll\DuplicationCheck\DuplicationCheckInterface
      */
     protected function getDuplicationCheck(Poll $poll)
     {

@@ -18,31 +18,25 @@ namespace AawTeam\Minipoll\DuplicationCheck;
 
 use AawTeam\Minipoll\Domain\Model\Participation;
 use AawTeam\Minipoll\Domain\Model\Poll;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Ip duplication check
+ * Dummy duplication check
+ *
+ * This is used when a poll is configured to disable duplication checking
  */
-class Ip implements DuplicationCheckInterface
+class Dummy implements DuplicationCheckInterface
 {
-    /**
-     * @var \AawTeam\Minipoll\Domain\Repository\ParticipationRepository
-     * @inject
-     */
-    protected $participationRepository;
-
     /**
      * @param Poll $poll
      * @return bool
      */
     public function canVote(Poll $poll)
     {
-        return $this->participationRepository->countByPollAndIpAddress($poll, GeneralUtility::getIndpEnv('REMOTE_ADDR')) == 0;
+        return true;
     }
 
     /**
      * @param Poll $poll
-     * @param Participation $participation
      * @return bool
      */
     public function disableVote(Poll $poll, Participation $participation)
@@ -56,6 +50,6 @@ class Ip implements DuplicationCheckInterface
      */
     public function canDisplayResults(Poll $poll)
     {
-        return !$this->canVote($poll);
+        return true;
     }
 }

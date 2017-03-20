@@ -44,11 +44,24 @@ class FrontendUser implements DuplicationCheckInterface
 
     /**
      * @param Poll $poll
+     * @param Participation $participation
      * @return bool
      */
     public function disableVote(Poll $poll, Participation $participation)
     {
         return true;
+    }
+
+    /**
+     * @param Poll $poll
+     * @return bool
+     */
+    public function canDisplayResults(Poll $poll)
+    {
+        if (!$this->isFrontednUserLoggedIn()) {
+            return false;
+        }
+        return !$this->canVote($poll);
     }
 
     /**

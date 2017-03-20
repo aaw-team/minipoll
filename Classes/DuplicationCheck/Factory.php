@@ -29,7 +29,8 @@ class Factory
     protected $aliasMap = [
         Poll::DUPLICATION_CHECK_IP => Ip::class,
         Poll::DUPLICATION_CHECK_COOKIE => Cookie::class,
-        Poll::DUPLICATION_CHECK_FEUSER => FrontendUser::class
+        Poll::DUPLICATION_CHECK_FEUSER => FrontendUser::class,
+        Poll::DUPLICATION_CHECK_NONE => Dummy::class
     ];
 
     /**
@@ -40,13 +41,13 @@ class Factory
 
     /**
      * @param Poll $poll
-     * @return DuplicationCheckInterface|null
+     * @return DuplicationCheckInterface
      */
     public function getDuplicationCheck(Poll $poll)
     {
         $duplicationCheckName = \trim($poll->getDuplicationCheck());
-        if (empty($duplicationCheckName) || $duplicationCheckName === Poll::DUPLICATION_CHECK_NONE) {
-            return null;
+        if (empty($duplicationCheckName)) {
+            $className = Dummy::class;
         } elseif (\array_key_exists($duplicationCheckName, $this->aliasMap)) {
             $className = $this->aliasMap[$duplicationCheckName];
         } else {
