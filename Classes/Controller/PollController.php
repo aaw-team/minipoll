@@ -52,8 +52,29 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function indexAction()
     {
-        // @TODO
-        return __METHOD__;
+        $configuration = $this->getTyposcriptConfiguration();
+
+        $display = $configuration['display'];
+        if ($configuration['display.']) {
+            $display = $this->configurationManager->getContentObject()->stdWrap($display, $configuration['display.']);
+        }
+
+        switch ($display) {
+            case 'list' :
+                $this->forward('list');
+                break;
+            case 'detail' :
+                $pollUid = $configuration['settings']['pollUid'];
+                if ($configuration['settings']['pollUid.']) {
+                    $pollUid = $this->configurationManager->getContentObject()->stdWrap($pollUid, $configuration['settings']['pollUid.']);
+                }
+                $this->forward('detail', null, null, ['poll' => $pollUid]);
+                break;
+            default :
+                return 'Error: you must specify either "list" or "detail" in the display property of this cObject!';
+        }
+
+        return 'Error: something went terribly wrong!';
     }
 
     public function listAction()
@@ -178,6 +199,22 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             return 'Error: something went terribly wrong!';
         }
         $this->view->assign('poll', $poll);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getTyposcriptConfiguration()
+    {
+        $frameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+        $settings = $frameworkConfiguration['settings'];
+        $typoscriptConfiguration = \array_diff_key($frameworkConfiguration, \array_flip(['mvc', 'persistence', 'features', 'userFunc', 'extensionName', 'pluginName', 'vendorName', 'view', 'controllerConfiguration', 'settings']));
+
+        /** @var \TYPO3\CMS\Extbase\Service\TypoScriptService $typoscriptService */
+        $typoscriptService = $this->objectManager->get(\TYPO3\CMS\Extbase\Service\TypoScriptService::class);
+        $typoscriptConfiguration = $typoscriptService->convertPlainArrayToTypoScriptArray($typoscriptConfiguration);
+        $typoscriptConfiguration['settings'] = $typoscriptService->convertPlainArrayToTypoScriptArray($settings);
+        return $typoscriptConfiguration;
     }
 
     /**
