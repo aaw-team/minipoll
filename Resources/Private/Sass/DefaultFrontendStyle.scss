@@ -1,0 +1,53 @@
+.tx_minipoll-poll {
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: 5px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.tx_minipoll-footer {
+    input[type="submit"],
+    a {
+        display: inline-block;
+        position: relative;
+        padding: 0 20px;
+        line-height: 40px;
+        font-size: 14px;
+        color: #fff;
+        background: #536dc1;
+        border-radius: 2px;
+        width: auto;
+        border: none;
+        box-sizing: border-box;
+        text-decoration: none;
+        cursor: pointer;
+
+        transition: background .2s, color .2s;
+
+        &:hover,
+        &:focus,
+        &:active {
+            text-decoration: none;
+            background: lighten(#536dc1, 10);
+        }
+    }
+
+    a {
+        background: #999;
+
+        &:hover,
+        &:focus,
+        &:active {
+            text-decoration: none;
+            background: lighten(#999, 10);
+        }
+    }
+}
