@@ -1,0 +1,25 @@
+<style type="text/css">
+.tx_minipoll_hp input[type="text"] {
+    top:-10000px;
+    left:-10000px;
+    position:absolute;
+}
+</style>
+
+<div class="tx_minipoll-poll">
+    <f:render partial="Poll/Title" arguments="{_all}" />
+    <f:render partial="Poll/Description" arguments="{_all}" />
+    <f:form action="vote" arguments="{poll:poll.uid}">
+        <f:comment>These two input fields are part of the honeypot check, do not remove!</f:comment>
+        <div class="tx_minipoll_hp">
+            <f:form.hidden name="hp[one]" value="" />
+            <f:form.textfield name="hp[two]" value="" />
+        </div>
+        <ul>
+        <f:for each="{poll.options}" as="option">
+            <f:render partial="Poll/Option" arguments="{_all}" />
+        </f:for>
+        </ul>
+        <f:render partial="Poll/Buttons" arguments="{_all}" />
+    </f:form>
+</div>

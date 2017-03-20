@@ -1,0 +1,13 @@
+<div class="tx_minipoll-results">
+    <f:render partial="Poll/Title" arguments="{_all}" />
+
+    <f:for each="{poll.options}" as="option">
+        <div>
+            {option.title}: <f:format.number decimals="0" thousandsSeparator="'"><f:count subject="{option.answers}"/></f:format.number>
+        </div>
+    </f:for>
+
+    <div>
+    Total votes: <f:format.number decimals="0" thousandsSeparator="'"><f:count subject="{poll.participations}"/></f:format.number>
+    </div>
+</div>

@@ -23,37 +23,89 @@
                 <source>Description</source>
                 <target>Beschreibung</target>
             </trans-unit>
-            <trans-unit id="tca.poll.field.closeDatetime">
-                <source>Close datetime</source>
-                <target>Schlusszeitpunkt</target>
+            <trans-unit id="tca.poll.field.status">
+                <source>Online status</source>
+                <target>Online Status</target>
             </trans-unit>
-            <trans-unit id="tca.poll.field.useCaptcha">
-                <source>Use captcha</source>
-                <target>Captcha verwenden</target>
+            <trans-unit id="tca.poll.field.status.closed">
+                <source>Closed</source>
+                <target>Geschlossen</target>
             </trans-unit>
-            <trans-unit id="tca.poll.field.useCaptcha.enable">
+            <trans-unit id="tca.poll.field.status.open">
+                <source>Open</source>
+                <target>Offen</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.status.bydate">
+                <source>By date</source>
+                <target>Nach Datum</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.open_datetime">
+                <source>Poll start</source>
+                <target>Abstimmung Beginn</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.close_datetime">
+                <source>Poll end</source>
+                <target>Abstimmung Ende</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.allow_multiple">
+                <source>Allow multiple answers</source>
+                <target>Mehrere Antworten zulassen</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.allow_multiple.enable">
                 <source>Enable</source>
                 <target>Aktivieren</target>
             </trans-unit>
-            <trans-unit id="tca.poll.field.duplicationCheck">
+            <trans-unit id="tca.poll.field.use_captcha">
+                <source>Use captcha</source>
+                <target>Captcha verwenden</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.use_captcha.enable">
+                <source>Enable</source>
+                <target>Aktivieren</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.duplication_check">
                 <source>Duplication check</source>
                 <target>Duplikat-Kontrolle</target>
             </trans-unit>
-            <trans-unit id="tca.poll.field.duplicationCheck.none">
+            <trans-unit id="tca.poll.field.duplication_check.none">
                 <source>None</source>
                 <target>Keine</target>
             </trans-unit>
-            <trans-unit id="tca.poll.field.duplicationCheck.cookie">
+            <trans-unit id="tca.poll.field.duplication_check.cookie">
                 <source>Cookie</source>
                 <target>Cookie</target>
             </trans-unit>
-            <trans-unit id="tca.poll.field.duplicationCheck.ip">
+            <trans-unit id="tca.poll.field.duplication_check.ip">
                 <source>IP address</source>
                 <target>IP Addresse</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.duplication_check.feuser">
+                <source>Frontend User</source>
+                <target>Website Benutzer</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.display_results">
+                <source>Display results</source>
+                <target>Resultate anzeigen</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.display_results.always">
+                <source>Always</source>
+                <target>Immer</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.display_results.onvote">
+                <source>After voting</source>
+                <target>Nach dem Wählen</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.display_results.never">
+                <source>Never</source>
+                <target>Nie</target>
             </trans-unit>
             <trans-unit id="tca.poll.field.options">
                 <source>Options</source>
                 <target>Auswahl</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.hidden">
+                <source>Visibility of Poll</source>
+                <target>Sichtbarkeit der Umfrage</target>
             </trans-unit>
             <trans-unit id="tca.poll.palette.header">
                 <source>Base data</source>
@@ -74,6 +126,14 @@
             <trans-unit id="tca.poll.palette.settings">
                 <source>Poll settings</source>
                 <target>Umfrage-Einstellungen</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.palette.status">
+                <source>Status</source>
+                <target>Status</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.palette.display">
+                <source>Display</source>
+                <target>Anzeige</target>
             </trans-unit>
             <trans-unit id="tca.poll_option.title">
                 <source>Poll option</source>

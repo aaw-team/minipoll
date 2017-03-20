@@ -14,6 +14,9 @@
  * The TYPO3 project - inspiring people to share!
  */
 
+// Register plugin
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin('AawTeam.Minipoll', 'Poll', 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:plugin.title');
+
 // Add flexform for the plugin
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('minipoll_poll', 'FILE:EXT:minipoll/Configuration/Flexform/PluginPoll.xml');
 // Show tt_content.pi_flexform when the plugin is shown

@@ -18,7 +18,8 @@
         "Poll"
     ],
     "require": {
-        "typo3/cms": "^7.6|^8"
+        "typo3/cms": "^7.6|^8",
+        "paragonie/constant_time_encoding": "^1|^2"
     },
     "replace": {
         "minipoll": "self.version",

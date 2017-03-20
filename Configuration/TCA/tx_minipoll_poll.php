@@ -18,11 +18,11 @@ $labels = [
     'sheet.general' => 'LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general',
     'sheet.access' => 'LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access',
 ];
-$renderTypeCloseDatetime = 'inputDateTime';
+$renderTypeDatetime = 'inputDateTime';
 if (\version_compare(TYPO3_version, '8', '<')) {
     $labels['sheet.general'] = 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.sheet.general';
     $labels['sheet.access'] = 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access';
-    $renderTypeCloseDatetime = '';
+    $renderTypeDatetime = '';
 }
 
 return [
@@ -35,7 +35,6 @@ return [
         'crdate' => 'crdate',
         'hideAtCopy' => true,
         'prependAtCopy' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.prependAtCopy',
-        'descriptionColumn' => 'description',
         'cruser_id' => 'cruser_id',
         'enablecolumns' => [
             'disabled' => 'hidden',
@@ -44,10 +43,11 @@ return [
             'fe_group' => 'fe_group'
         ],
         'dividers2tabs' => '1',
+        'requestUpdate' => 'status',
         'searchFields' => 'title,description'
     ],
     'interface' => [
-        'showRecordFieldList' => 'title,description,hidden,starttime,endtime,fe_group'
+        'showRecordFieldList' => 'title,description,hidden,starttime,endtime,fe_group,use_captcha,duplication_check,status,allow_multiple,display_results,open_datetime,close_datetime'
     ],
     'columns' => [
         'hidden' => $GLOBALS['TCA']['tt_content']['columns']['hidden'],
@@ -73,50 +73,125 @@ return [
                 'softref' => 'typolink_tag,images,email[subst],url'
             ]
         ],
-        'useCaptcha' => [
+        'use_captcha' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.useCaptcha',
+            'label' => 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.use_captcha',
             'config' => [
                 'type' => 'check',
                 'items' => [
                     '1' => [
-                        '0' => 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.useCaptcha.enable'
+                        '0' => 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.use_captcha.enable'
                     ]
                 ]
             ]
         ],
-        'duplicationCheck' => [
+        'duplication_check' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.duplicationCheck',
+            'label' => 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.duplication_check',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
                     [
-                        'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.duplicationCheck.ip',
-                        'ip'
+                        'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.duplication_check.ip',
+                        \AawTeam\Minipoll\Domain\Model\Poll::DUPLICATION_CHECK_IP
                     ],
                     [
-                        'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.duplicationCheck.cookie',
-                        'cookie'
+                        'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.duplication_check.cookie',
+                        \AawTeam\Minipoll\Domain\Model\Poll::DUPLICATION_CHECK_COOKIE
                     ],
                     [
-                        'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.duplicationCheck.none',
-                        'none'
+                        'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.duplication_check.feuser',
+                        \AawTeam\Minipoll\Domain\Model\Poll::DUPLICATION_CHECK_FEUSER
+                    ],
+                    [
+                        'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.duplication_check.none',
+                        \AawTeam\Minipoll\Domain\Model\Poll::DUPLICATION_CHECK_NONE
                     ]
                 ],
-                'default' => 'ip'
+                'default' => \AawTeam\Minipoll\Domain\Model\Poll::DUPLICATION_CHECK_IP
             ]
         ],
-        'closeDatetime' => [
+        'status' => [
             'exclude' => true,
-            'label' => 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.closeDatetime',
+            'label' => 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.status',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => [
+                    [
+                        'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.status.closed',
+                        \AawTeam\Minipoll\Domain\Model\Poll::STATUS_CLOSED
+                    ],
+                    [
+                        'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.status.open',
+                        \AawTeam\Minipoll\Domain\Model\Poll::STATUS_OPEN
+                    ],
+                    [
+                        'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.status.bydate',
+                        \AawTeam\Minipoll\Domain\Model\Poll::STATUS_BYDATE
+                    ]
+                ],
+                'default' => \AawTeam\Minipoll\Domain\Model\Poll::STATUS_CLOSED
+            ]
+        ],
+        'open_datetime' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.open_datetime',
+            'displayCond' => 'FIELD:status:=:' . \AawTeam\Minipoll\Domain\Model\Poll::STATUS_BYDATE,
             'config' => [
                 'type' => 'input',
-                'renderType' => $renderTypeCloseDatetime,
+                'renderType' => $renderTypeDatetime,
                 'eval' => 'datetime',
                 'size' => '13',
                 'default' => 0
+            ]
+        ],
+        'close_datetime' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.close_datetime',
+            'displayCond' => 'FIELD:status:=:' . \AawTeam\Minipoll\Domain\Model\Poll::STATUS_BYDATE,
+            'config' => [
+                'type' => 'input',
+                'renderType' => $renderTypeDatetime,
+                'eval' => 'datetime',
+                'size' => '13',
+                'default' => 0
+            ]
+        ],
+        'allow_multiple' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.allow_multiple',
+            'config' => [
+                'type' => 'check',
+                'items' => [
+                    '1' => [
+                        '0' => 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.allow_multiple.enable'
+                    ]
+                ]
+            ]
+        ],
+        'display_results' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.display_results',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => [
+                    [
+                        'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.display_results.always',
+                        \AawTeam\Minipoll\Domain\Model\Poll::DISPLAY_RESULTS_ALWAYS
+                    ],
+                    [
+                        'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.display_results.onvote',
+                        \AawTeam\Minipoll\Domain\Model\Poll::DISPLAY_RESULTS_ONVOTE
+                    ],
+                    [
+                        'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.display_results.never',
+                        \AawTeam\Minipoll\Domain\Model\Poll::DISPLAY_RESULTS_NEVER
+                    ]
+                ],
+                'default' => \AawTeam\Minipoll\Domain\Model\Poll::DISPLAY_RESULTS_ALWAYS
             ]
         ],
         'options' => [
@@ -135,10 +210,6 @@ return [
                 'appearance' => [
                     'newRecordLinkAddTitle' => true,
                     'useSortable' => true,
-                    'showPossibleLocalizationRecords' => false,
-                    'showRemovedLocalizationRecords' => false,
-                    'showSynchronizationLink' => false,
-                    'showAllLocalizationLink' => false,
                     'enabledControls' => [
                         'info' => true,
                         'new' => true,
@@ -146,13 +217,18 @@ return [
                         'sort' => true,
                         'hide' => true,
                         'delete' => true,
-                        'localize' => true,
+                        'localize' => false,
                     ]
-                ],
-                'behaviour' => [
-                    'localizationMode' => 'select',
-                    'localizeChildrenAtParentLocalization' => true,
                 ]
+            ]
+        ],
+        'participations' => [
+            'label' => 'Participations',
+            'config' => [
+                'readOnly' => true,
+                'type' => 'inline',
+                'foreign_table' => 'tx_minipoll_participation',
+                'foreign_field' => 'poll',
             ]
         ]
     ],
@@ -160,9 +236,11 @@ return [
         '1' => [
             'showitem' => '
                 --div--;' . $labels['sheet.general'] . ',
-                    --palette--;LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.palette.header;header,
+                    title,
                     description,
                 --div--;LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.sheet.settings,
+                    --palette--;LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.palette.status;status,
+                    --palette--;LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.palette.display;display,
                     --palette--;LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.palette.settings;settings,
                     options;,
                 --div--;' . $labels['sheet.access'] . ',
@@ -181,14 +259,9 @@ return [
         ]
     ],
     'palettes' => [
-        'header' => [
-            'showitem' => '
-                title,closeDatetime
-            '
-        ],
         'hidden' => [
             'showitem' => '
-                hidden;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:field.default.hidden
+                hidden;LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.hidden
             '
         ],
         'access' => [
@@ -196,13 +269,22 @@ return [
                 starttime;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:starttime_formlabel,
                 endtime;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:endtime_formlabel,
                 --linebreak--,
-                fe_group;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:fe_group_formlabel,
-                --linebreak--,editlock
+                fe_group;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:fe_group_formlabel
             '
         ],
         'settings' => [
             'showitem' => '
-                duplicationCheck,useCaptcha,
+                duplication_check,use_captcha
+            '
+        ],
+        'status' => [
+            'showitem' => '
+                status,--linebreak--,open_datetime,close_datetime
+            '
+        ],
+        'display' => [
+            'showitem' => '
+                display_results,allow_multiple
             '
         ]
     ]

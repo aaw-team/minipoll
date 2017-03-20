@@ -1,0 +1,14 @@
+{namespace mp=AawTeam\Minipoll\ViewHelpers}
+<mp:ifCanVote poll="{poll}">
+    <div>
+        <f:form.submit value="Vote (LLL)" name="vote" />
+    </div>
+</mp:ifCanVote>
+
+<mp:ifCanDisplayResults poll="{poll}">
+    <div>
+        <f:link.action action="showResult" arguments="{poll:poll.uid}">
+            Results (LLL)
+        </f:link.action>
+    </div>
+</mp:ifCanDisplayResults>

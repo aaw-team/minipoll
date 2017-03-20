@@ -3,3 +3,5 @@
 .buildpath
 .cache
 .DS_Store
+code/vendor/composer/
+code/vendor/autoload.php

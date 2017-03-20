@@ -57,12 +57,20 @@ return [
         'poll' => [
             'label' => 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll_option.field.poll',
             'config' => [
-                'type' => 'select',
-                'readOnly' => true,
-                'renderType' => 'selectSingle',
+                //'readOnly' => true,
+                'type' => 'inline',
                 'foreign_table' => 'tx_minipoll_poll',
-                'foreign_field' => 'uid',
-                'foreign_label' => 'title'
+                'minitems' => 1,
+                'maxitems' => 1
+            ]
+        ],
+        'answers' => [
+            'label' => 'Answers (LLL)',
+            'config' => [
+                'readOnly' => true,
+                'type' => 'inline',
+                'foreign_table' => 'tx_minipoll_answer',
+                'foreign_field' => 'poll_option',
             ]
         ]
     ],

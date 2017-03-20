@@ -21,21 +21,21 @@
                                 <items type="array">
                                     <numIndex index="0" type="array">
                                         <numIndex index="0">LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:flexform.pluginPoll.field.switchableControllerActions.list</numIndex>
-                                        <numIndex index="1">Poll-&gt;list;Poll-&gt;detail</numIndex>
+                                        <numIndex index="1">Poll-&gt;list;Poll-&gt;detail;Poll-&gt;vote;Poll-&gt;showResult</numIndex>
                                     </numIndex>
                                     <numIndex index="1" type="array">
                                         <numIndex index="0">LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:flexform.pluginPoll.field.switchableControllerActions.detail</numIndex>
-                                        <numIndex index="1">Poll-&gt;detail</numIndex>
+                                        <numIndex index="1">Poll-&gt;detail;Poll-&gt;vote;Poll-&gt;showResult</numIndex>
                                     </numIndex>
                                 </items>
                             </config>
                         </TCEforms>
                     </switchableControllerActions>
-                    <pollUid>
+                    <settings.pollUid>
                         <TCEforms>
                             <exclude>0</exclude>
                             <label>LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:flexform.pluginPoll.field.pollUid</label>
-                            <displayCond>FIELD:switchableControllerActions:=:Poll-&gt;detail</displayCond>
+                            <displayCond>FIELD:switchableControllerActions:=:Poll-&gt;detail;Poll-&gt;vote;Poll-&gt;showResult</displayCond>
                             <config>
                                 <type>group</type>
                                 <internal_type>db</internal_type>
@@ -47,7 +47,7 @@
                                 <size>1</size>
                             </config>
                         </TCEforms>
-                    </pollUid>
+                    </settings.pollUid>
                 </el>
             </ROOT>
         </sDEF>

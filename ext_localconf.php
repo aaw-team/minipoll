@@ -18,7 +18,9 @@ defined ('TYPO3_MODE') or die ('Access denied.');
 
 // Configure plugin
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin('AawTeam.Minipoll', 'Poll', [
-    'Poll' => 'list,detail'
+    'Poll' => 'index,list,detail,vote,showResult'
+], [
+    'Poll' => 'vote'
 ]);
 
 // Add default typoscript setup
@@ -33,7 +35,20 @@ plugin.tx_minipoll {
         templateRootPaths.0 = EXT:minipoll/Resources/Private/Templates
     }
 }
-');
+plugin.tx_minipoll.persistence.classes {
+    ' . \AawTeam\Minipoll\Domain\Model\Poll::class . ' {
+        mapping.tableName = tx_minipoll_poll
+    }
+    ' . \AawTeam\Minipoll\Domain\Model\PollOption::class . ' {
+        mapping.tableName = tx_minipoll_poll_option
+    }
+    ' . \AawTeam\Minipoll\Domain\Model\Participation::class . ' {
+        mapping.tableName = tx_minipoll_participation
+    }
+    ' . \AawTeam\Minipoll\Domain\Model\Answer::class . ' {
+        mapping.tableName = tx_minipoll_answer
+    }
+}');
 
 // Add the plugin to new content element wizard
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('

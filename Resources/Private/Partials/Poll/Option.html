@@ -1,0 +1,19 @@
+<li>
+    <f:comment>
+        This f:alias specifies the needed data for the input fields in 'input':
+        - id
+        - property
+        - value
+    </f:comment>
+    <f:alias map="{input:{id:'tx_minipoll_option-{option.uid}',name:'answers',value:option.uid}}">
+        <f:if condition="{poll.allowMultiple}">
+            <f:then>
+                <f:render partial="Poll/Option/Checkbox" arguments="{_all}" />
+            </f:then>
+            <f:else>
+                <f:render partial="Poll/Option/Radio" arguments="{_all}" />
+            </f:else>
+        </f:if>
+    </f:alias>
+    <label for="tx_minipoll_option-{option.uid}">{option.title}</label>
+</li>
