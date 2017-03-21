@@ -16,6 +16,7 @@ namespace AawTeam\Minipoll\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use AawTeam\Minipoll\CaptchaProvider\Factory as CaptchaProviderFactory;
 use AawTeam\Minipoll\Domain\Model\Answer;
 use AawTeam\Minipoll\Domain\Model\Participation;
 use AawTeam\Minipoll\Domain\Model\Poll;
@@ -104,9 +105,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param \AawTeam\Minipoll\Domain\Model\Poll $poll
      * @param array $answers
      * @param array $hp
+     * @param string $captcha
      * @return string
      */
-    public function voteAction(\AawTeam\Minipoll\Domain\Model\Poll $poll, array $answers = null, array $hp = null)
+    public function voteAction(\AawTeam\Minipoll\Domain\Model\Poll $poll, array $answers = null, array $hp = null, $captcha = null)
     {
         // Honeypot check
         if ($hp['one'] !== '' || $hp['two'] !== '') {
@@ -119,6 +121,24 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         if (!$this->pollUtility->canVoteInPoll($poll)) {
             return 'You cannot vote in this poll';
+        }
+
+        // Check captcha
+        $captchaProviderAlias = $this->pollUtility->getCaptchaProviderAliasFromSettings($this->settings);
+        if ($captchaProviderAlias !== false && $poll->getUseCaptcha()) {
+            // Test the argument
+            if (!\is_string($captcha) || empty($captcha)) {
+                return 'Error: You must fill out the captcha field';
+            }
+
+            try {
+                $captchaProvider = CaptchaProviderFactory::getCaptchaProvider($captchaProviderAlias);
+                if (!$captchaProvider->validate($captcha, $poll)) {
+                    return 'Error: Invalid captcha';
+                }
+            } catch (\AawTeam\Minipoll\Exception\NoCaptchaProviderFoundException $e) {
+                // Silently fail here as the captcha field would not be rendered either
+            }
         }
 
         // Base-check $answers

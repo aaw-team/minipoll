@@ -1,0 +1,2 @@
+# cat=basic/enable/001; type=user[AawTeam\Minipoll\Configuration\ExtensionManager->getCaptchaProviderField]; label=Default Captcha Provider
+defaultCaptchaProvider =
