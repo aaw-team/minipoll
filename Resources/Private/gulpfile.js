@@ -18,7 +18,7 @@ var autoprefixerConfig = {
  * sassify the scss files and autoprefix them
  */
 gulp.task('build', function() {
-    return gulp.src('Sass/*.scss')
+    return gulp.src('Sass/**/*.scss')
         .pipe(sass(sassConfig)
             .on('error', sass.logError))
         .pipe(autoprefixer(autoprefixerConfig))

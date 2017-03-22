@@ -1,0 +1,16 @@
+.tx_minipoll-captcha {
+    margin-bottom: $generalSpacing;
+
+    img {
+        border: 0.063em solid $gray;
+        margin-left: 0;
+    }
+
+    label {
+        display: none;
+    }
+
+    input {
+        margin: $generalSpacing*0.25 0;
+    }
+}

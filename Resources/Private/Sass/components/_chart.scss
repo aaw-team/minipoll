@@ -1,11 +1,11 @@
-$barHeight: 40px;
+$chartBarHeight: 2.5em !default;
 
 .tx_minipoll-chart {
-    margin-bottom: 10px;
+    margin-bottom: $generalSpacing*0.5;
 }
 
 .tx_minipoll-option {
-    margin-bottom: 20px;
+    margin-bottom: $generalSpacing;
 
     &:last-child {
         margin-bottom: 0;
@@ -13,7 +13,7 @@ $barHeight: 40px;
 }
 
 .tx_minipoll-option-text {
-    margin-bottom: 5px;
+    margin-bottom: $generalSpacing*0.25;
 }
 
 .tx_minipoll-option-title {
@@ -29,21 +29,22 @@ $barHeight: 40px;
 .tx_minipoll-option-bar {
     position: relative;
     background: $mainColor;
-    height: $barHeight;
+    height: $chartBarHeight;
     display: inline-block;
-    min-width: 1px;
+    min-width: 0.063em;
     text-align: center;
+    border-radius: $borderRadius;
 
     > * {
-        margin: 0 10px;
-        line-height: $barHeight;
+        margin: 0 $generalSpacing*0.5;
+        line-height: $chartBarHeight;
     }
 }
 
 .tx_minipoll-results .tx_minipoll-footer {
     .tx_minipoll-footer-left {
         display: inline-block;
-        line-height: $barHeight;
+        line-height: $chartBarHeight;
     }
     .tx_minipoll-button {
         float: right;

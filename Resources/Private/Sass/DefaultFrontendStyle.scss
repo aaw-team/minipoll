@@ -1,55 +1,11 @@
+// import configuration
 @import "_configuration.scss";
 
-.tx_minipoll-poll {
-    ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    li {
-        margin-bottom: 5px;
-
-        &:last-child {
-            margin-bottom: 0;
-        }
-    }
+.tx_minipoll {
+    // import components
+    @import "components/_poll.scss";
+    @import "components/_button.scss";
+    @import "components/_chart.scss";
+    @import "components/_captcha.scss";
+    @import "components/_flashMessage.scss";
 }
-
-.tx_minipoll-button {
-    display: inline-block;
-    position: relative;
-    padding: 0 20px;
-    line-height: 40px;
-    font-size: 14px;
-    color: #fff;
-    background: $buttonColor;
-    border-radius: 2px;
-    width: auto;
-    border: none;
-    box-sizing: border-box;
-    text-decoration: none;
-    cursor: pointer;
-
-    transition: background .2s, color .2s;
-
-    &:hover,
-    &:focus,
-    &:active {
-        text-decoration: none;
-        background: darken($buttonColor, 10);
-    }
-
-    &.tx_minipoll-button-gray {
-        background: $buttonColorGray;
-        float: right;
-
-        &:hover,
-        &:focus,
-        &:active {
-            text-decoration: none;
-            background: darken($buttonColorGray, 10);
-        }
-    }
-}
-
-@import "components/_chart.scss";

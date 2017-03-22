@@ -1,0 +1,14 @@
+.tx_minipoll-poll {
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: $generalSpacing*0.25;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

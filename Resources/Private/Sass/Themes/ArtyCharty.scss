@@ -1,0 +1,13 @@
+// import configuration
+@import "../_configuration.scss";
+
+.tx_minipoll {
+    border: 0.063em solid $gray;
+    padding: $generalSpacing*0.5;
+    font-family: "Helvetica neue", Helvetica, sans-serif;
+}
+
+.tx_minipoll-title > * {
+    margin: 0;
+    font-size: 1.375em;
+}
