@@ -46,6 +46,7 @@ return [
             'fe_group' => 'fe_group'
         ],
         'dividers2tabs' => '1',
+        // Remove 'requestUpdate' when dropping support for TYPO3 7.6
         'requestUpdate' => 'status',
         'searchFields' => 'title,description'
     ],
@@ -118,6 +119,7 @@ return [
         'status' => [
             'exclude' => true,
             'label' => 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.status',
+            'onChange' => 'reload',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -251,13 +253,14 @@ return [
                     --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,
             ',
             'columnsOverrides' => [
-                'description' => [
-                    'defaultExtras' => 'richtext:rte_transform[mode=ts_css]',
-                    'config' => [
+                'description' => call_user_func(function(){
+                    if (\version_compare(TYPO3_version, '8', '<')) {
+                        return ['defaultExtras' => 'richtext:rte_transform[mode=ts_css]'];
+                    }
+                    return ['config' => [
                         'enableRichtext' => true,
-                        'richtextConfiguration' => 'default'
-                    ]
-                ]
+                    ]];
+                }),
             ]
         ]
     ],
