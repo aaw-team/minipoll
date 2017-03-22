@@ -24,6 +24,13 @@ use AawTeam\Minipoll\Domain\Model\PollOption;
 class CalcViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
+     * Disable output escaping
+     *
+     * @var bool
+     */
+    protected $escapeOutput = false;
+
+    /**
      * @param \AawTeam\Minipoll\Domain\Model\PollOption $pollOption
      * @param string $as
      * @param int $roundPercent
