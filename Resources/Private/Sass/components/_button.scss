@@ -1,0 +1,40 @@
+$buttonColor: $mainColor !default;
+$buttonColorGray: $gray !default;
+$buttonFontColor: #fff !default;
+
+.tx_minipoll-button {
+    display: inline-block;
+    position: relative;
+    padding: 0 $generalSpacing;
+    line-height: $buttonHeight;
+    font-size: $buttonFontSize;
+    color: $buttonFontColor;
+    background: $buttonColor;
+    border-radius: $borderRadius;
+    width: auto;
+    border: none;
+    box-sizing: border-box;
+    text-decoration: none;
+    cursor: pointer;
+
+    transition: background $transitionDuration, color $transitionDuration;
+
+    &:hover,
+    &:focus,
+    &:active {
+        text-decoration: none;
+        background: darken($buttonColor, 10);
+    }
+
+    &.tx_minipoll-button-gray {
+        background: $buttonColorGray;
+        float: right;
+
+        &:hover,
+        &:focus,
+        &:active {
+            text-decoration: none;
+            background: darken($buttonColorGray, 10);
+        }
+    }
+}

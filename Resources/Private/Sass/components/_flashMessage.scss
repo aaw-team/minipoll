@@ -1,0 +1,28 @@
+.typo3-messages {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-bottom: $generalSpacing;
+
+    li {
+        padding: $generalSpacing*0.5;
+        margin-bottom: $generalSpacing*0.25;
+        border: 0.063em solid $gray;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    h4 {
+        margin: 0;
+    }
+
+    li.alert-danger {
+        border-color: #c43030;
+    }
+
+    li.alert-success {
+        border-color: #65c465;
+    }
+}

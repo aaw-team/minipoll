@@ -5,3 +5,7 @@
 .DS_Store
 code/vendor/composer/
 code/vendor/autoload.php
+.sass-cache
+node_modules
+npm-debug.log
+yarn.lock
