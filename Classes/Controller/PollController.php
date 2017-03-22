@@ -16,11 +16,14 @@ namespace AawTeam\Minipoll\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use AawTeam\Minipoll\CaptchaProvider\Factory as CaptchaProviderFactory;
 use AawTeam\Minipoll\Domain\Model\Answer;
 use AawTeam\Minipoll\Domain\Model\Participation;
 use AawTeam\Minipoll\Domain\Model\Poll;
 use AawTeam\Minipoll\Domain\Model\PollOption;
 use AawTeam\Minipoll\Domain\Repository\PollRepository;
+use AawTeam\Minipoll\Utility\LocalizationUtility;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -52,10 +55,35 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function indexAction()
     {
-        // @TODO
-        return __METHOD__;
+        $configuration = $this->getTyposcriptConfiguration();
+
+        $display = $configuration['display'];
+        if ($configuration['display.']) {
+            $display = $this->configurationManager->getContentObject()->stdWrap($display, $configuration['display.']);
+        }
+
+        switch ($display) {
+            case 'list' :
+                $this->forward('list');
+                break;
+            case 'detail' :
+                $pollUid = $configuration['settings']['pollUid'];
+                if ($configuration['settings']['pollUid.']) {
+                    $pollUid = $this->configurationManager->getContentObject()->stdWrap($pollUid, $configuration['settings']['pollUid.']);
+                }
+                $this->forward('detail', null, null, ['poll' => $pollUid]);
+                break;
+            default :
+                $this->forwardToDisplayMessageAction('message.error.unknownDisplayOption', 'message.error.title', AbstractMessage::ERROR);
+                exit;
+        }
+
+        return 'Error: something went terribly wrong!';
     }
 
+    /**
+     * @return void
+     */
     public function listAction()
     {
         $this->view->assign('polls', $this->pollRepository->findAll());
@@ -71,7 +99,8 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $pollUid = (int) $this->settings['pollUid'];
 
             if ($pollUid < 1) {
-                return 'Error: you must define a poll uid';
+                $this->forwardToDisplayMessageAction('message.error.noPollUidFound', 'message.error.title', AbstractMessage::ERROR);
+                exit;
             }
             $poll = $this->pollRepository->findByIdentifier($pollUid);
         }
@@ -83,26 +112,61 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param \AawTeam\Minipoll\Domain\Model\Poll $poll
      * @param array $answers
      * @param array $hp
+     * @param string $captcha
      * @return string
      */
-    public function voteAction(\AawTeam\Minipoll\Domain\Model\Poll $poll, array $answers = null, array $hp = null)
+    public function voteAction(\AawTeam\Minipoll\Domain\Model\Poll $poll, array $answers = null, array $hp = null, $captcha = null)
     {
         // Honeypot check
         if ($hp['one'] !== '' || $hp['two'] !== '') {
-            return 'Error: invalid arguments';
+            $this->addErrorMessageAsFlashMessage('message.error.honeypotCheck');
+            $this->forward('detail', null, null, ['poll' => $poll->getUid()]);
+            exit;
         }
 
         if ($poll->getIsClosed()) {
-            return 'Voting is closed';
+            $this->addErrorMessageAsFlashMessage('message.error.votingIsClosed');
+            $this->forward('detail', null, null, ['poll' => $poll->getUid()]);
+            exit;
         }
 
         if (!$this->pollUtility->canVoteInPoll($poll)) {
-            return 'You cannot vote in this poll';
+            $this->addErrorMessageAsFlashMessage('message.error.cannotVoteInPoll');
+            $this->forward('detail', null, null, ['poll' => $poll->getUid()]);
+            exit;
+        }
+
+        // Check captcha
+        $captchaProviderAlias = $this->pollUtility->getCaptchaProviderAliasFromSettings($this->settings);
+        if ($captchaProviderAlias !== false && $poll->getUseCaptcha()) {
+            // Test the argument
+            if (!\is_string($captcha) || empty($captcha)) {
+                $this->addErrorMessageAsFlashMessage('message.error.emptyCaptcha');
+                $this->forward('detail', null, null, ['poll' => $poll->getUid()]);
+                exit;
+            }
+
+            try {
+                $captchaProvider = CaptchaProviderFactory::getCaptchaProvider($captchaProviderAlias);
+                if (!$captchaProvider->validate($captcha, $poll)) {
+                    $this->addErrorMessageAsFlashMessage('message.error.invalidCaptcha');
+                    $this->forward('detail', null, null, ['poll' => $poll->getUid()]);
+                    exit;
+                }
+            } catch (\AawTeam\Minipoll\Exception\NoCaptchaProviderFoundException $e) {
+                // Silently fail here as the captcha field would not be rendered either
+            }
         }
 
         // Base-check $answers
-        if (empty($answers) || (!$poll->getAllowMultiple() && count($answers) > 1)) {
-            return 'Error: invalid arguments';
+        if (empty($answers)) {
+            $this->addErrorMessageAsFlashMessage('message.error.emptyAnswer');
+            $this->forward('detail', null, null, ['poll' => $poll->getUid()]);
+            exit;
+        } elseif (!$poll->getAllowMultiple() && count($answers) > 1) {
+            $this->addErrorMessageAsFlashMessage('message.error.invalidAnswer');
+            $this->forward('detail', null, null, ['poll' => $poll->getUid()]);
+            exit;
         }
 
         // Filter $answers
@@ -116,7 +180,9 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
         $differences = \array_diff($answers, array_keys($options));
         if (!empty($differences)) {
-            return 'Error: invalid arguments';
+            $this->addErrorMessageAsFlashMessage('message.error.invalidAnswer');
+            $this->forward('detail', null, null, ['poll' => $poll->getUid()]);
+            exit;
         }
 
         // Create Answer objects
@@ -152,7 +218,8 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         // Create the data
         $this->participationRepository->add($participation);
 
-        // @TODO: Add a user message!
+        // Add a user message!
+        $this->addFlashMessage('message.success.createParticipation', '', AbstractMessage::OK);
 
         // Redirect to stats action
         $this->redirect('showResult', null, null, ['poll' => $poll->getUid()]);
@@ -169,7 +236,8 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     public function showResultAction(\AawTeam\Minipoll\Domain\Model\Poll $poll)
     {
         if (!$this->pollUtility->canDisplayResultsInPoll($poll)) {
-            // @TODO: Add user message
+            // Add user message
+            $this->addErrorMessageAsFlashMessage('message.error.cannotDisplayResults');
 
             // Forward to detailAction
             $this->forward('detail', null, null, ['poll' => $poll->getUid()]);
@@ -178,6 +246,73 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             return 'Error: something went terribly wrong!';
         }
         $this->view->assign('poll', $poll);
+    }
+
+    /**
+     * @param string $message
+     * @param string $title
+     * @param int $severity
+     */
+    protected function forwardToDisplayMessageAction($message = null, $title = '', $severity = AbstractMessage::OK)
+    {
+        if (\is_string($message) && !empty($message)) {
+            $this->addFlashMessage($message, $title, $severity);
+        }
+        $this->forward('displayMessage');
+    }
+
+    /**
+     * "Dead-end" method that only shows the flash messages.
+     *
+     * @param string $message
+     * @param string $title
+     * @param int $severity
+     */
+    public function displayMessageAction()
+    {}
+
+    /**
+     * Extend parent method: translate $messageBody and $messageTitle
+     *
+     * {@inheritDoc}
+     * @see \TYPO3\CMS\Extbase\Mvc\Controller\AbstractController::addFlashMessage()
+     */
+    public function addFlashMessage($messageBody, $messageTitle = '', $severity = AbstractMessage::OK, $storeInSession = true)
+    {
+        $messageBody = LocalizationUtility::translate($messageBody);
+        if (\is_string($messageTitle) && $messageTitle !== '') {
+            $messageTitle = LocalizationUtility::translate($messageTitle);
+        }
+        return parent::addFlashMessage($messageBody, $messageTitle, $severity, $storeInSession);
+    }
+
+    /**
+     * @param string $messageBody
+     * @param string $messageTitle
+     * @see \TYPO3\CMS\Extbase\Mvc\Controller\AbstractController::addFlashMessage()
+     */
+    protected function addErrorMessageAsFlashMessage($messageBody, $messageTitle = null)
+    {
+        if ($messageTitle === null) {
+            $messageTitle = 'message.error.title';
+        }
+        return $this->addFlashMessage($messageBody, $messageTitle, AbstractMessage::ERROR);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getTyposcriptConfiguration()
+    {
+        $frameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+        $settings = $frameworkConfiguration['settings'];
+        $typoscriptConfiguration = \array_diff_key($frameworkConfiguration, \array_flip(['mvc', 'persistence', 'features', 'userFunc', 'extensionName', 'pluginName', 'vendorName', 'view', 'controllerConfiguration', 'settings']));
+
+        /** @var \TYPO3\CMS\Extbase\Service\TypoScriptService $typoscriptService */
+        $typoscriptService = $this->objectManager->get(\TYPO3\CMS\Extbase\Service\TypoScriptService::class);
+        $typoscriptConfiguration = $typoscriptService->convertPlainArrayToTypoScriptArray($typoscriptConfiguration);
+        $typoscriptConfiguration['settings'] = $typoscriptService->convertPlainArrayToTypoScriptArray($settings);
+        return $typoscriptConfiguration;
     }
 
     /**

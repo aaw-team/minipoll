@@ -83,4 +83,35 @@ class PollUtility
         $duplicationCheckFactory = $this->objectManager->get(DuplicationCheckFactory::class);
         return $duplicationCheckFactory->getDuplicationCheck($poll);
     }
+
+    /**
+     * Returns the caotchaProviderAlias registered as 'captcha' in $settings.
+     *
+     * If the value is empty, false is returned, meaning, the captcha mechanism
+     * is disabled.
+     *
+     * If the value is '1', null is returned, meaning, the default
+     * captchaProvider should be used.
+     *
+     * The output of this method can be used to check, whether a captcha should
+     * be used and (if so [eg. returnvalue is not false]) pass it to
+     * AawTeam\Minipoll\CaptchaProvider\Factory::getCaptchaProvider().
+     *
+     * @param array $settings
+     * @return string|null|false
+     */
+    public function getCaptchaProviderAliasFromSettings(array $settings)
+    {
+        if (!\array_key_exists('captcha', $settings)) {
+            return false;
+        }
+
+        $alias = \trim($settings['captcha']);
+        if (empty($alias)) {
+            return false;
+        } elseif ($alias == 1) {
+            return null;
+        }
+        return $alias;
+    }
 }

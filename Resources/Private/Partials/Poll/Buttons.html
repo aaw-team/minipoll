@@ -1,6 +1,13 @@
 {namespace mp=AawTeam\Minipoll\ViewHelpers}
 <mp:ifCanVote poll="{poll}">
-    <f:form.submit value="Vote (LLL)" name="vote" class="tx_minipoll-button" />
+    <div>
+        <mp:form.captcha poll="{poll}">
+            <f:render partial="{captcha.partialName}" optional="1" arguments="{_all}" />
+        </mp:form.captcha>
+    </div>
+    <div>
+        <f:form.submit value="Vote (LLL)" name="vote" class="tx_minipoll-button" />
+    </div>
 </mp:ifCanVote>
 
 <mp:ifCanDisplayResults poll="{poll}">

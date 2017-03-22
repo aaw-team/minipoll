@@ -1,0 +1,5 @@
+plugin.tx_minipoll {
+    settings {
+        captcha = 0
+    }
+}

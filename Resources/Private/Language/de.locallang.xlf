@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2017-03-21T19:01:57Z" product-name="minipoll">
+        <header/>
+        <body>
+            <trans-unit id="message.error.title">
+                <source>Error</source>
+                <target>Fehler</target>
+            </trans-unit>
+            <trans-unit id="message.error.cannotDisplayResults">
+                <source>The results can not be viewed</source>
+                <target>Die Resultate können nicht angeschaut werden</target>
+            </trans-unit>
+            <trans-unit id="message.error.honeypotCheck">
+                <source>Potential spam detected</source>
+                <target>Potenzieller spam erkannt</target>
+            </trans-unit>
+            <trans-unit id="message.error.votingIsClosed">
+                <source>Voting is closed in this poll</source>
+                <target>Die Abstimmung dieser Umfrage ist geschlossen</target>
+            </trans-unit>
+            <trans-unit id="message.error.cannotVoteInPoll">
+                <source>You cannot vote in this poll (anymore)</source>
+                <target>Sie können an dieser Abstimmung nicht (mehr) teilnehmen</target>
+            </trans-unit>
+            <trans-unit id="message.error.emptyCaptcha">
+                <source>Please fill out the captcha field</source>
+                <target>Bitte geben Sie einen Wert im Captcha-Feld an</target>
+            </trans-unit>
+            <trans-unit id="message.error.invalidCaptcha">
+                <source>Invalid captcha</source>
+                <target>Ungültiger Wert in Captcha</target>
+            </trans-unit>
+            <trans-unit id="message.error.emptyAnswer">
+                <source>Please choose an answer</source>
+                <target>Bitte wählen Sie eine Antwort</target>
+            </trans-unit>
+            <trans-unit id="message.error.tooManyAnswer">
+                <source>Invalid answer</source>
+                <target>Ungültige Antwort</target>
+            </trans-unit>
+            <trans-unit id="message.success.createParticipation">
+                <source>Successfully recorded your answer</source>
+                <target>Antwort erfolgreich erfasst</target>
+            </trans-unit>
+            <trans-unit id="message.error.noPollUidFound">
+                <source>No pollUid defined</source>
+                <target>Keine pollUid definiert</target>
+            </trans-unit>
+            <trans-unit id="message.error.unknownDisplayOption">
+                <source>You must specify either "list" or "detail" in the "display" property of this cObject!</source>
+                <target>Die Option "display" dieses cObjects muss entweder "list" oder "detail" sein!</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

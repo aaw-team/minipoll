@@ -1,1 +1,9 @@
-<f:render partial="Poll.html" arguments="{_all}" />
+<f:flashMessages />
+<f:if condition="{poll}">
+    <f:then>
+        <f:render partial="Poll.html" arguments="{_all}" />
+    </f:then>
+    <f:else>
+        <div>Error: poll not found</div>    
+    </f:else>
+</f:if>

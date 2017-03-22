@@ -1,0 +1,18 @@
+/**
+ * "Old school" template. Include this to be able to invoke the plugin with
+ * typoscript like for ex.: "page.10 = < plugin.tx_minipoll"
+ */
+plugin.tx_minipoll = USER
+plugin.tx_minipoll {
+    # Extbase config
+    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+    extensionName = Minipoll
+    pluginName = Poll
+    vendorName = AawTeam
+
+    # Plugin config
+    display = list
+    settings {
+        pollUid =
+    }
+}
