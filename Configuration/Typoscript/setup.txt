@@ -2,4 +2,8 @@ plugin.tx_minipoll {
     settings {
         captcha = 0
     }
+
+    _CSS_DEFAULT_STYLE = 1
+    _CSS_DEFAULT_STYLE.cObject = FILE
+    _CSS_DEFAULT_STYLE.cObject.file = EXT:minipoll/Resources/Public/Css/CssDefaultStyle.css
 }
