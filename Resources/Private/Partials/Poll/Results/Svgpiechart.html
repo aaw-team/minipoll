@@ -2,10 +2,14 @@
 
 <h1>SVG piechart</h1>
 
-<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="100" height="100" id="svgpiechart">
+<svg id="svgpiechart" width="400" height="400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
     <title>Piechart title</title>
     <desc>Piechart description</desc>
     <f:for each="{results.paths}" as="path">
-        <path class="{path.class}" fill="{path.fill}" d="{path.d}" stroke="{path.stroke}" stroke-width="2" />
+        <g class="{path.class}">
+            <path fill="{path.fill}" d="{path.d}" />
+            <text x="{path.text.x}" y="{path.text.y}" font-size="16" text-anchor="middle" transform="translate(0 5)"><f:format.number decimals="1" thousandsSeparator="'">{path.text.text}</f:format.number>%</text>
+            <!--<circle cx="{path.text.x}" cy="{path.text.y}" r="2" fill="red"/>-->
+        </g>
     </f:for>
 </svg>

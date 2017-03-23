@@ -9,6 +9,8 @@ plugin.tx_minipoll {
             }
             svgpiechart {
                 renderAsImage = 0
+                orderBy = answers
+                reverseOrder = 0
             }
         }
     }
