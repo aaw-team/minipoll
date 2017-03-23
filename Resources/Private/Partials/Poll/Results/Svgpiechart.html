@@ -1,0 +1,11 @@
+{namespace mp=AawTeam\Minipoll\ViewHelpers}
+
+<h1>SVG piechart</h1>
+
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="100" height="100" id="svgpiechart">
+    <title>Piechart title</title>
+    <desc>Piechart description</desc>
+    <f:for each="{results.paths}" as="path">
+        <path class="{path.class}" fill="{path.fill}" d="{path.d}" stroke="{path.stroke}" stroke-width="2" />
+    </f:for>
+</svg>

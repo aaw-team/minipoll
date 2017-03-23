@@ -38,18 +38,23 @@ class CalcViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
      */
     public function render(PollOption $pollOption, $as = 'optionCalc', $roundPercent = null)
     {
-        $answers = \count($pollOption->getAnswers());
-        $participations = \count($pollOption->getPoll()->getParticipations());
+        // Calculate total answer count
+        $totalAnswers = 0;
+        foreach ($pollOption->getPoll()->getOptions() as $options) {
+            $totalAnswers += $options->getAnswers()->count();
+        }
+        // Get answer count of the current option
+        $answers = $pollOption->getAnswers()->count();
         $percent = 0;
-        if ($participations > 0 && $answers > 0) {
-            $percent = 100 / $participations * $answers;
+        if ($totalAnswers > 0 && $answers > 0) {
+            $percent = 100 / $totalAnswers * $answers;
             if ($roundPercent !== null && $roundPercent >= 0) {
                 $percent = \round($percent, $roundPercent);
             }
         }
         $calc = [
             'answers' => $answers,
-            'participations' => $participations,
+            'totalAnswers' => $totalAnswers,
             'percent' => $percent
         ];
 

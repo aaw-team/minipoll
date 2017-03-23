@@ -1,6 +1,16 @@
 plugin.tx_minipoll {
     settings {
         captcha = 0
+        resultRenderer {
+            show = css,svgpiechart
+            css {
+                orderBy = answers
+                reverseOrder = 0
+            }
+            svgpiechart {
+                renderAsImage = 0
+            }
+        }
     }
 
     _CSS_DEFAULT_STYLE = 1
