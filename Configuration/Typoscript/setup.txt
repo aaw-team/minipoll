@@ -13,7 +13,8 @@ plugin.tx_minipoll {
                 reverseOrder = 0
                 width = 400
                 height = 400
-                pieRadius = 190
+                radius = 190
+                textRadius = 145
             }
         }
     }
