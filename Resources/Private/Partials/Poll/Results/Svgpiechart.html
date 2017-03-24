@@ -2,14 +2,13 @@
 
 <h1>SVG piechart</h1>
 
-<svg id="svgpiechart" width="400" height="400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+<svg id="svgpiechart" width="{results.width}" height="{results.height}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {results.width} {results.width}">
     <title>Piechart title</title>
     <desc>Piechart description</desc>
-    <f:for each="{results.paths}" as="path">
-        <g class="{path.class}">
-            <path fill="{path.fill}" d="{path.d}" />
-            <text x="{path.text.x}" y="{path.text.y}" font-size="16" text-anchor="middle" transform="translate(0 5)"><f:format.number decimals="1" thousandsSeparator="'">{path.text.text}</f:format.number>%</text>
-            <!--<circle cx="{path.text.x}" cy="{path.text.y}" r="2" fill="red"/>-->
+    <f:for each="{results.slices}" as="slice">
+        <g class="slice{slice.id}">
+            <path fill="{slice.fill}" d="{slice.d}" />
+            <text x="{slice.centerX}" y="{slice.centerY}" font-size="16" text-anchor="middle" transform="translate(0 5)"><f:format.number decimals="1" thousandsSeparator="'">{slice.percent}</f:format.number>%</text>
         </g>
     </f:for>
 </svg>
