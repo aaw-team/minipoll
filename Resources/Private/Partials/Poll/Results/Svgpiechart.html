@@ -6,7 +6,6 @@
     <title>Piechart title</title>
     <desc>Piechart description</desc>
     <f:for each="{results.slices}" as="slice">
-        <f:debug>{slice.percent}</f:debug>
         <g class="slice{slice.id}">
             <f:switch expression="{slice.type}">
                 <f:case value="circle">
