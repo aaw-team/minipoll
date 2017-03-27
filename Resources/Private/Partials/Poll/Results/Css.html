@@ -1,7 +1,7 @@
 {namespace mp=AawTeam\Minipoll\ViewHelpers}
 
 <div class="tx_minipoll-chart">
-    <f:for each="{results.orderedOptions}" as="option">
+    <f:for each="{results.options}" as="option">
         <div class="tx_minipoll-option">
             <mp:poll.option.calc pollOption="{option}" as="calc" roundPercent="2">
                 <div class="tx_minipoll-option-text">

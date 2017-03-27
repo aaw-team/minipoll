@@ -16,8 +16,6 @@ namespace AawTeam\Minipoll\ResultRenderer;
  * The TYPO3 project - inspiring people to share!
  */
 
-use AawTeam\Minipoll\Domain\Model\PollOption;
-
 /**
  * ResultRenderer Css
  */
@@ -28,23 +26,8 @@ class Css extends AbstractResultRenderer
      */
     public function getRenderedResults()
     {
-        $orderedOptions = $this->poll->getOptions()->toArray();
-        if ($this->configuration['orderBy'] == 'answers') {
-            $reverseOrder = $this->configuration['reverseOrder'] == 1 ? -1 : 1;
-            uasort($orderedOptions, function(PollOption $p1, PollOption $p2) use ($reverseOrder) {
-                $c1 = $p1->getAnswers()->count();
-                $c2 = $p2->getAnswers()->count();
-                if ($c1 == $c2) {
-                    return 0;
-                }
-                return ($c2 - $c1) * $reverseOrder;
-            });
-        } elseif ($this->configuration['reverseOrder'] == 1) {
-            $orderedOptions = \array_reverse($orderedOptions);
-        }
-
         return [
-            'orderedOptions' => $orderedOptions,
+            'options' => $this->getPollOptionsAsViewModels()
         ];
     }
 }

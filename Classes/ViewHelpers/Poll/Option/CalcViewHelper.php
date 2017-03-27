@@ -17,6 +17,7 @@ namespace AawTeam\Minipoll\ViewHelpers\Poll\Option;
  */
 
 use AawTeam\Minipoll\Domain\Model\PollOption;
+use AawTeam\Minipoll\ViewModel\PollOptionViewModel;
 
 /**
  * CalcViewHelper
@@ -31,13 +32,18 @@ class CalcViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
     protected $escapeOutput = false;
 
     /**
-     * @param \AawTeam\Minipoll\Domain\Model\PollOption $pollOption
+     * @param object $pollOption
      * @param string $as
      * @param int $roundPercent
      * @return string
      */
-    public function render(PollOption $pollOption, $as = 'optionCalc', $roundPercent = null)
+    public function render($pollOption, $as = 'optionCalc', $roundPercent = null)
     {
+        if ($pollOption instanceof PollOptionViewModel) {
+            $pollOption = $pollOption->getPollOption();
+        } elseif (!($pollOption instanceof PollOption)) {
+            throw new \InvalidArgumentException('$pollOption must be ' . PollOptionViewModel::class . ' or ' . PollOption::class);
+        }
         // Calculate total answer count
         $totalAnswers = 0;
         foreach ($pollOption->getPoll()->getOptions() as $options) {

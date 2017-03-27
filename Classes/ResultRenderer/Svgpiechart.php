@@ -73,31 +73,18 @@ class Svgpiechart extends AbstractResultRenderer
         $previousEndY = $startY;
 
         // Order options
-        $orderedOptions = $this->poll->getOptions()->toArray();
-        if ($this->configuration['orderBy'] == 'answers') {
-            $reverseOrder = $this->configuration['reverseOrder'] == 1 ? -1 : 1;
-            \uasort($orderedOptions, function(PollOption $p1, PollOption $p2) use ($reverseOrder) {
-                $c1 = $p1->getAnswers()->count();
-                $c2 = $p2->getAnswers()->count();
-                if ($c1 == $c2) {
-                    return 0;
-                }
-                return ($c2 - $c1) * $reverseOrder;
-            });
-        } elseif ($this->configuration['reverseOrder'] == 1) {
-            $orderedOptions = \array_reverse($orderedOptions);
-        }
+        $pollOptions = $this->getPollOptionsAsViewModels();
 
         // Calculate total answer count
         $totalAnswers = 0;
-        foreach ($orderedOptions as $options) {
-            $totalAnswers += $options->getAnswers()->count();
+        foreach ($pollOptions as $pollOption) {
+            $totalAnswers += $pollOption->getAnswers()->count();
         }
 
         // Loop through each poll
         $iterator = 0;
         $return = [];
-        foreach ($orderedOptions as $key => $pollOption) {
+        foreach ($pollOptions as $key => $pollOption) {
             // Get answer count of the current option
             $answers = $pollOption->getAnswers()->count();
 
