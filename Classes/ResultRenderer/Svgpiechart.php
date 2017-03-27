@@ -104,19 +104,31 @@ class Svgpiechart extends AbstractResultRenderer
             // Get percentage of answers of the current option
             $percent = $this->getPercentage($totalAnswers, $answers);
 
-            // Get the slice data
-            $slice = $this->getSlice(
-                $percent,
-                $radius,
-                $textRadius,
-                $startX,
-                $startY,
-                $centerX,
-                $centerY,
-                $previousEndX,
-                $previousEndY,
-                $previousRadianSum
-            );
+            if($totalAnswers == $answers) {
+                // in case a answer has 100% then draw a circle
+                $slice = [
+                    'type' => 'circle',
+                    'radius' => $radius,
+                    'centerX' => $centerX,
+                    'centerY' => $centerY
+                ];
+            } elseif ($answers === 0) {
+                continue;
+            } else {
+                $slice = $this->getSlice(
+                    $percent,
+                    $radius,
+                    $textRadius,
+                    $startX,
+                    $startY,
+                    $centerX,
+                    $centerY,
+                    $previousEndX,
+                    $previousEndY,
+                    $previousRadianSum
+                );
+                $slice['type'] = 'path';
+            }
 
             // Build the return array
             $return[] = \array_merge($slice, [
@@ -167,7 +179,11 @@ class Svgpiechart extends AbstractResultRenderer
         $path = "M " . $previousEndX . " " . $previousEndY;
 
         // Make a arc to the new end position
-        $path .= "A " . $radius . " " . $radius . " 0 0 1 " . $endX . " " . $endY;
+        $largeArcFlag = 0;
+        if($percent > 50) {
+            $largeArcFlag = 1;
+        }
+        $path .= "A " . $radius . " " . $radius . " 0 " . $largeArcFlag . " 1 " . $endX . " " . $endY;
 
         // Draw a line back to the center
         $path .= "L " . $centerX . " " . $centerY;

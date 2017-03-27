@@ -2,13 +2,21 @@
 
 <h1>SVG piechart</h1>
 
-<svg id="svgpiechart" width="{results.width}" height="{results.height}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {results.width} {results.width}">
+<svg id="svgpiechart{poll.uid}" width="{results.width}" height="{results.height}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {results.width} {results.width}">
     <title>Piechart title</title>
     <desc>Piechart description</desc>
     <f:for each="{results.slices}" as="slice">
+        <f:debug>{slice.percent}</f:debug>
         <g class="slice{slice.id}">
-            <path fill="{slice.fill}" d="{slice.d}" />
-            <text x="{slice.centerX}" y="{slice.centerY}" font-size="16" text-anchor="middle" transform="translate(0 5)"><f:format.number decimals="1" thousandsSeparator="'">{slice.percent}</f:format.number>%</text>
+            <f:switch expression="{slice.type}">
+                <f:case value="circle">
+                    <circle cx="{slice.centerX}" cy="{slice.centerY}" r="{slice.radius}" fill="{slice.fill}"/>
+                </f:case>
+                <f:case value="path" default="TRUE">
+                    <path fill="{slice.fill}" d="{slice.d}" />
+                </f:case>
+            </f:switch>
+            <text x="{slice.centerX}" y="{slice.centerY}" text-anchor="middle" transform="translate(0 5)"><f:format.number decimals="1" thousandsSeparator="'">{slice.percent}</f:format.number>%</text>
         </g>
     </f:for>
 </svg>
