@@ -1,0 +1,35 @@
+$tooltipBackground: #fff !default;
+$tooltipColor: #000 !default;
+$tooltipBorder: #f3f3f3 !default;
+
+.tx_minipoll-svgpiechart-container {
+    position: relative;
+
+    svg g {
+        transform-origin: 0px 0px;
+    }
+
+    svg path {
+        transition: transform .2s;
+        transition-timing-function: cubic-bezier(0, 1.25, 0.46, 2.01);
+    }
+
+    svg g:hover path {
+        transform: scale(1.01,1.01);
+    }
+}
+
+.tx_minipoll-svgpiechart-tooltip {
+    background: $tooltipBackground;
+    color: $tooltipColor;
+    line-height: $buttonHeight;
+    padding: 0 0.625em;
+    border-radius: 0.125em;
+    border: 0.063em solid $tooltipBorder;
+    position: absolute;
+    display: none;
+
+    &.tx_minipoll-svgpiechart-tooltip-visible {
+        display: block;
+    }
+}

@@ -1,21 +1,22 @@
 {namespace mp=AawTeam\Minipoll\ViewHelpers}
 
-<h1>SVG piechart</h1>
-
-<svg id="svgpiechart{poll.uid}" width="{results.width}" height="{results.height}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {results.width} {results.width}">
-    <title>Piechart title</title>
-    <desc>Piechart description</desc>
-    <f:for each="{results.slices}" as="slice">
-        <g class="slice{slice.id}">
-            <f:switch expression="{slice.type}">
-                <f:case value="circle">
-                    <circle cx="{slice.centerX}" cy="{slice.centerY}" r="{slice.radius}" fill="{slice.fill}"/>
-                </f:case>
-                <f:case value="path" default="TRUE">
-                    <path fill="{slice.fill}" d="{slice.d}" />
-                </f:case>
-            </f:switch>
-            <text x="{slice.centerX}" y="{slice.centerY}" text-anchor="middle" transform="translate(0 5)"><f:format.number decimals="1" thousandsSeparator="'">{slice.percent}</f:format.number>%</text>
-        </g>
-    </f:for>
-</svg>
+<div class="tx_minipoll-svgpiechart-container">
+    <svg id="tx_minipoll-svgpiechart{poll.uid}" width="{results.width}" height="{results.height}" xmlns="http://www.w3.org/2000/svg" viewBox="{results.viewbox}">
+        <title>{poll.title}</title>
+        <desc>Piechart results for the poll</desc>
+        <f:for each="{results.slices}" as="slice">
+            <g class="slice slice{slice.id}" data-tooltipvalue="{slice.votes} Votes (LLL)">
+                <f:switch expression="{slice.type}">
+                    <f:case value="circle">
+                        <circle cx="{slice.centerX}" cy="{slice.centerY}" r="{slice.radius}" fill="{slice.fill}"/>
+                    </f:case>
+                    <f:case value="path" default="TRUE">
+                        <path fill="{slice.fill}" d="{slice.d}" />
+                    </f:case>
+                </f:switch>
+                <text x="{slice.centerX}" y="{slice.centerY}" text-anchor="middle" transform="translate(0 5)"><f:format.number decimals="1" thousandsSeparator="'">{slice.percent}</f:format.number>%</text>
+            </g>
+        </f:for>
+    </svg>
+    <div class="tx_minipoll-svgpiechart-tooltip"></div>
+</div>

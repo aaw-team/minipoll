@@ -32,6 +32,7 @@ class Svgpiechart extends AbstractResultRenderer
         return [
             'width' => (int) $this->configuration['width'],
             'height' => (int) $this->configuration['height'],
+            'viewbox' => "-" . $this->configuration['width'] / 2 . " -" . $this->configuration['height'] / 2 . " " . $this->configuration['width'] . " " . $this->configuration['height'],
             'slices' => $this->getSlices()
         ];
     }
@@ -59,8 +60,7 @@ class Svgpiechart extends AbstractResultRenderer
 
         $radius = $this->configuration['radius']; // Radius of the circle
         $textRadius = $this->configuration['textRadius']; // Radius of the circle at which the text will be aligned
-        $centerX = $this->configuration['width'] / 2; // Center of the circle
-        $centerY = $this->configuration['height'] / 2;
+        $centerX = $centerY = 0; // Center of the circle
 
         $startX = $centerX; // The starting point of the circle
         $startY = $centerY - $radius;
