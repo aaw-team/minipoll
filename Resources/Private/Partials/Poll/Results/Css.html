@@ -20,10 +20,4 @@
     <div class="tx_minipoll-footer-left">
         <f:format.number decimals="0" thousandsSeparator="'"><f:count subject="{poll.participations}"/></f:format.number> Votes in Total (LLL)
     </div>
-
-    <mp:ifCanVote poll="{poll}">
-        <f:link.action action="detail" arguments="{poll:poll.uid}" class="tx_minipoll-button">
-            Vote (LLL)
-        </f:link.action>
-    </mp:ifCanVote>
 </div>

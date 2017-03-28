@@ -1,0 +1,16 @@
+{namespace mp=AawTeam\Minipoll\ViewHelpers}
+
+<div class="tx_minipoll-results">
+    <f:render partial="Poll/Title" arguments="{_all}" />
+    <f:render partial="Poll/Description" arguments="{_all}" />
+
+    <mp:ifCanVote poll="{poll}">
+        <f:link.action action="detail" arguments="{poll:poll.uid}" class="tx_minipoll-button">
+            Vote (LLL)
+        </f:link.action>
+    </mp:ifCanVote>
+
+    <mp:poll.results poll="{poll}">
+        <f:render partial="Poll/Results/{resultRendererName}" arguments="{_all}" />
+    </mp:poll.results>
+</div>

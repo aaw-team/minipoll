@@ -1,6 +1,15 @@
+{namespace mp=AawTeam\Minipoll\ViewHelpers}
+
 <f:if condition="{polls -> f:count()} > 0">
     <f:for each="{polls}" as="poll">
-        <f:render partial="Poll.html" arguments="{_all}" />
+        <mp:ifCanVote poll="{poll}">
+            <f:then>
+                <f:render partial="Poll/Form.html" arguments="{_all}" />
+            </f:then>
+            <f:else>
+                <f:render partial="Poll/Results.html" arguments="{_all}" />
+            </f:else>
+        </mp:ifCanVote>
         <hr>
     </f:for>
 </f:if>

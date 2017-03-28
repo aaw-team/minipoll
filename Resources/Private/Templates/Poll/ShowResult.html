@@ -1,13 +1,4 @@
-{namespace mp=AawTeam\Minipoll\ViewHelpers}
 <div class="tx_minipoll">
     <f:flashMessages />
-
-    <div class="tx_minipoll-results">
-        <f:render partial="Poll/Title" arguments="{_all}" />
-        <f:render partial="Poll/Description" arguments="{_all}" />
-
-        <mp:poll.results poll="{poll}">
-            <f:render partial="Poll/Results/{resultRendererName}" arguments="{_all}" />
-        </mp:poll.results>
-    </div>
+    <f:render partial="Poll/Results.html" arguments="{_all}" />
 </div>
