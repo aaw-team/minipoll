@@ -167,6 +167,10 @@
                 <source>Poll to show</source>
                 <target>Umfrage, die angezeigt werden soll</target>
             </trans-unit>
+            <trans-unit id="constants.defaultColorList">
+                <source>Default color list: This list is used to colorize the results of a poll</source>
+                <target>Standard-Farbliste:Diese Liste wird verwendet, um die Resultate einer Umfrage einzufärben</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

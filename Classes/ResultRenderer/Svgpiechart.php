@@ -57,8 +57,6 @@ class Svgpiechart extends AbstractResultRenderer
             throw new \Exception('textRadius must be a positive int or float');
         }
 
-        $colors = ['#2236e9', '#f40c0c', '#35821f', '#a30cf4', '#daf40c', '#1ecf1e', '#11d6d6', '#fe9800'];
-
         $radius = $this->configuration['radius']; // Radius of the circle
         $textRadius = $this->configuration['textRadius']; // Radius of the circle at which the text will be aligned
         $centerX = $this->configuration['width'] / 2; // Center of the circle
@@ -81,8 +79,10 @@ class Svgpiechart extends AbstractResultRenderer
             $totalAnswers += $pollOption->getAnswers()->count();
         }
 
-        // Loop through each poll
-        $iterator = 0;
+        // Get color configuration
+        $colors = $this->getConfigurationOptionPerItem('colors', \count($pollOptions));
+
+        // Loop through every poll option
         $return = [];
         foreach ($pollOptions as $key => $pollOption) {
             // Get answer count of the current option
@@ -119,13 +119,11 @@ class Svgpiechart extends AbstractResultRenderer
 
             // Build the return array
             $return[] = \array_merge($slice, [
-                'fill' => $colors[$iterator],
+                'fill' => $colors[$key],
                 'id' => $key,
                 'votes' => $answers,
                 'percent' => $percent
             ]);
-
-            $iterator++;
         }
 
         return $return;

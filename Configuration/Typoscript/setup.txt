@@ -6,6 +6,9 @@ plugin.tx_minipoll {
             css {
                 orderBy = answers
                 reverseOrder = 0
+                colors = {$plugin.tx_minipoll.settings.resultRenderer.defaultColorList}
+                cssClasses = tx_minipoll-option-first |*| tx_minipoll-option-middle |*| tx_minipoll-option-last
+                cssClasses.useOptionSplit = 1
             }
             svgpiechart {
                 renderAsImage = 0
@@ -15,6 +18,7 @@ plugin.tx_minipoll {
                 height = 400
                 radius = 190
                 textRadius = 145
+                colors = {$plugin.tx_minipoll.settings.resultRenderer.defaultColorList}
             }
         }
     }

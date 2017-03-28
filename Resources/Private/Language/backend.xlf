@@ -123,6 +123,9 @@
             <trans-unit id="flexform.pluginPoll.field.pollUid">
                 <source>Poll to show</source>
             </trans-unit>
+            <trans-unit id="constants.defaultColorList">
+                <source>Default color list: This list is used to colorize the results of a poll</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -1,0 +1,4 @@
+plugin.tx_minipoll.settings {
+    # cat=minipoll/color/001; type=string; label=LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:constants.defaultColorList
+    resultRenderer.defaultColorList = #5c98dd,#d11428,#5dc351,#ffb631,#31eaea,#b57fe6
+}

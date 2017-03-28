@@ -2,13 +2,13 @@
 
 <div class="tx_minipoll-chart">
     <f:for each="{results.options}" as="option">
-        <div class="tx_minipoll-option">
+        <div class="tx_minipoll-option {option.class}">
             <mp:poll.option.calc pollOption="{option}" as="calc" roundPercent="2">
                 <div class="tx_minipoll-option-text">
                     <span class="tx_minipoll-option-title">{option.title}</span>
                     <span class="tx_minipoll-option-votes">{calc.answers} Votes</span>
                 </div>
-                <div class="tx_minipoll-option-bar" style="width:{calc.percent}%">
+                <div class="tx_minipoll-option-bar" style="width:{calc.percent}%; background:{option.color};">
                     <span class="tx_minipoll-option-percentage"><f:format.number decimals="0" thousandsSeparator="'">{calc.percent}</f:format.number>%</span>
                 </div>
             </mp:poll.option.calc>

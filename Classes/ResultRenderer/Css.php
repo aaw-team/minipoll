@@ -26,8 +26,17 @@ class Css extends AbstractResultRenderer
      */
     public function getRenderedResults()
     {
+        $options = $this->getPollOptionsAsViewModels();
+        $optionsCount = \count($options);
+        $colors = $this->getConfigurationOptionPerItem('colors', $optionsCount);
+        $cssClasses = $this->getConfigurationOptionPerItem('cssClasses', $optionsCount);
+
+        foreach ($options as $num => $option) {
+            $option->setOption('color', $colors[$num]);
+            $option->setOption('class', $cssClasses[$num]);
+        }
         return [
-            'options' => $this->getPollOptionsAsViewModels()
+            'options' => $options
         ];
     }
 }
