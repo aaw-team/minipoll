@@ -11,6 +11,8 @@ plugin.tx_minipoll {
                 cssClasses.useOptionSplit = 1
             }
             svgpiechart {
+                includeJquery = 1
+                includeTooltipJs = 1
                 renderAsImage = 0
                 orderBy = answers
                 reverseOrder = 0

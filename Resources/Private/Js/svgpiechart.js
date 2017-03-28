@@ -73,5 +73,3 @@ $.fn.svgpiechart.defaults = {
     tooltipVisibleClass: 'tx_minipoll-svgpiechart-tooltip-visible',
     tooltipOffset: 10
 };
-
-$('.tx_minipoll-svgpiechart-container').svgpiechart();

@@ -18,6 +18,7 @@ namespace AawTeam\Minipoll\ResultRenderer;
 
 use AawTeam\Minipoll\Domain\Model\PollOption;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Svgpiechart ResultRenderer
@@ -29,10 +30,12 @@ class Svgpiechart extends AbstractResultRenderer
      */
     public function getRenderedResults()
     {
+        $this->registerJavascripts();
         return [
             'width' => (int) $this->configuration['width'],
             'height' => (int) $this->configuration['height'],
             'viewbox' => "-" . $this->configuration['width'] / 2 . " -" . $this->configuration['height'] / 2 . " " . $this->configuration['width'] . " " . $this->configuration['height'],
+            'includeTooltipJs' => (bool) $this->configuration['includeTooltipJs'],
             'slices' => $this->getSlices()
         ];
     }
@@ -222,5 +225,27 @@ class Svgpiechart extends AbstractResultRenderer
         }
 
         return $percent;
+    }
+
+    /**
+     * @return void
+     */
+    protected function registerJavascripts()
+    {
+        if ($this->configuration['includeTooltipJs'] && $this->configuration['includeJquery']) {
+            $this->getPageRenderer()->addJsFooterLibrary('minipoll-jquery', $this->getTyposcriptFrontendController()->tmpl->getFileName('EXT:minipoll/Resources/Public/Js/jquery-3.2.1.min.js'));
+        }
+        if ($this->configuration['includeTooltipJs']) {
+            $this->getPageRenderer()->addJsFooterFile($this->getTyposcriptFrontendController()->tmpl->getFileName('EXT:minipoll/Resources/Public/Js/svgpiechart.js'), 'text/javascript', false);
+            $this->getPageRenderer()->addJsFooterInlineCode(static::class, '$(".tx_minipoll-svgpiechart-container").svgpiechart();', false);
+        }
+    }
+
+    /**
+     * @return \TYPO3\CMS\Core\Page\PageRenderer
+     */
+    protected function getPageRenderer()
+    {
+        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
     }
 }
