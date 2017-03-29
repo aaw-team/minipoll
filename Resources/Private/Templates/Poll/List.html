@@ -1,8 +1,10 @@
 {namespace mp=AawTeam\Minipoll\ViewHelpers}
 
-<f:if condition="{polls -> f:count()} > 0">
-    <f:for each="{polls}" as="poll">
-        <f:render partial="Poll.html" arguments="{_all}" />
-        <hr>
-    </f:for>
-</f:if>
+<div class="tx_minipoll">
+    <f:if condition="{polls -> f:count()} > 0">
+        <f:for each="{polls}" as="poll">
+            <f:render partial="Poll.html" arguments="{_all}" />
+            <hr>
+        </f:for>
+    </f:if>
+</div>
