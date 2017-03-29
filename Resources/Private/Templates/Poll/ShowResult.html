@@ -1,4 +1,6 @@
 <div class="tx_minipoll">
     <f:flashMessages />
-    <f:render partial="Poll/Results.html" arguments="{_all}" />
+    <f:if condition="{poll}">
+        <f:render partial="Poll/Results.html" arguments="{_all}" />
+    </f:if>
 </div>

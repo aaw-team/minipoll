@@ -22,6 +22,7 @@ use AawTeam\Minipoll\Domain\Model\Participation;
 use AawTeam\Minipoll\Domain\Model\Poll;
 use AawTeam\Minipoll\Domain\Model\PollOption;
 use AawTeam\Minipoll\Domain\Repository\PollRepository;
+use AawTeam\Minipoll\Registry;
 use AawTeam\Minipoll\Utility\LocalizationUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -86,7 +87,17 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function listAction()
     {
-        $this->view->assign('polls', $this->pollRepository->findAll());
+        $polls = $this->pollRepository->findAll();
+        if ($this->settings['excludeAlreadyDisplayedPolls']) {
+            foreach ($polls as $key => $poll) {
+                if (Registry::isDisplayedPoll($poll->getUid())) {
+                    $polls->offsetUnset($key);
+                    continue;
+                }
+                Registry::addDisplayedPoll($poll->getUid());
+            }
+        }
+        $this->view->assign('polls', $polls);
     }
 
     /**
@@ -104,6 +115,13 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             }
             $poll = $this->pollRepository->findByIdentifier($pollUid);
         }
+        if ($this->settings['excludeAlreadyDisplayedPolls']) {
+            if (Registry::isDisplayedPoll($poll->getUid())) {
+                // Forward with no message, this will not display anything
+                $this->forward('displayMessage');
+            }
+            Registry::addDisplayedPoll($poll->getUid());
+        }
         $this->view->assign('poll', $poll);
     }
 
@@ -117,6 +135,12 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function voteAction(\AawTeam\Minipoll\Domain\Model\Poll $poll, array $answers = null, array $hp = null, $captcha = null)
     {
+        if (Registry::isVotedPoll($poll->getUid())) {
+            // Forward with no message, this will not display anything
+            $this->forward('displayMessage');
+        }
+        Registry::addVotedPoll($poll->getUid());
+
         // Honeypot check
         if ($hp['one'] !== '' || $hp['two'] !== '') {
             $this->addErrorMessageAsFlashMessage('message.error.honeypotCheck');
@@ -235,6 +259,14 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function showResultAction(\AawTeam\Minipoll\Domain\Model\Poll $poll)
     {
+        if ($this->settings['excludeAlreadyDisplayedPolls']) {
+            if (Registry::isDisplayedPoll($poll->getUid())) {
+                // Forward with no message, this will not display anything
+                $this->forward('displayMessage');
+            }
+            Registry::addDisplayedPoll($poll->getUid());
+        }
+
         if (!$this->pollUtility->canDisplayResultsInPoll($poll)) {
             // Add user message
             $this->addErrorMessageAsFlashMessage('message.error.cannotDisplayResults');
