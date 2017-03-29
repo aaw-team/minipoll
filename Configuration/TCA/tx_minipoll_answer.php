@@ -30,7 +30,7 @@ return [
             'label' => 'Participation',
             'config' => [
                 'readOnly' => true,
-                'type' => 'inline',
+                'type' => 'select',
                 'foreign_table' => 'tx_minipoll_participation',
                 'minitems' => 1,
                 'maxitems' => 1
@@ -40,7 +40,7 @@ return [
             'label' => 'Poll option',
             'config' => [
                 'readOnly' => true,
-                'type' => 'inline',
+                'type' => 'select',
                 'foreign_table' => 'tx_minipoll_poll_option',
                 'minitems' => 1,
                 'maxitems' => 1

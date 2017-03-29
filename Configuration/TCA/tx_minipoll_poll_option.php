@@ -60,8 +60,8 @@ return [
         'poll' => [
             'label' => 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll_option.field.poll',
             'config' => [
-                //'readOnly' => true,
-                'type' => 'inline',
+                'readOnly' => true,
+                'type' => 'select',
                 'foreign_table' => 'tx_minipoll_poll',
                 'minitems' => 1,
                 'maxitems' => 1

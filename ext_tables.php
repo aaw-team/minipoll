@@ -17,4 +17,4 @@
 defined ('TYPO3_MODE') or die ('Access denied.');
 
 // Allow creation of the records
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_minipoll_poll,tx_minipoll_poll_option');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_minipoll_poll,tx_minipoll_poll_option,tx_minipoll_participation,tx_minipoll_answer');

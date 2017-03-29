@@ -30,7 +30,7 @@ return [
             'label' => 'Poll',
             'config' => [
                 'readOnly' => true,
-                'type' => 'inline',
+                'type' => 'select',
                 'foreign_table' => 'tx_minipoll_poll',
                 'minitems' => 1,
                 'maxitems' => 1
