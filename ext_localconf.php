@@ -55,8 +55,7 @@ plugin.tx_minipoll.persistence.classes {
 mod.wizards.newContentElement.wizardItems.plugins {
     elements {
         minipoll_form {
-            # @TODO: Create/add plugin icon
-            iconIdentifier = content-plugin
+            iconIdentifier = content-plugin-minipoll-poll
             title = LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:plugin.title
             description = LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:plugin.description
             tt_content_defValues {
