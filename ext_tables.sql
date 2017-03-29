@@ -68,5 +68,5 @@ CREATE TABLE tx_minipoll_answer (
 
     PRIMARY KEY (uid),
     KEY parent (pid),
-    UNIQUE participation (participation,poll_option),
+    KEY participation (participation,poll_option),
 );
