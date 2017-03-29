@@ -100,8 +100,8 @@
                 <target>Nie</target>
             </trans-unit>
             <trans-unit id="tca.poll.field.options">
-                <source>Options</source>
-                <target>Auswahl</target>
+                <source>Poll options</source>
+                <target>Antwort Auswahl</target>
             </trans-unit>
             <trans-unit id="tca.poll.field.hidden">
                 <source>Visibility of Poll</source>
@@ -110,6 +110,10 @@
             <trans-unit id="tca.poll.palette.header">
                 <source>Base data</source>
                 <target>Basisdaten</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.sheet.options">
+                <source>Options</source>
+                <target>Auswahl</target>
             </trans-unit>
             <trans-unit id="tca.poll.sheet.settings">
                 <source>Poll settings</source>

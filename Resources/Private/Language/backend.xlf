@@ -76,13 +76,16 @@
                 <source>Never</source>
             </trans-unit>
             <trans-unit id="tca.poll.field.options">
-                <source>Options</source>
+                <source>Poll options</source>
             </trans-unit>
             <trans-unit id="tca.poll.field.hidden">
                 <source>Visibility of Poll</source>
             </trans-unit>
             <trans-unit id="tca.poll.sheet.general">
                 <source>General</source>
+            </trans-unit>
+            <trans-unit id="tca.poll.sheet.options">
+                <source>Options</source>
             </trans-unit>
             <trans-unit id="tca.poll.sheet.settings">
                 <source>Poll settings</source>
