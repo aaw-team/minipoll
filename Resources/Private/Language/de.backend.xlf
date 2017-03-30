@@ -128,8 +128,8 @@
                 <target>Sprache</target>
             </trans-unit>
             <trans-unit id="tca.poll.palette.settings">
-                <source>Poll settings</source>
-                <target>Umfrage-Einstellungen</target>
+                <source>Settings</source>
+                <target>Einstellungen</target>
             </trans-unit>
             <trans-unit id="tca.poll.palette.status">
                 <source>Status</source>

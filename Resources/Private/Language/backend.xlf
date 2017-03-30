@@ -88,7 +88,7 @@
                 <source>Options</source>
             </trans-unit>
             <trans-unit id="tca.poll.sheet.settings">
-                <source>Poll settings</source>
+                <source>Settings</source>
             </trans-unit>
             <trans-unit id="tca.poll.sheet.language">
                 <source>Language</source>
