@@ -25,12 +25,19 @@ use AawTeam\Minipoll\Domain\Model\Poll;
 interface DuplicationCheckInterface
 {
     /**
+     * Returns true, when voting in the poll $poll is possible.
+     *
      * @param Poll $poll
      * @return bool
      */
     public function canVote(Poll $poll);
 
     /**
+     * This method is called, right after a new participation on a poll has been
+     * created.
+     *
+     * Returns true on success, false otherwise.
+     *
      * @param Poll $poll
      * @param Participation $participation
      * @return bool
@@ -38,8 +45,7 @@ interface DuplicationCheckInterface
     public function disableVote(Poll $poll, Participation $participation);
 
     /**
-     * This method is called, when a poll is configured to display the results
-     * only after a user has submitted his vote.
+     * Returns true, when displaying results from the poll $poll is possible.
      *
      * @param Poll $poll
      * @return bool
