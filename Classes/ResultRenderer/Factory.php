@@ -51,6 +51,10 @@ class Factory
             $alias = \array_search($alias, $registeredRenderers);
         }
 
+        if ($alias == 'global') {
+            throw new \RuntimeException('The alias cannot be "global", you need to pick another.');
+        }
+
         $resultRenderer = GeneralUtility::makeInstance($registeredRenderers[$alias]);
         if (!($resultRenderer instanceof ResultRendererInterface)) {
             throw new \RuntimeException('resultRenderer "' . get_class($registeredRenderers[$alias]) . '" must be ' . ResultRendererInterface::class);

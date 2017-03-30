@@ -4,24 +4,21 @@ plugin.tx_minipoll {
         excludeAlreadyDisplayedPolls = 1
         resultRenderer {
             show = css,svgpiechart
-            css {
+            global {
                 orderBy = answers
                 reverseOrder = 0
                 colors = {$plugin.tx_minipoll.settings.resultRenderer.defaultColorList}
-                cssClasses = tx_minipoll-option-first |*| tx_minipoll-option-middle |*| tx_minipoll-option-last
-                cssClasses.useOptionSplit = 1
+                cssClasses =
+            }
+            css {
             }
             svgpiechart {
                 includeJquery = 1
                 includeTooltipJs = 1
-                renderAsImage = 0
-                orderBy = answers
-                reverseOrder = 0
                 width = 400
                 height = 400
                 radius = 190
                 textRadius = 145
-                colors = {$plugin.tx_minipoll.settings.resultRenderer.defaultColorList}
             }
         }
     }

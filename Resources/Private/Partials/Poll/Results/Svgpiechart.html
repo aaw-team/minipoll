@@ -5,7 +5,7 @@
         <title>{poll.title}</title>
         <desc>Piechart results for the poll</desc>
         <f:for each="{results.slices}" as="slice">
-            <g class="slice slice{slice.id}" data-tooltipvalue="{slice.votes} Votes (LLL)">
+            <g class="slice slice{slice.id} {slice.class}" data-tooltipvalue="{slice.votes} Votes (LLL)">
                 <f:switch expression="{slice.type}">
                     <f:case value="circle">
                         <circle cx="{slice.centerX}" cy="{slice.centerY}" r="{slice.radius}" fill="{slice.fill}"/>

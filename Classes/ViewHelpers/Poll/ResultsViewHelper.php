@@ -74,10 +74,16 @@ class ResultsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
                 continue;
             }
 
-            // Setup renderer
-            $configuration = \array_key_exists($rendererAlias, $resultRendererConfiguration) && \is_array($resultRendererConfiguration[$rendererAlias])
-                                 ? $resultRendererConfiguration[$rendererAlias]
+            // Load global configuration
+            $configuration = \is_array($resultRendererConfiguration['global'])
+                                 ? $resultRendererConfiguration['global']
                                  : [];
+            // Merge current renderer configuration onto global configuration
+            if (\array_key_exists($rendererAlias, $resultRendererConfiguration) && \is_array($resultRendererConfiguration[$rendererAlias])) {
+                $configuration = \array_merge($configuration, $resultRendererConfiguration[$rendererAlias]);
+            }
+
+            // Setup renderer
             $resultRenderer->setup($poll, $configuration);
 
             // The resultRendererName is the last part of the class name (everything behind the last '\')

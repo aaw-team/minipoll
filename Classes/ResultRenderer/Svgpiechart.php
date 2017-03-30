@@ -82,8 +82,11 @@ class Svgpiechart extends AbstractResultRenderer
             $totalAnswers += $pollOption->getAnswers()->count();
         }
 
+        $optionsCount = \count($pollOptions);
         // Get color configuration
-        $colors = $this->getConfigurationOptionPerItem('colors', \count($pollOptions));
+        $colors = $this->getConfigurationOptionPerItem('colors', $optionsCount);
+        // Get cssClass configuration
+        $cssClasses = $this->getConfigurationOptionPerItem('cssClasses', $optionsCount);
 
         // Loop through every poll option
         $return = [];
@@ -123,6 +126,7 @@ class Svgpiechart extends AbstractResultRenderer
             // Build the return array
             $return[] = \array_merge($slice, [
                 'fill' => $colors[$key],
+                'class' => $cssClasses[$key],
                 'id' => $key,
                 'votes' => $answers,
                 'percent' => $percent
