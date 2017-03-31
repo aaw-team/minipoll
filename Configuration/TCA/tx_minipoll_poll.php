@@ -80,6 +80,7 @@ return [
         'use_captcha' => [
             'exclude' => true,
             'label' => 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.use_captcha',
+            'displayCond' => 'USER:' . \AawTeam\Minipoll\Backend\Form\DisplayConditionsEvaluator::class . '->showCaptchaField',
             'config' => [
                 'type' => 'check',
                 'items' => [
