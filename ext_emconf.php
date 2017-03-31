@@ -27,19 +27,5 @@ $EM_CONF[$_EXTKEY] = array(
         'suggests' => array(
             'captcha' => ''
         )
-    ),
-    'autoload' => array(
-        'psr-4' => array(
-            'AawTeam\\Minipoll\\' => 'Classes/'
-        )
     )
 );
-
-// Add dependencies to autoloading if needed. This is the case when TYPO3 does
-// not run in composer mode (in this case the autoload section from EM_CONF is
-// ignored anyway)
-if (version_compare(TYPO3_version, '8', '<')) {
-    if (!class_exists('ParagonIE\\ConstantTime\\Encoding')) {
-        $EM_CONF[$_EXTKEY]['autoload']['psr-4']['ParagonIE\\ConstantTime\\'] = 'code/vendor/paragonie/constant_time_encoding/src/';
-    }
-}

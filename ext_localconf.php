@@ -78,3 +78,8 @@ $iconRegistry->registerIcon('minipoll-poll', \TYPO3\CMS\Core\Imaging\IconProvide
 $iconRegistry->registerIcon('minipoll-poll-option', \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class, [
     'source' => 'EXT:minipoll/Resources/Public/Icons/poll-option.svg'
 ]);
+
+// Include autoloader fot the third-party code
+if (!\class_exists('ParagonIE\\ConstantTime\\Encoding')) {
+    require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('minipoll') . 'Resources/Private/PHP/vendor/autoload.php';
+}
