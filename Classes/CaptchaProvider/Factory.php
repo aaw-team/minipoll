@@ -97,7 +97,7 @@ class Factory
     protected static function loadCaptchaProviderInternal($className)
     {
         /** @var CaptchaProviderInterface $instance */
-        $instance = GeneralUtility::makeInstance($captchaProviders[$alias]);
+        $instance = GeneralUtility::makeInstance($className);
         if (!($instance instanceof CaptchaProviderInterface)) {
             throw new \AawTeam\Minipoll\Exception\InvalidCaptchaProviderRegisteredException('Registered CaptchaProvider " ' . \htmlspecialchars($captchaProvider) . '" must implement ' . CaptchaProviderInterface::class, 1490950349);
         } elseif (!$instance->isAvailable()) {
