@@ -32,8 +32,13 @@ class Factory
     ];
 
     /**
+     * @var array
+     */
+    protected static $registeredProviders;
+
+    /**
      * Returns the captchaProvider instance described by $alias. If $alias is
-     * null, the default captchaProvider alias will be used (defined in
+     * null, the default captchaProvider alias will be tried (defined in
      * extConf).
      * When no matching alias has been found, the registered captchaProviders
      * will be searched in reverse order for a working instance.
@@ -46,35 +51,100 @@ class Factory
      */
     public static function getCaptchaProvider($alias = null)
     {
+        if ($alias !== null && (!\is_string($alias) || empty($alias))) {
+            throw new \InvalidArgumentException('$alias must be not empty string or null', 1490963464);
+        }
+
         $captchaProviders = static::getRegisteredCaptchaProviders();
-        if ($alias === null) {
-            $alias = static::getDefaultProviderAlias();
+
+        // Handle calls with $alias specified
+        if ($alias !== null) {
+            if (\array_key_exists($alias, $captchaProviders)) {
+                return static::loadCaptchaProviderInternal($captchaProviders[$alias]);
+            }
+            throw new \AawTeam\Minipoll\Exception\NoCaptchaProviderFoundException('No CaptchaProvider found for alias "' . \htmlspecialchars($alias) . '"');
         }
-        if (\array_key_exists($alias, $captchaProviders)) {
-            return GeneralUtility::makeInstance($captchaProviders[$alias]);
-        }
-        foreach (\array_reverse($captchaProviders) as $alias => $className) {
-            /** @var CaptchaProviderInterface $instance */
-            $instance = GeneralUtility::makeInstance($className);
-            if ($instance->isAvailable()) {
-                return $instance;
+
+        // Try to load default alias
+        if ($defaultAlias = static::getDefaultProviderAlias() && \array_key_exists($defaultAlias, $captchaProviders)) {
+            try {
+                return static::loadCaptchaProviderInternal($captchaProviders[$defaultAlias]);
+            } catch (\AawTeam\Minipoll\Exception\CaptchaProviderException $e) {
+                // Remove unavailable alias
+                unset($captchaProviders[$defaultAlias]);
             }
         }
+
+        // Loop all registered captchaProviders (LIFO) to find an active one
+        foreach (\array_reverse($captchaProviders) as $className) {
+            try {
+                return static::loadCaptchaProviderInternal($className);
+            } catch (\AawTeam\Minipoll\Exception\CaptchaProviderException $e) {
+                // Silently fail
+            }
+        }
+
+        // No available captchaProvider found
         throw new \AawTeam\Minipoll\Exception\NoCaptchaProviderFoundException();
     }
 
     /**
+     * @param string $className
+     * @throws \AawTeam\Minipoll\Exception\InvalidCaptchaProviderRegisteredException
+     * @throws \AawTeam\Minipoll\Exception\CaptchaProviderException
+     * @return \AawTeam\Minipoll\CaptchaProvider\CaptchaProviderInterface
+     */
+    protected static function loadCaptchaProviderInternal($className)
+    {
+        /** @var CaptchaProviderInterface $instance */
+        $instance = GeneralUtility::makeInstance($captchaProviders[$alias]);
+        if (!($instance instanceof CaptchaProviderInterface)) {
+            throw new \AawTeam\Minipoll\Exception\InvalidCaptchaProviderRegisteredException('Registered CaptchaProvider " ' . \htmlspecialchars($captchaProvider) . '" must implement ' . CaptchaProviderInterface::class, 1490950349);
+        } elseif (!$instance->isAvailable()) {
+            throw new \AawTeam\Minipoll\Exception\CaptchaProviderException('CaptchaProvider " ' . \htmlspecialchars($captchaProvider) . '" is not available', 1490962835);
+        }
+        return $instance;
+    }
+
+    /**
+     * @return boolean
+     */
+    public static function hasAvailableCaptchaProvider()
+    {
+        foreach (static::getRegisteredCaptchaProviders() as $className) {
+            try {
+                static::loadCaptchaProviderInternal($className);
+                return true;
+            } catch (\AawTeam\Minipoll\Exception\CaptchaProviderException $e) {
+                // Silently fail
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @throws \AawTeam\Minipoll\Exception\InvalidCaptchaProviderRegisteredException
      * @return array
      */
     public static function getRegisteredCaptchaProviders()
     {
-        $captchaProviders = static::$builtInProviders;
-        if (\is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['minipoll']['captchaProviders'])) {
-            foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['minipoll']['captchaProviders'] as $alias => $provider) {
-                $captchaProviders[$alias] = $provider;
+        if (static::$registeredProviders === null) {
+            $captchaProviders = static::$builtInProviders;
+            if (\is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['minipoll']['captchaProviders'])) {
+                foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['minipoll']['captchaProviders'] as $alias => $provider) {
+                    $captchaProviders[$alias] = $provider;
+                }
             }
+            foreach ($captchaProviders as $alias => $captchaProvider) {
+                if (!\class_exists($captchaProvider)) {
+                    throw new \AawTeam\Minipoll\Exception\InvalidCaptchaProviderRegisteredException('Registered CaptchaProvider " ' . \htmlspecialchars($captchaProvider) . '" does not exist', 1490950342);
+                } elseif (!\in_array(CaptchaProviderInterface::class, \class_implements($captchaProvider))) {
+                    throw new \AawTeam\Minipoll\Exception\InvalidCaptchaProviderRegisteredException('Registered CaptchaProvider " ' . \htmlspecialchars($captchaProvider) . '" must implement ' . CaptchaProviderInterface::class, 1490950349);
+                }
+            }
+            static::$registeredProviders = $captchaProviders;
         }
-        return $captchaProviders;
+        return static::$registeredProviders;
     }
 
     /**
@@ -88,7 +158,7 @@ class Factory
             $extConf = @\unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['minipoll'], ['allowed_classes' => false]);
         }
         if (\is_array($extConf) && $extConf['defaultCaptchaProvider']) {
-            return $extConf['defaultCaptchaProvider'];
+            return (string) $extConf['defaultCaptchaProvider'];
         }
         return '';
     }

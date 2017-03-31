@@ -17,7 +17,7 @@ namespace AawTeam\Minipoll\Exception;
  */
 
 /**
- * NoCaptchaProviderFoundException
+ * InvalidCaptchaProviderRegisteredException
  */
-class NoCaptchaProviderFoundException extends CaptchaProviderException
+class InvalidCaptchaProviderRegisteredException extends CaptchaProviderException
 {}
