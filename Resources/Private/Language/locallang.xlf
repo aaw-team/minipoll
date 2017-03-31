@@ -39,6 +39,9 @@
             <trans-unit id="message.error.unknownDisplayOption">
                 <source>You must specify either "list" or "detail" in the "display" property of this cObject!</source>
             </trans-unit>
+            <trans-unit id="message.error.csrfToken">
+                <source>Potential csrf attack detected</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

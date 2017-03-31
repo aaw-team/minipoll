@@ -51,6 +51,10 @@
                 <source>You must specify either "list" or "detail" in the "display" property of this cObject!</source>
                 <target>Die Option "display" dieses cObjects muss entweder "list" oder "detail" sein!</target>
             </trans-unit>
+            <trans-unit id="message.error.csrfToken">
+                <source>Potential csrf attack detected</source>
+                <target>Mögliche csrf Attacke erkannt</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

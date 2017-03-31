@@ -51,6 +51,12 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     protected $pollUtility;
 
     /**
+     * @var \AawTeam\Minipoll\Utility\FormProtectionUtility
+     * @inject
+     */
+    protected $formProtectionUtility;
+
+    /**
      * Here we get when the plugin is included via typoscript (never via flexforms)
      * @return string
      */
@@ -131,15 +137,24 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param array $answers
      * @param array $hp
      * @param string $captcha
+     * @param string $csrfToken
      * @return string
      */
-    public function voteAction(\AawTeam\Minipoll\Domain\Model\Poll $poll, array $answers = null, array $hp = null, $captcha = null)
+    public function voteAction(\AawTeam\Minipoll\Domain\Model\Poll $poll, array $answers = null, array $hp = null, $captcha = null, $csrfToken = null)
     {
         if (Registry::isVotedPoll($poll->getUid())) {
             // Forward with no message, this will not display anything
             $this->forward('displayMessage');
         }
         Registry::addVotedPoll($poll->getUid());
+
+        // CSRF check
+        $csrfCheckPassed = $this->formProtectionUtility->verifyTokenForPoll($csrfToken, $poll);
+        $this->formProtectionUtility->clean();
+        if ($csrfCheckPassed !== true) {
+            $this->addErrorMessageAsFlashMessage('message.error.csrfToken');
+            $this->forward('detail', null, null, ['poll' => $poll->getUid()]);
+        }
 
         // Honeypot check
         if ($hp['one'] !== '' || $hp['two'] !== '') {

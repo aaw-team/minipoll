@@ -1,3 +1,4 @@
+{namespace mp=AawTeam\Minipoll\ViewHelpers}
 <style type="text/css">
 .tx_minipoll_hp input[type="text"] {
     top:-10000px;
@@ -15,6 +16,8 @@
             <f:form.hidden name="hp[one]" value="" />
             <f:form.textfield name="hp[two]" value="" />
         </div>
+        <f:comment>This generates a csrf token in a hidden field. Do not remove, otherwise voting will not work anymore!</f:comment>
+        <mp:form.csrfToken poll="{poll}" />
         <ul>
         <f:for each="{poll.options}" as="option">
             <f:render partial="Poll/Option" arguments="{_all}" />
