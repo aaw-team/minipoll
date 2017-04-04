@@ -24,7 +24,7 @@ resultRenderer.defaultColorList
        resultRenderer.defaultColorList
 
    Data type
-       :ref:`list <data-type-list>`
+       :ref:`list <t3tsref:data-type-list>`
 
    Description
           Define a list to show colorized answers. The list items are assigned
