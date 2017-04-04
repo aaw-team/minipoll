@@ -78,6 +78,12 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 if ($configuration['settings']['pollUid.']) {
                     $pollUid = $this->configurationManager->getContentObject()->stdWrap($pollUid, $configuration['settings']['pollUid.']);
                 }
+
+                if ($pollUid < 1) {
+                    $this->forwardToDisplayMessageAction('message.error.noPollUidFound', 'message.error.title', AbstractMessage::ERROR);
+                    exit;
+                }
+
                 $this->forward('detail', null, null, ['poll' => $pollUid]);
                 break;
             default :
