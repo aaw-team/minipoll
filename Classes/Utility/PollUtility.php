@@ -19,6 +19,7 @@ namespace AawTeam\Minipoll\Utility;
 use AawTeam\Minipoll\Domain\Model\Participation;
 use AawTeam\Minipoll\Domain\Model\Poll;
 use AawTeam\Minipoll\DuplicationCheck\Factory as DuplicationCheckFactory;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * PollUtility
@@ -113,5 +114,41 @@ class PollUtility
             return null;
         }
         return $alias;
+    }
+
+    /**
+     * @param string $includeGETVars
+     * @return array
+     */
+    public function calculateAdditionalGetParams($preserveGetVars)
+    {
+        $preserveGetVars = \trim((string) $preserveGetVars);
+        // Do not include any GET vars
+        if (empty($preserveGetVars) || $preserveGetVars == '0') {
+            return [];
+        }
+
+        // Load current GET params
+        $currentGetArray = GeneralUtility::explodeUrl2Array(GeneralUtility::getIndpEnv('QUERY_STRING'));
+
+        if ($preserveGetVars == '1') {
+            // Include all current GET vars
+            $additionalGetParams = $currentGetArray;
+        } else {
+            // Include only GET vars described in $includeGETVars
+            $queryString = \implode('&', GeneralUtility::trimExplode(',', $preserveGetVars, true));
+            $compareArray = GeneralUtility::explodeUrl2Array($queryString);
+            $additionalGetParams = \array_intersect_key($currentGetArray, $compareArray);
+        }
+
+        if (!empty($additionalGetParams)) {
+            // Remove reserverd param names
+            foreach ($additionalGetParams as $key => $value) {
+                if (in_array($key, ['id', 'type', 'cHash', 'MP', 'eID'])) {
+                    unset($additionalGetParams[$key]);
+                }
+            }
+        }
+        return $additionalGetParams;
     }
 }

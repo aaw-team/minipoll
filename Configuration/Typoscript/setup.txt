@@ -2,6 +2,7 @@ plugin.tx_minipoll {
     settings {
         captcha = 0
         excludeAlreadyDisplayedPolls = 1
+        preserveGETVars = 0
         resultRenderer {
             show = css,svgpiechart
             global {

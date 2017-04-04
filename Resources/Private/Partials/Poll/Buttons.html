@@ -9,7 +9,7 @@
 </mp:ifCanVote>
 
 <mp:ifCanDisplayResults poll="{poll}">
-    <f:link.action action="showResult" arguments="{poll:poll.uid}" class="tx_minipoll-button tx_minipoll-button-gray">
+    <f:link.action action="showResult" arguments="{poll:poll.uid}" additionalParams="{additionalGetParams}" class="tx_minipoll-button tx_minipoll-button-gray">
         Results (LLL)
     </f:link.action>
 </mp:ifCanDisplayResults>

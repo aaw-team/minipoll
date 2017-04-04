@@ -83,3 +83,8 @@ Without flexforms in place you need to define what to display:
        settings.pollUid.data = register:aSpecialPollUid
    }
 
+.. tip::
+
+    If you want to use minipoll polls plugin in the context of another one, you
+    might consider using the TypoScript option
+    :ref:`ts-plugin-tx-minipoll-preserveGETVars`.

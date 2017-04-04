@@ -131,3 +131,50 @@ resultRenderer
    Description
        Configuration of the result renderers. You'll find the detailed
        explanation for the properties in :ref:`section-configuration-resultRenderer`.
+
+
+.. _ts-plugin-tx-minipoll-preserveGETVars:
+
+preserveGETVars
+"""""""""""""""
+
+.. container:: table-row
+
+   Property
+          preserveGETVars
+
+   Data type
+          :ref:`boolean <t3tsref:data-type-bool>`/:ref:`list <t3tsref:data-type-list>`
+
+   Description
+          With this option you can configure, which GET parameters from a
+          request should be preserved when gernerating links inside the
+          extension.
+
+          This should come in handy, when the poll plugin is called in the
+          context of another one. For example, if a news-system is extended with
+          minipoll polls.
+
+          Possible options:
+
+          ``0`` = Do not preserve any GET parameters
+
+          ``1`` = Preserve all GET parameters (use with caution!)
+
+          ``<list>`` = Preserve all GET parameters from the current request,
+          which appear in this comma-separated list.
+
+          Example:
+
+          .. code-block:: typoscript
+
+              plugin.tx_minipoll.settings {
+                  preserveGETVars = tx_ttnews[tt_news]
+              }
+
+          Default: 0
+
+       .. important::
+
+           Following reserved GET parameter names will be ignored: ``id``,
+           ``type``, ``cHash``, ``MP`` and ``eID``.

@@ -109,6 +109,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 Registry::addDisplayedPoll($poll->getUid());
             }
         }
+        $this->view->assign('additionalGetParams', $this->pollUtility->calculateAdditionalGetParams($this->settings['preserveGETVars']));
         $this->view->assign('polls', $polls);
     }
 
@@ -134,6 +135,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             }
             Registry::addDisplayedPoll($poll->getUid());
         }
+        $this->view->assign('additionalGetParams', $this->pollUtility->calculateAdditionalGetParams($this->settings['preserveGETVars']));
         $this->view->assign('poll', $poll);
     }
 
@@ -298,6 +300,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             // This should never happen..
             return 'Error: something went terribly wrong!';
         }
+        $this->view->assign('additionalGetParams', $this->pollUtility->calculateAdditionalGetParams($this->settings['preserveGETVars']));
         $this->view->assign('poll', $poll);
     }
 
