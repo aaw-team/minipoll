@@ -25,6 +25,11 @@ use AawTeam\Minipoll\Domain\Model\Poll;
 class CaptchaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
+     * @var boolean
+     */
+    protected $escapeOutput = false;
+
+    /**
      * @var \AawTeam\Minipoll\Utility\PollUtility
      * @inject
      */
