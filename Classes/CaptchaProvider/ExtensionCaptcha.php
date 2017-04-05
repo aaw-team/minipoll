@@ -17,6 +17,7 @@ namespace AawTeam\Minipoll\CaptchaProvider;
  */
 
 use AawTeam\Minipoll\Domain\Model\Poll;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
  * ExtensionCaptcha
@@ -36,16 +37,15 @@ class ExtensionCaptcha implements CaptchaProviderInterface
     }
 
     /**
-     * @TODO: This captchaProvider is not available right now, because
-     * EXT:captcha does not seem to work correctly atm.
+     * EXT:captcha is available when installed in version 2.0.2 or later.
      *
      * {@inheritDoc}
      * @see \AawTeam\Minipoll\CaptchaProvider\CaptchaProviderInterface::isAvailable()
      */
     public function isAvailable()
     {
-        return false;
-        //return \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('captcha');
+        return ExtensionManagementUtility::isLoaded('captcha')
+            && \version_compare(ExtensionManagementUtility::getExtensionVersion('captcha'), '2.0.2', '>=');
     }
 
     /**
@@ -54,7 +54,7 @@ class ExtensionCaptcha implements CaptchaProviderInterface
      */
     public function hasMultipleInstancesSupport()
     {
-        return \version_compare(ExtensionManagementUtility::getExtensionVersion('captcha'), '2', '>=');
+        return true;
     }
 
     /**
