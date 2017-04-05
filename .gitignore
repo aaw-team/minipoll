@@ -3,7 +3,6 @@
 .buildpath
 .cache
 .DS_Store
-Resources/Private/PHP/vendor/composer/
 .sass-cache
 node_modules
 npm-debug.log
