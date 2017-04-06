@@ -1,23 +1,17 @@
 {namespace mp=AawTeam\Minipoll\ViewHelpers}
 
-<div class="tx_minipoll-chart">
+<div class="tx_minipoll-csschart">
     <f:for each="{results.options}" as="option">
-        <div class="tx_minipoll-option {option.class}">
+        <div class="tx_minipoll-csschart-option {option.class}">
             <mp:poll.option.calc pollOption="{option}" as="calc" roundPercent="2">
-                <div class="tx_minipoll-option-text">
-                    <span class="tx_minipoll-option-title">{option.title}</span>
-                    <span class="tx_minipoll-option-votes">{calc.answers} Votes</span>
+                <div class="tx_minipoll-csschart-option-text">
+                    <span class="tx_minipoll-csschart-option-title">{option.title}</span>
+                    <span class="tx_minipoll-csschart-option-votes">{calc.answers} Votes</span>
                 </div>
-                <div class="tx_minipoll-option-bar" style="width:{calc.percent}%; background:{option.color};">
-                    <span class="tx_minipoll-option-percentage"><f:format.number decimals="1" thousandsSeparator="'">{calc.percent}</f:format.number>%</span>
+                <div class="tx_minipoll-csschart-option-bar" style="width:{calc.percent}%; background:{option.color};">
+                    <span class="tx_minipoll-csschart-option-percentage"><f:format.number decimals="1" thousandsSeparator="'">{calc.percent}</f:format.number>%</span>
                 </div>
             </mp:poll.option.calc>
         </div>
     </f:for>
-</div>
-
-<div class="tx_minipoll-footer">
-    <div class="tx_minipoll-footer-left">
-        <f:format.number decimals="0" thousandsSeparator="'"><f:count subject="{poll.participations}"/></f:format.number> Votes in Total (LLL)
-    </div>
 </div>

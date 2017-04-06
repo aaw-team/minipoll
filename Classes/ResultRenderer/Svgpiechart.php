@@ -241,7 +241,7 @@ class Svgpiechart extends AbstractResultRenderer
         }
         if ($this->configuration['includeTooltipJs']) {
             $this->getPageRenderer()->addJsFooterFile($this->getTyposcriptFrontendController()->tmpl->getFileName('EXT:minipoll/Resources/Public/Js/svgpiechart.js'), 'text/javascript', false);
-            $this->getPageRenderer()->addJsFooterInlineCode(static::class, '$(".tx_minipoll-svgpiechart-container").svgpiechart();', false);
+            $this->getPageRenderer()->addJsFooterInlineCode(static::class, '$(".tx_minipoll-svgpiechart").svgpiechart();', false);
         }
     }
 

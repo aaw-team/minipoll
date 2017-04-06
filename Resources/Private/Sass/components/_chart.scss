@@ -4,7 +4,7 @@ $chartBarHeight: 2.5em !default;
     margin-bottom: $generalSpacing*0.5;
 }
 
-.tx_minipoll-option {
+.tx_minipoll-csschart-option {
     margin-bottom: $generalSpacing;
 
     &:last-child {
@@ -12,21 +12,21 @@ $chartBarHeight: 2.5em !default;
     }
 }
 
-.tx_minipoll-option-text {
+.tx_minipoll-csschart-option-text {
     margin-bottom: $generalSpacing*0.25;
 }
 
-.tx_minipoll-option-title {
+.tx_minipoll-csschart-option-title {
     font-weight: bold;
     display: inline-block;
 }
 
-.tx_minipoll-option-votes {
+.tx_minipoll-csschart-option-votes {
     float: right;
     font-weight: bold;
 }
 
-.tx_minipoll-option-bar {
+.tx_minipoll-csschart-option-bar {
     position: relative;
     background: $mainColor;
     height: $chartBarHeight;

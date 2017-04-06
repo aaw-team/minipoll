@@ -2,8 +2,9 @@ $tooltipBackground: #fff !default;
 $tooltipColor: #000 !default;
 $tooltipBorder: #f3f3f3 !default;
 
-.tx_minipoll-svgpiechart-container {
+.tx_minipoll-svgpiechart {
     position: relative;
+    margin-bottom: $generalSpacing*0.5;
 
     svg g {
         transform-origin: 0px 0px;
