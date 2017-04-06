@@ -12,3 +12,7 @@
         }
     }
 }
+
+.tx_minipoll-poll + .tx_minipoll-poll {
+    margin-top: $generalSpacing;
+}

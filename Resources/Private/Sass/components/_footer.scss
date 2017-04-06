@@ -1,9 +1,10 @@
 .tx_minipoll-footer {
-    .tx_minipoll-footer-left {
+    .tx_minipoll-footer-text {
         display: inline-block;
         line-height: $buttonHeight;
     }
-    .tx_minipoll-button {
-        float: right;
-    }
+}
+
+.tx_minipoll-results .tx_minipoll-footer .tx_minipoll-button {
+    float: right;
 }
