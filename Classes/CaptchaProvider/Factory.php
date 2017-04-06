@@ -66,7 +66,7 @@ class Factory
         }
 
         // Try to load default alias
-        if ($defaultAlias = static::getDefaultProviderAlias() && \array_key_exists($defaultAlias, $captchaProviders)) {
+        if (($defaultAlias = static::getDefaultProviderAlias()) && \array_key_exists($defaultAlias, $captchaProviders)) {
             try {
                 return static::loadCaptchaProviderInternal($captchaProviders[$defaultAlias]);
             } catch (\AawTeam\Minipoll\Exception\CaptchaProviderException $e) {
