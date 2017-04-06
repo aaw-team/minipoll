@@ -4,13 +4,19 @@
     <f:render partial="Poll/Title" arguments="{_all}" />
     <f:render partial="Poll/Description" arguments="{_all}" />
 
-    <mp:ifCanVote poll="{poll}">
-        <f:link.action action="detail" arguments="{poll:poll.uid}" additionalParams="{additionalGetParams}" class="tx_minipoll-button">
-            Vote (LLL)
-        </f:link.action>
-    </mp:ifCanVote>
-
     <mp:poll.results poll="{poll}">
         <f:render partial="Poll/Results/{resultRendererName}" arguments="{_all}" />
     </mp:poll.results>
+
+    <div class="tx_minipoll-footer">
+        <div class="tx_minipoll-footer-left">
+            <f:format.number decimals="0" thousandsSeparator="'"><f:count subject="{poll.participations}"/></f:format.number> Votes in Total (LLL)
+        </div>
+
+        <mp:ifCanVote poll="{poll}">
+            <f:link.action action="detail" arguments="{poll:poll.uid}" additionalParams="{additionalGetParams}" class="tx_minipoll-button">
+                Vote (LLL)
+            </f:link.action>
+        </mp:ifCanVote>
+    </div>
 </div>

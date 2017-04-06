@@ -1,6 +1,6 @@
 $chartBarHeight: 2.5em !default;
 
-.tx_minipoll-chart {
+.tx_minipoll-csschart {
     margin-bottom: $generalSpacing*0.5;
 }
 
@@ -38,15 +38,5 @@ $chartBarHeight: 2.5em !default;
     > * {
         margin: 0 $generalSpacing*0.5;
         line-height: $chartBarHeight;
-    }
-}
-
-.tx_minipoll-results .tx_minipoll-footer {
-    .tx_minipoll-footer-left {
-        display: inline-block;
-        line-height: $chartBarHeight;
-    }
-    .tx_minipoll-button {
-        float: right;
     }
 }
