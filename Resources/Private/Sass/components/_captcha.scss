@@ -4,10 +4,19 @@
     img {
         border: 0.063em solid $gray;
         margin-left: 0;
+        margin-right: $generalSpacing;
+        vertical-align: middle;
+    }
+
+    img + span {
+        vertical-align: middle;
+        display: inline-block;
+        width: 9.375em;
     }
 
     label {
-        display: none;
+        display: block;
+        margin-top: $generalSpacing*.5;
     }
 
     input {

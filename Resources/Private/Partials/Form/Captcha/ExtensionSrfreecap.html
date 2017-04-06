@@ -4,7 +4,6 @@
     <freeCap:audio />
 </div>
 <div>
-    <label for="tx_minipoll-captcha-{poll.uid}">Captcha:</label>
+    <label for="tx_minipoll-captcha-{poll.uid}">{freeCap:translate(key: 'notice')} {freeCap:translate(key: 'explain')}</label>
     <f:form.textfield placeholder="Captcha *" id="tx_minipoll-captcha-{poll.uid}" name="captcha" value="" /><br>
-    <small>{freeCap:translate(key: 'notice')} {freeCap:translate(key: 'explain')}</small>
 </div>
