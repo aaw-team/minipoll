@@ -44,8 +44,9 @@ $.fn.svgpiechart = function(options) {
     // register mousemove event for tooltip
     $svg.on('mousemove', function(event) {
         $tooltip.css({
-            'left': event.offsetX + opts.tooltipOffset,
-            'top': event.offsetY + opts.tooltipOffset
+            'position': 'fixed',
+            'left': event.clientX + opts.tooltipOffset,
+            'top': event.clientY + opts.tooltipOffset
         });
     });
 
@@ -55,6 +56,7 @@ $.fn.svgpiechart = function(options) {
         $tooltip.removeClass(opts.tooltipVisibleClass);
         $tooltip.text('');
         $tooltip.css({
+            'position': '',
             'left': '',
             'top': ''
         });
