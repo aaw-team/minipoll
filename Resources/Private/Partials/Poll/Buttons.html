@@ -5,11 +5,11 @@
             <f:render partial="{captcha.partialName}" optional="1" arguments="{_all}" />
         </mp:form.captcha>
     </div>
-    <f:form.submit value="Vote (LLL)" name="vote" class="tx_minipoll-button" />
+    <f:form.submit value="{f:translate(key:'form.poll.submit.name')}" name="vote" class="tx_minipoll-button" />
 </mp:ifCanVote>
 
 <mp:ifCanDisplayResults poll="{poll}">
     <f:link.action action="showResult" arguments="{poll:poll.uid}" additionalParams="{additionalGetParams}" class="tx_minipoll-button tx_minipoll-button-gray">
-        Results (LLL)
+        <f:translate key="link.action.showresult" />
     </f:link.action>
 </mp:ifCanDisplayResults>

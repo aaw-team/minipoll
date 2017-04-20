@@ -6,7 +6,7 @@
             <mp:poll.option.calc pollOption="{option}" as="calc" roundPercent="2">
                 <div class="tx_minipoll-csschart-option-text">
                     <span class="tx_minipoll-csschart-option-title">{option.title}</span>
-                    <span class="tx_minipoll-csschart-option-votes">{calc.answers} Votes</span>
+                    <span class="tx_minipoll-csschart-option-votes"><f:translate key="text.result.votecount" arguments="{0:calc.answers}" /></span>
                 </div>
                 <div class="tx_minipoll-csschart-option-bar" style="width:{calc.percent}%; background:{option.color};">
                     <span class="tx_minipoll-csschart-option-percentage"><f:format.number decimals="1" thousandsSeparator="'">{calc.percent}</f:format.number>%</span>

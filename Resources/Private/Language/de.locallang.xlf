@@ -55,6 +55,34 @@
                 <source>Potential csrf attack detected</source>
                 <target>Mögliche csrf Attacke erkannt</target>
             </trans-unit>
+            <trans-unit id="form.field.captcha.label">
+                <source>Enter the text displayed in the image</source>
+                <target>Geben Sie hier den Text ein, der im Bild angezeigt wird</target>
+            </trans-unit>
+            <trans-unit id="form.field.captcha.placeholder">
+                <source>Captcha *</source>
+                <target>Captcha *</target>
+            </trans-unit>
+            <trans-unit id="form.poll.submit.name">
+                <source>Vote</source>
+                <target>Abstimmen</target>
+            </trans-unit>
+            <trans-unit id="link.action.showresult">
+                <source>Show result</source>
+                <target>Resultat anzeigen</target>
+            </trans-unit>
+            <trans-unit id="link.action.detail">
+                <source>Go to voting</source>
+                <target>Zur Abstimmung gehen</target>
+            </trans-unit>
+            <trans-unit id="text.result.totalvotes">
+                <source>votes in total</source>
+                <target>Stimmen total</target>
+            </trans-unit>
+            <trans-unit id="text.result.votecount">
+                <source>%s vote(s)</source>
+                <target>%s Stimme(n)</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

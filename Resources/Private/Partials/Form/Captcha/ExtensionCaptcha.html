@@ -2,6 +2,6 @@
     <f:format.raw>{captcha.image}</f:format.raw>
 </div>
 <div>
-    <label for="tx_minipoll-captcha-{poll.uid}">Enter the text from the image.. (LLL)</label>
-    <f:form.textfield placeholder="Captcha *" id="tx_minipoll-captcha-{poll.uid}" name="captcha" value="" />
+    <label for="tx_minipoll-captcha-{poll.uid}"><f:translate key="form.field.captcha.label" /></label>
+    <f:form.textfield placeholder="{f:translate(key:'form.field.captcha.placeholder')}" id="tx_minipoll-captcha-{poll.uid}" name="captcha" value="" />
 </div>

@@ -42,6 +42,27 @@
             <trans-unit id="message.error.csrfToken">
                 <source>Potential csrf attack detected</source>
             </trans-unit>
+            <trans-unit id="form.field.captcha.label">
+                <source>Enter the text displayed in the image</source>
+            </trans-unit>
+            <trans-unit id="form.field.captcha.placeholder">
+                <source>Captcha *</source>
+            </trans-unit>
+            <trans-unit id="form.poll.submit.name">
+                <source>Vote</source>
+            </trans-unit>
+            <trans-unit id="link.action.showresult">
+                <source>Show result</source>
+            </trans-unit>
+            <trans-unit id="link.action.detail">
+                <source>Go to voting</source>
+            </trans-unit>
+            <trans-unit id="text.result.totalvotes">
+                <source>votes in total</source>
+            </trans-unit>
+            <trans-unit id="text.result.votecount">
+                <source>%s vote(s)</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>
