@@ -68,7 +68,7 @@ return [
             ]
         ],
         'answers' => [
-            'label' => 'Answers (LLL)',
+            'label' => 'Answers', // No localization: field is not shown to user
             'config' => [
                 'readOnly' => true,
                 'type' => 'inline',

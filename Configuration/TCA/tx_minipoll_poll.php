@@ -229,7 +229,7 @@ return [
             ]
         ],
         'participations' => [
-            'label' => 'Participations',
+            'label' => 'Participations', // No localization: field is not shown to user
             'config' => [
                 'readOnly' => true,
                 'type' => 'inline',

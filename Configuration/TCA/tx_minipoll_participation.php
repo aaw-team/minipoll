@@ -16,8 +16,7 @@
 
 return [
     'ctrl' => [
-//         'label' => '',
-        'title' => 'Participation',
+        'title' => 'Participation', // No localization: table is not shown to user
         'crdate' => 'crdate',
         'hideTable' => true,
         'searchFields' => 'poll,ip,frontend_user,answers'
@@ -27,7 +26,7 @@ return [
     ],
     'columns' => [
         'poll' => [
-            'label' => 'Poll',
+            'label' => 'Poll', // No localization: field is not shown to user
             'config' => [
                 'readOnly' => true,
                 'type' => 'select',
@@ -37,7 +36,7 @@ return [
             ]
         ],
         'ip' => [
-            'label' => 'IP Address',
+            'label' => 'IP Address', // No localization: field is not shown to user
             'config' => [
                 'readOnly' => true,
                 'type' => 'input',
@@ -45,7 +44,7 @@ return [
             ]
         ],
         'frontend_user' => [
-            'label' => 'Frontend User',
+            'label' => 'Frontend User', // No localization: field is not shown to user
             'config' => [
                 'readOnly' => true,
                 'type' => 'select',
@@ -56,7 +55,7 @@ return [
             ]
         ],
         'answers' => [
-            'label' => 'Answers',
+            'label' => 'Answers', // No localization: field is not shown to user
             'config' => [
                 'readOnly' => true,
                 'type' => 'inline',

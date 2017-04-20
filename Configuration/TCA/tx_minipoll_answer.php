@@ -16,8 +16,7 @@
 
 return [
     'ctrl' => [
-//         'label' => '',
-        'title' => 'Answer',
+        'title' => 'Answer', // No localization: table is not shown to user
         'crdate' => 'crdate',
         'hideTable' => true,
         'searchFields' => 'participation,poll_option,value'
@@ -27,7 +26,7 @@ return [
     ],
     'columns' => [
         'participation' => [
-            'label' => 'Participation',
+            'label' => 'Participation', // No localization: field is not shown to user
             'config' => [
                 'readOnly' => true,
                 'type' => 'select',
@@ -37,7 +36,7 @@ return [
             ]
         ],
         'poll_option' => [
-            'label' => 'Poll option',
+            'label' => 'Poll option', // No localization: field is not shown to user
             'config' => [
                 'readOnly' => true,
                 'type' => 'select',
@@ -47,7 +46,7 @@ return [
             ]
         ],
         'value' => [
-            'label' => 'Value',
+            'label' => 'Value', // No localization: field is not shown to user
             'config' => [
                 'readOnly' => true,
                 'type' => 'text',
