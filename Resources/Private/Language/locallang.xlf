@@ -58,10 +58,19 @@
                 <source>Go to voting</source>
             </trans-unit>
             <trans-unit id="text.result.totalvotes">
-                <source>votes in total</source>
+                <source>Total: %s</source>
             </trans-unit>
-            <trans-unit id="text.result.votecount">
-                <source>%s vote(s)</source>
+            <trans-unit id="text.votecount_p">
+                <source>%s votes</source>
+            </trans-unit>
+            <trans-unit id="text.votecount_s">
+                <source>%s vote</source>
+            </trans-unit>
+            <trans-unit id="text.votepercent">
+                <source>%s%%</source>
+            </trans-unit>
+            <trans-unit id="text.participations">
+                <source>participations</source>
             </trans-unit>
         </body>
     </file>

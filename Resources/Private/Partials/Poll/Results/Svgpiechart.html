@@ -5,7 +5,7 @@
         <title>{poll.title}</title>
         <desc>Piechart results for the poll</desc>
         <f:for each="{results.slices}" as="slice">
-            <g class="slice slice{slice.id} {slice.class}" data-tooltipvalue="{f:translate(key:'text.result.votecount',arguments:{0:slice.votes})}">
+            <g class="slice slice{slice.id} {slice.class}" data-tooltipvalue="{mp:format.voteCount(value:slice.votes)}">
                 <f:switch expression="{slice.type}">
                     <f:case value="circle">
                         <circle cx="{slice.centerX}" cy="{slice.centerY}" r="{slice.radius}" fill="{slice.fill}"/>
@@ -14,7 +14,7 @@
                         <path fill="{slice.fill}" d="{slice.d}" />
                     </f:case>
                 </f:switch>
-                <text x="{slice.centerX}" y="{slice.centerY}" text-anchor="middle" transform="translate(0 5)"><f:format.number decimals="1" thousandsSeparator="'">{slice.percent}</f:format.number>%</text>
+                <text x="{slice.centerX}" y="{slice.centerY}" text-anchor="middle" transform="translate(0 5)"><mp:format.voteCount round="1" percent="1">{slice.percent}</mp:format.voteCount></text>
             </g>
         </f:for>
     </svg>

@@ -10,7 +10,10 @@
 
     <div class="tx_minipoll-footer">
         <div class="tx_minipoll-footer-text">
-            <f:format.number decimals="0" thousandsSeparator="'"><f:count subject="{poll.participations}"/></f:format.number> <f:translate key="text.result.totalvotes" />
+            <f:translate key="text.result.totalvotes" arguments="{0:'{mp:format.voteCount(poll:poll,useLabel:\'1\')}'}" />
+            <f:if condition="{poll.allowMultiple}">
+                (<f:translate key="text.participations" />: <f:format.number decimals="0" thousandsSeparator="'"><f:count subject="{poll.participations}"/></f:format.number>)
+            </f:if>
         </div>
 
         <mp:ifCanVote poll="{poll}">

@@ -76,12 +76,24 @@
                 <target>Zur Abstimmung gehen</target>
             </trans-unit>
             <trans-unit id="text.result.totalvotes">
-                <source>votes in total</source>
-                <target>Stimmen total</target>
+                <source>Total: %s</source>
+                <target>Instgesamt: %s</target>
             </trans-unit>
-            <trans-unit id="text.result.votecount">
-                <source>%s vote(s)</source>
-                <target>%s Stimme(n)</target>
+            <trans-unit id="text.votecount_p">
+                <source>%s votes</source>
+                <target>%s Stimmen</target>
+            </trans-unit>
+            <trans-unit id="text.votecount_s">
+                <source>%s vote</source>
+                <target>%s Stimme</target>
+            </trans-unit>
+            <trans-unit id="text.votepercent">
+                <source>%s%%</source>
+                <target>%s%%</target>
+            </trans-unit>
+            <trans-unit id="text.participations">
+                <source>participations</source>
+                <target>Teilnahmen</target>
             </trans-unit>
         </body>
     </file>

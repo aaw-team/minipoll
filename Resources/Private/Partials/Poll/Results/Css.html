@@ -3,15 +3,13 @@
 <div class="tx_minipoll-csschart">
     <f:for each="{results.options}" as="option">
         <div class="tx_minipoll-csschart-option {option.class}">
-            <mp:poll.option.calc pollOption="{option}" as="calc" roundPercent="2">
-                <div class="tx_minipoll-csschart-option-text">
-                    <span class="tx_minipoll-csschart-option-title">{option.title}</span>
-                    <span class="tx_minipoll-csschart-option-votes"><f:translate key="text.result.votecount" arguments="{0:calc.answers}" /></span>
-                </div>
-                <div class="tx_minipoll-csschart-option-bar" style="width:{calc.percent}%; background:{option.color};">
-                    <span class="tx_minipoll-csschart-option-percentage"><f:format.number decimals="1" thousandsSeparator="'">{calc.percent}</f:format.number>%</span>
-                </div>
-            </mp:poll.option.calc>
+            <div class="tx_minipoll-csschart-option-text">
+                <span class="tx_minipoll-csschart-option-title">{option.title}</span>
+                <span class="tx_minipoll-csschart-option-votes"><mp:format.voteCount pollOption="{option}" /></span>
+            </div>
+            <div class="tx_minipoll-csschart-option-bar" style="width:{mp:format.voteCount(pollOption:option,percent:'1',useLabel:'0')}%; background:{option.color};">
+                <span class="tx_minipoll-csschart-option-percentage"><mp:format.voteCount pollOption="{option}" percent="1" round="1" /></span>
+            </div>
         </div>
     </f:for>
 </div>
