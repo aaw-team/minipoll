@@ -265,11 +265,22 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         // Create the data
         $this->participationRepository->add($participation);
 
+        // Persist data
+        /** @var $persistenceManager \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager */
+        $persistenceManager = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class);
+        $persistenceManager->persistAll();
+
         // Add a user message!
         $this->addFlashMessage('message.success.createParticipation', '', AbstractMessage::OK);
 
         // Redirect to stats action
-        $this->redirect('showResult', null, null, ['poll' => $poll->getUid()]);
+        // cannot use $this->redirect() as $additionalGetParams must be respected
+        $additionalGetParams = $this->pollUtility->calculateAdditionalGetParams($this->settings['preserveGETVars']);
+        $uriBuilder = $this->uriBuilder->reset();
+        $uriBuilder->setCreateAbsoluteUri(true)
+                   ->setUseCacheHash(true)
+                   ->setArguments($additionalGetParams);
+        \TYPO3\CMS\Core\Utility\HttpUtility::redirect($uriBuilder->uriFor('showResult', ['poll' => $poll->getUid()]));
 
         // This should never happen..
         return 'Error: something went terribly wrong!';
