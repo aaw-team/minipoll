@@ -64,7 +64,8 @@ return [
                 'type' => 'select',
                 'foreign_table' => 'tx_minipoll_poll',
                 'minitems' => 1,
-                'maxitems' => 1
+                'maxitems' => 1,
+                'renderType' => 'selectSingle'
             ]
         ],
         'answers' => [

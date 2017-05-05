@@ -32,7 +32,8 @@ return [
                 'type' => 'select',
                 'foreign_table' => 'tx_minipoll_participation',
                 'minitems' => 1,
-                'maxitems' => 1
+                'maxitems' => 1,
+                'renderType' => 'selectSingle'
             ]
         ],
         'poll_option' => [
@@ -42,7 +43,8 @@ return [
                 'type' => 'select',
                 'foreign_table' => 'tx_minipoll_poll_option',
                 'minitems' => 1,
-                'maxitems' => 1
+                'maxitems' => 1,
+                'renderType' => 'selectSingle'
             ]
         ],
         'value' => [
