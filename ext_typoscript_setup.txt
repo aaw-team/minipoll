@@ -1,0 +1,24 @@
+/**
+ * Default plugin configuration
+ */
+plugin.tx_minipoll {
+    view {
+        layoutRootPaths.0 = EXT:minipoll/Resources/Private/Layouts
+        partialRootPaths.0 = EXT:minipoll/Resources/Private/Partials
+        templateRootPaths.0 = EXT:minipoll/Resources/Private/Templates
+    }
+}
+config.tx_extbase.persistence.classes {
+    AawTeam\Minipoll\Domain\Model\Poll {
+        mapping.tableName = tx_minipoll_poll
+    }
+    AawTeam\Minipoll\Domain\Model\PollOption {
+        mapping.tableName = tx_minipoll_poll_option
+    }
+    AawTeam\Minipoll\Domain\Model\Participation {
+        mapping.tableName = tx_minipoll_participation
+    }
+    AawTeam\Minipoll\Domain\Model\Answer {
+        mapping.tableName = tx_minipoll_answer
+    }
+}
