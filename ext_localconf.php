@@ -54,5 +54,5 @@ $iconRegistry->registerIcon('minipoll-poll-option', \TYPO3\CMS\Core\Imaging\Icon
 
 // Include autoloader fot the third-party code
 if (!\class_exists('ParagonIE\\ConstantTime\\Encoding')) {
-    require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('minipoll') . 'Resources/Private/PHP/vendor/autoload.php';
+    require_once 'phar://' . \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName('EXT:minipoll/Resources/Private/PHP/constant_time_encoding.phar/vendor/autoload.php');
 }

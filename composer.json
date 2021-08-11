@@ -2,9 +2,9 @@
     "name": "aaw-team/minipoll",
     "type": "typo3-cms-extension",
     "description": "Minipoll: a simple, lightweight poll plugin for TYPO3",
+    "keywords": ["poll", "typo3"],
     "homepage": "https://github.com/aaw-team/minipoll",
-    "version": "1.0.0-dev",
-    "license": "GPL-2.0+",
+    "license": "GPL-2.0-or-later",
     "authors": [
         {
             "name": "Agentur am Wasser Team",
@@ -13,21 +13,43 @@
             "role": "Developer"
         }
     ],
-    "keywords": [
-        "TYPO3",
-        "Poll"
-    ],
     "require": {
-        "typo3/cms": "^7.6|^8",
-        "paragonie/constant_time_encoding": "^1|^2"
+        "php": ">=7.2",
+        "typo3/cms-core": "^10.4.19",
+        "paragonie/constant_time_encoding": "^2.4"
+    },
+    "require-dev": {
+        "nimut/testing-framework": "^5.0"
     },
     "replace": {
-        "minipoll": "self.version",
         "typo3-ter/minipoll": "self.version"
     },
     "autoload": {
         "psr-4": {
             "AawTeam\\Minipoll\\": "Classes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AawTeam\\Minipoll\\Tests\\": "Tests/"
+        }
+    },
+    "support": {
+        "source": "https://github.com/aaw-team/minipoll",
+        "issues": "https://github.com/aaw-team/minipoll/issues"
+    },
+    "config": {
+        "vendor-dir": ".Build/vendor",
+        "bin-dir": ".Build/bin"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        },
+        "typo3/cms": {
+            "app-dir": ".Build",
+            "web-dir": ".Build/public",
+            "extension-key": "minipoll"
         }
     }
 }
