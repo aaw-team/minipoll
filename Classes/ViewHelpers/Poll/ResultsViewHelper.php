@@ -19,11 +19,12 @@ namespace AawTeam\Minipoll\ViewHelpers\Poll;
 use AawTeam\Minipoll\Domain\Model\Poll;
 use AawTeam\Minipoll\ResultRenderer\Factory as ResultRendererFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * ResultsViewHelper
  */
-class ResultsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class ResultsViewHelper extends AbstractViewHelper
 {
     /**
      * @var bool

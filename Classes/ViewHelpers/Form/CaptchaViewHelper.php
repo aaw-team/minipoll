@@ -19,11 +19,12 @@ namespace AawTeam\Minipoll\ViewHelpers\Form;
 use AawTeam\Minipoll\CaptchaProvider\Factory as CaptchaProviderFactory;
 use AawTeam\Minipoll\Domain\Model\Poll;
 use AawTeam\Minipoll\Utility\PollUtility;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * CaptchaViewHelper
  */
-class CaptchaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class CaptchaViewHelper extends AbstractViewHelper
 {
     /**
      * @var boolean

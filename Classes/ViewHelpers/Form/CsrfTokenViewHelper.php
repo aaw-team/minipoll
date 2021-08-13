@@ -18,11 +18,12 @@ namespace AawTeam\Minipoll\ViewHelpers\Form;
 
 use AawTeam\Minipoll\Domain\Model\Poll;
 use AawTeam\Minipoll\Utility\FormProtectionUtility;
+use TYPO3\CMS\Fluid\ViewHelpers\Form\AbstractFormFieldViewHelper;
 
 /**
  * CsrfTokenViewHelper
  */
-class CsrfTokenViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\AbstractFormFieldViewHelper
+class CsrfTokenViewHelper extends AbstractFormFieldViewHelper
 {
     /**
      * @var FormProtectionUtility

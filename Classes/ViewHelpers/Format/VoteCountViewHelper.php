@@ -21,11 +21,12 @@ use AawTeam\Minipoll\Domain\Model\PollOption;
 use AawTeam\Minipoll\ViewModel\PollOptionViewModel;
 use AawTeam\Minipoll\Utility\LocalizationUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * VoteCountViewHelper
  */
-class VoteCountViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class VoteCountViewHelper extends AbstractViewHelper
 {
     /**
      * {@inheritDoc}

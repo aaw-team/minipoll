@@ -20,11 +20,13 @@ use AawTeam\Minipoll\Domain\Model\Poll;
 use AawTeam\Minipoll\Utility\PollUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractConditionViewHelper;
 
 /**
  * IfCanDisplayResultsViewHelper
  */
-class IfCanDisplayResultsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper
+class IfCanDisplayResultsViewHelper extends AbstractConditionViewHelper
 {
     /**
      * Initializes the "then" and "else" arguments
@@ -35,11 +37,11 @@ class IfCanDisplayResultsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abs
     }
 
     /**
-     * @param array|null $arguments
-     * @throws \InvalidArgumentException
+     * @param array $arguments
+     * @param RenderingContextInterface $renderingContext
      * @return boolean
      */
-    protected static function evaluateCondition($arguments = null)
+    public static function verdict(array $arguments, RenderingContextInterface $renderingContext)
     {
         /** @var ObjectManager $objectManager */
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
