@@ -157,7 +157,7 @@ abstract class AbstractResultRenderer implements ResultRendererInterface
             throw new \InvalidArgumentException('$itemCount must be int');
         }
 
-        $splitConf = $this->getTyposcriptFrontendController()->tmpl->splitConfArray(['list' => $list], $itemCount);
+        $splitConf = $this->getTyposcriptService()->explodeConfigurationForOptionSplit(['list' => $list], $itemCount);
 
         $return = [];
         foreach ($splitConf as $num => $value) {
