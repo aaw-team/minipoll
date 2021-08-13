@@ -1,3 +1,7 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:mp="http://typo3.org/ns/AawTeam/Minipoll/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
 <div>
     <f:format.raw>{captcha.image}</f:format.raw>
 </div>
@@ -5,3 +9,5 @@
     <label for="tx_minipoll-captcha-{poll.uid}"><f:translate key="form.field.captcha.label" /></label>
     <f:form.textfield placeholder="{f:translate(key:'form.field.captcha.placeholder')}" id="tx_minipoll-captcha-{poll.uid}" name="captcha" value="" />
 </div>
+
+</html>

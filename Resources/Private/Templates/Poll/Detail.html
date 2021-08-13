@@ -1,6 +1,12 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:mp="http://typo3.org/ns/AawTeam/Minipoll/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
 <div class="tx_minipoll">
     <f:flashMessages />
     <f:if condition="{poll}">
         <f:render partial="Poll.html" arguments="{_all}" />
     </f:if>
 </div>
+
+</html>

@@ -1,4 +1,8 @@
-{namespace freeCap=SJBR\SrFreecap\ViewHelpers}
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:mp="http://typo3.org/ns/AawTeam/Minipoll/ViewHelpers"
+      xmlns:freeCap="http://typo3.org/ns/SJBR/SrFreecap/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
 <div>
     <freeCap:image />
     <freeCap:audio />
@@ -7,3 +11,5 @@
     <label for="tx_minipoll-captcha-{poll.uid}">{freeCap:translate(key: 'notice')} {freeCap:translate(key: 'explain')}</label>
     <f:form.textfield placeholder="{f:translate(key:'form.field.captcha.placeholder')}" id="tx_minipoll-captcha-{poll.uid}" name="captcha" value="" />
 </div>
+
+</html>

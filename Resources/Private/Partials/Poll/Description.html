@@ -1,5 +1,11 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:mp="http://typo3.org/ns/AawTeam/Minipoll/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
 <f:if condition="{poll.description}!=''">
     <div class="tx_minipoll-description">
         <f:format.html parseFuncTSPath="lib.parseFunc_RTE">{poll.description}</f:format.html>
     </div>
 </f:if>
+
+</html>

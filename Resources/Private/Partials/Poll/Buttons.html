@@ -1,4 +1,7 @@
-{namespace mp=AawTeam\Minipoll\ViewHelpers}
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:mp="http://typo3.org/ns/AawTeam/Minipoll/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
 <mp:ifCanVote poll="{poll}">
     <div class="tx_minipoll-captcha">
         <mp:form.captcha poll="{poll}">
@@ -13,3 +16,5 @@
         <f:translate key="link.action.showresult" />
     </f:link.action>
 </mp:ifCanDisplayResults>
+
+</html>
