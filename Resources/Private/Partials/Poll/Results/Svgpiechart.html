@@ -10,9 +10,12 @@
                     <f:case value="circle">
                         <circle cx="{slice.centerX}" cy="{slice.centerY}" r="{slice.radius}" fill="{slice.fill}"/>
                     </f:case>
-                    <f:case value="path" default="TRUE">
+                    <f:case value="path">
                         <path fill="{slice.fill}" d="{slice.d}" />
                     </f:case>
+                    <f:f:defaultCase>
+                        <path fill="{slice.fill}" d="{slice.d}" />
+                    </f:f:defaultCase>
                 </f:switch>
                 <text x="{slice.centerX}" y="{slice.centerY}" text-anchor="middle" transform="translate(0 5)"><mp:format.voteCount round="1" percent="1">{slice.percent}</mp:format.voteCount></text>
             </g>
