@@ -20,6 +20,8 @@ use AawTeam\Minipoll\Domain\Model\Participation;
 use AawTeam\Minipoll\Domain\Model\Poll;
 use AawTeam\Minipoll\DuplicationCheck\Factory as DuplicationCheckFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+
 
 /**
  * PollUtility
@@ -27,10 +29,17 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class PollUtility
 {
     /**
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-     * @inject
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
+
+    /**
+     * @param ObjectManagerInterface $objectManager
+     */
+    public function injectObjectManager(ObjectManagerInterface $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
 
     /**
      * @param Poll $poll

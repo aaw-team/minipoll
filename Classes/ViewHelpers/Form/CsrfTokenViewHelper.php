@@ -17,6 +17,7 @@ namespace AawTeam\Minipoll\ViewHelpers\Form;
  */
 
 use AawTeam\Minipoll\Domain\Model\Poll;
+use AawTeam\Minipoll\Utility\FormProtectionUtility;
 
 /**
  * CsrfTokenViewHelper
@@ -24,10 +25,17 @@ use AawTeam\Minipoll\Domain\Model\Poll;
 class CsrfTokenViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\AbstractFormFieldViewHelper
 {
     /**
-     * @var \AawTeam\Minipoll\Utility\FormProtectionUtility
-     * @inject
+     * @var FormProtectionUtility
      */
     protected $formProtectionUtility;
+
+    /**
+     * @param FormProtectionUtility $formProtectionUtility
+     */
+    public function injectFormProtectionUtility(FormProtectionUtility $formProtectionUtility)
+    {
+        $this->formProtectionUtility = $formProtectionUtility;
+    }
 
     /**
      * @var string

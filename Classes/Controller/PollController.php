@@ -19,11 +19,13 @@ namespace AawTeam\Minipoll\Controller;
 use AawTeam\Minipoll\CaptchaProvider\Factory as CaptchaProviderFactory;
 use AawTeam\Minipoll\Domain\Model\Answer;
 use AawTeam\Minipoll\Domain\Model\Participation;
-use AawTeam\Minipoll\Domain\Model\Poll;
 use AawTeam\Minipoll\Domain\Model\PollOption;
+use AawTeam\Minipoll\Domain\Repository\ParticipationRepository;
 use AawTeam\Minipoll\Domain\Repository\PollRepository;
 use AawTeam\Minipoll\Registry;
+use AawTeam\Minipoll\Utility\FormProtectionUtility;
 use AawTeam\Minipoll\Utility\LocalizationUtility;
+use AawTeam\Minipoll\Utility\PollUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -33,28 +35,56 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
     /**
-     * @var \AawTeam\Minipoll\Domain\Repository\PollRepository
-     * @inject
+     * @var PollRepository
      */
     protected $pollRepository;
 
     /**
-     * @var \AawTeam\Minipoll\Domain\Repository\ParticipationRepository
-     * @inject
+     * @var ParticipationRepository
      */
     protected $participationRepository;
 
     /**
-     * @var \AawTeam\Minipoll\Utility\PollUtility
-     * @inject
+     * @var PollUtility
      */
     protected $pollUtility;
 
     /**
-     * @var \AawTeam\Minipoll\Utility\FormProtectionUtility
-     * @inject
+     * @var FormProtectionUtility
      */
     protected $formProtectionUtility;
+
+    /**
+     * @param PollRepository $pollRepository
+     */
+    public function injectPollRepository(PollRepository $pollRepository)
+    {
+        $this->pollRepository = $pollRepository;
+    }
+
+    /**
+     * @param ParticipationRepository $participationRepository
+     */
+    public function injectParticipationRepository(ParticipationRepository $participationRepository)
+    {
+        $this->participationRepository = $participationRepository;
+    }
+
+    /**
+     * @param PollUtility $pollUtility
+     */
+    public function injectPollUtility(PollUtility $pollUtility)
+    {
+        $this->pollUtility = $pollUtility;
+    }
+
+    /**
+     * @param FormProtectionUtility $formProtectionUtility
+     */
+    public function injectFormProtectionUtility(FormProtectionUtility $formProtectionUtility)
+    {
+        $this->formProtectionUtility = $formProtectionUtility;
+    }
 
     /**
      * Here we get when the plugin is included via typoscript (never via flexforms)

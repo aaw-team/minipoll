@@ -18,6 +18,7 @@ namespace AawTeam\Minipoll\DuplicationCheck;
 
 use AawTeam\Minipoll\Domain\Model\Participation;
 use AawTeam\Minipoll\Domain\Model\Poll;
+use AawTeam\Minipoll\Domain\Repository\ParticipationRepository;
 
 /**
  * FrontendUser duplication check
@@ -25,10 +26,17 @@ use AawTeam\Minipoll\Domain\Model\Poll;
 class FrontendUser implements DuplicationCheckInterface
 {
     /**
-     * @var \AawTeam\Minipoll\Domain\Repository\ParticipationRepository
-     * @inject
+     * @var ParticipationRepository
      */
     protected $participationRepository;
+
+    /**
+     * @param ParticipationRepository $participationRepository
+     */
+    public function injectParticipationRepository(ParticipationRepository $participationRepository)
+    {
+        $this->participationRepository = $participationRepository;
+    }
 
     /**
      * @param Poll $poll

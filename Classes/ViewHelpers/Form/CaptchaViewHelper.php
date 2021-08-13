@@ -18,6 +18,7 @@ namespace AawTeam\Minipoll\ViewHelpers\Form;
 
 use AawTeam\Minipoll\CaptchaProvider\Factory as CaptchaProviderFactory;
 use AawTeam\Minipoll\Domain\Model\Poll;
+use AawTeam\Minipoll\Utility\PollUtility;
 
 /**
  * CaptchaViewHelper
@@ -30,10 +31,17 @@ class CaptchaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHel
     protected $escapeOutput = false;
 
     /**
-     * @var \AawTeam\Minipoll\Utility\PollUtility
-     * @inject
+     * @var PollUtility
      */
     protected $pollUtility;
+
+    /**
+     * @param PollUtility $pollUtility
+     */
+    public function injectPollUtility(PollUtility $pollUtility)
+    {
+        $this->pollUtility = $pollUtility;
+    }
 
     /**
      * @return void

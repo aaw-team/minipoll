@@ -18,6 +18,7 @@ namespace AawTeam\Minipoll\DuplicationCheck;
 
 use AawTeam\Minipoll\Domain\Model\Participation;
 use AawTeam\Minipoll\Domain\Model\Poll;
+use AawTeam\Minipoll\Domain\Repository\ParticipationRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -26,10 +27,17 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class Ip implements DuplicationCheckInterface
 {
     /**
-     * @var \AawTeam\Minipoll\Domain\Repository\ParticipationRepository
-     * @inject
+     * @var ParticipationRepository
      */
     protected $participationRepository;
+
+    /**
+     * @param ParticipationRepository $participationRepository
+     */
+    public function injectParticipationRepository(ParticipationRepository $participationRepository)
+    {
+        $this->participationRepository = $participationRepository;
+    }
 
     /**
      * @param Poll $poll

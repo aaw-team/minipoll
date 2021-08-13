@@ -17,6 +17,7 @@ namespace AawTeam\Minipoll\DuplicationCheck;
  */
 
 use AawTeam\Minipoll\Domain\Model\Poll;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 /**
  * DuplicationCheck factory
@@ -34,10 +35,17 @@ class Factory
     ];
 
     /**
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-     * @inject
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
+
+    /**
+     * @param ObjectManagerInterface $objectManager
+     */
+    public function injectObjectManager(ObjectManagerInterface $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
 
     /**
      * @param Poll $poll
