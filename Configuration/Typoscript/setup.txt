@@ -24,6 +24,21 @@ plugin.tx_minipoll {
         }
     }
 
+    view {
+        layoutRootPaths {
+            0 = EXT:minipoll/Resources/Private/Layouts
+            10 = {$plugin.tx_minipoll.view.layoutRootPath}
+        }
+        partialRootPaths {
+            0 = EXT:minipoll/Resources/Private/Partials
+            10 = {$plugin.tx_minipoll.view.partialRootPath}
+        }
+        templateRootPaths {
+            0 = EXT:minipoll/Resources/Private/Templates
+            10 = {$plugin.tx_minipoll.view.templateRootPath}
+        }
+    }
+
     _CSS_DEFAULT_STYLE = 1
     _CSS_DEFAULT_STYLE.cObject = FILE
     _CSS_DEFAULT_STYLE.cObject.file = EXT:minipoll/Resources/Public/Css/CssDefaultStyle.css
