@@ -14,17 +14,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-$labels = [
-    'sheet.general' => 'LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general',
-    'sheet.access' => 'LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access',
-];
-$renderTypeDatetime = 'inputDateTime';
-if (\version_compare(TYPO3_version, '8', '<')) {
-    $labels['sheet.general'] = 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.sheet.general';
-    $labels['sheet.access'] = 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access';
-    $renderTypeDatetime = '';
-}
-
 return [
     'ctrl' => [
         'label' => 'title',
@@ -147,7 +136,7 @@ return [
             'displayCond' => 'FIELD:status:=:' . \AawTeam\Minipoll\Domain\Model\Poll::STATUS_BYDATE,
             'config' => [
                 'type' => 'input',
-                'renderType' => $renderTypeDatetime,
+                'renderType' => 'inputDateTime',
                 'eval' => 'datetime',
                 'size' => '13',
                 'default' => 0
@@ -159,7 +148,7 @@ return [
             'displayCond' => 'FIELD:status:=:' . \AawTeam\Minipoll\Domain\Model\Poll::STATUS_BYDATE,
             'config' => [
                 'type' => 'input',
-                'renderType' => $renderTypeDatetime,
+                'renderType' => 'inputDateTime',
                 'eval' => 'datetime',
                 'size' => '13',
                 'default' => 0
@@ -241,7 +230,7 @@ return [
     'types' => [
         '1' => [
             'showitem' => '
-                --div--;' . $labels['sheet.general'] . ',
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
                     title,
                     description,
                 --div--;LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.sheet.options,
@@ -250,19 +239,16 @@ return [
                     --palette--;LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.palette.status;status,
                     --palette--;LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.palette.display;display,
                     --palette--;LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.palette.settings;settings,
-                --div--;' . $labels['sheet.access'] . ',
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
                     --palette--;;hidden,
                     --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,
             ',
             'columnsOverrides' => [
-                'description' => call_user_func(function(){
-                    if (\version_compare(TYPO3_version, '8', '<')) {
-                        return ['defaultExtras' => 'richtext:rte_transform[mode=ts_css]'];
-                    }
-                    return ['config' => [
+                'description' => [
+                    'config' => [
                         'enableRichtext' => true,
-                    ]];
-                }),
+                    ],
+                ],
             ]
         ]
     ],

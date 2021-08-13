@@ -14,15 +14,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-$labels = [
-    'sheet.general' => 'LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general',
-    'sheet.access' => 'LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access',
-];
-if (\version_compare(TYPO3_version, '8', '<')) {
-    $labels['sheet.general'] = 'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.sheet.general';
-    $labels['sheet.access'] = 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access';
-}
-
 return [
     'ctrl' => [
         'label' => 'title',
@@ -81,9 +72,9 @@ return [
     'types' => [
         '1' => [
             'showitem' => '
-                --div--;' . $labels['sheet.general'] . ',
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
                     title,poll,
-                --div--;' . $labels['sheet.access'] . ',
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
                     --palette--;;hidden,
             '
         ]
