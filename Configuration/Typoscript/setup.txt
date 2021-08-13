@@ -38,8 +38,13 @@ plugin.tx_minipoll {
             10 = {$plugin.tx_minipoll.view.templateRootPath}
         }
     }
-
-    _CSS_DEFAULT_STYLE = 1
-    _CSS_DEFAULT_STYLE.cObject = FILE
-    _CSS_DEFAULT_STYLE.cObject.file = EXT:minipoll/Resources/Public/Css/CssDefaultStyle.css
 }
+
+/**
+ * Import the contents of the css file as default css string
+ */
+plugin.tx_minipoll._CSS_DEFAULT_STYLE (
+
+@import 'EXT:minipoll/Resources/Public/Css/CssDefaultStyle.css'
+
+)
