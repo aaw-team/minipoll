@@ -17,10 +17,10 @@
 defined ('TYPO3_MODE') or die ('Access denied.');
 
 // Configure plugin
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin('AawTeam.Minipoll', 'Poll', [
-    'Poll' => 'index,list,detail,vote,showResult'
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin('Minipoll', 'Poll', [
+    \AawTeam\Minipoll\Controller\PollController::class => 'index,list,detail,vote,showResult'
 ], [
-    'Poll' => 'vote'
+    \AawTeam\Minipoll\Controller\PollController::class => 'vote'
 ]);
 
 // Add the plugin to new content element wizard
