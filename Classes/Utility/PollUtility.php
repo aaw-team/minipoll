@@ -19,8 +19,10 @@ namespace AawTeam\Minipoll\Utility;
 use AawTeam\Minipoll\Domain\Model\Participation;
 use AawTeam\Minipoll\Domain\Model\Poll;
 use AawTeam\Minipoll\DuplicationCheck\Factory as DuplicationCheckFactory;
+use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 
 /**
@@ -123,5 +125,42 @@ class PollUtility
             return null;
         }
         return $alias;
+    }
+
+    /**
+     * @param Poll $poll
+     */
+    public function addPollToPageCache(Poll $poll): void
+    {
+        if ($typoScriptFrontendController = $this->getTypoScriptFrontendController()) {
+            $typoScriptFrontendController->addCacheTags([$this->poll2PageCacheTag($poll)]);
+        }
+    }
+
+    /**
+     * @param Poll $poll
+     */
+    public function clearPageCacheByPoll(Poll $poll): void
+    {
+        GeneralUtility::makeInstance(CacheManager::class)->getCache('pages')->flushByTag(
+            $this->poll2PageCacheTag($poll)
+        );
+    }
+
+    /**
+     * @param Poll $poll
+     * @return string
+     */
+    protected function poll2PageCacheTag(Poll $poll): string
+    {
+        return 'minipoll_' . $poll->getUid();
+    }
+
+    /**
+     * @return TypoScriptFrontendController|null
+     */
+    protected function getTypoScriptFrontendController(): ?TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

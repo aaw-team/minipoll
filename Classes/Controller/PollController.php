@@ -299,6 +299,9 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $persistenceManager = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class);
         $persistenceManager->persistAll();
 
+        // Flush cache
+        $this->pollUtility->clearPageCacheByPoll($poll);
+
         // Add a user message!
         $this->addFlashMessage('message.success.createParticipation', '', AbstractMessage::OK);
 

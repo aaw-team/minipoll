@@ -18,14 +18,14 @@ defined ('TYPO3_MODE') or die ('Access denied.');
 
 // Configure plugin
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin('Minipoll', 'Poll', [
-    \AawTeam\Minipoll\Controller\PollController::class => 'list,detail,vote,showResult'
+    \AawTeam\Minipoll\Controller\PollController::class => 'list,detail,vote,showResult,displayMessage'
 ], [
-    \AawTeam\Minipoll\Controller\PollController::class => 'vote'
+    \AawTeam\Minipoll\Controller\PollController::class => 'vote,displayMessage'
 ]);
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin('Minipoll', 'PollDetail', [
-    \AawTeam\Minipoll\Controller\PollController::class => 'detail,vote,showResult'
+    \AawTeam\Minipoll\Controller\PollController::class => 'detail,vote,showResult,displayMessage'
 ], [
-    \AawTeam\Minipoll\Controller\PollController::class => 'vote'
+    \AawTeam\Minipoll\Controller\PollController::class => 'vote,displayMessage'
 ]);
 
 // Add the plugin to new content element wizard
@@ -52,6 +52,15 @@ mod.wizards.newContentElement.wizardItems.plugins {
         }
     }
 }');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup('
+plugin.tx_minipoll.settings.addPageCacheTags = TEXT
+plugin.tx_minipoll.settings.addPageCacheTags {
+    stdWrap.addPageCacheTags {
+        field = pollUid
+        wrap = poll_|
+    }
+}
+');
 
 // Register icons
 /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
