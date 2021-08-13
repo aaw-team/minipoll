@@ -19,6 +19,7 @@ namespace AawTeam\Minipoll\ResultRenderer;
 use AawTeam\Minipoll\Domain\Model\Poll;
 use AawTeam\Minipoll\Domain\Model\PollOption;
 use AawTeam\Minipoll\ViewModel\PollOptionViewModel;
+use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -188,10 +189,10 @@ abstract class AbstractResultRenderer implements ResultRendererInterface
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Service\TypoScriptService
+     * @return TypoScriptService
      */
     protected function getTyposcriptService()
     {
-        return GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Service\TypoScriptService::class);
+        return GeneralUtility::makeInstance(TypoScriptService::class);
     }
 }

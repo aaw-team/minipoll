@@ -27,6 +27,7 @@ use AawTeam\Minipoll\Utility\FormProtectionUtility;
 use AawTeam\Minipoll\Utility\LocalizationUtility;
 use AawTeam\Minipoll\Utility\PollUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -405,8 +406,8 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $settings = $frameworkConfiguration['settings'];
         $typoscriptConfiguration = \array_diff_key($frameworkConfiguration, \array_flip(['mvc', 'persistence', 'features', 'userFunc', 'extensionName', 'pluginName', 'vendorName', 'view', 'controllerConfiguration', 'settings']));
 
-        /** @var \TYPO3\CMS\Extbase\Service\TypoScriptService $typoscriptService */
-        $typoscriptService = $this->objectManager->get(\TYPO3\CMS\Extbase\Service\TypoScriptService::class);
+        /** @var TypoScriptService $typoscriptService */
+        $typoscriptService = $this->objectManager->get(TypoScriptService::class);
         $typoscriptConfiguration = $typoscriptService->convertPlainArrayToTypoScriptArray($typoscriptConfiguration);
         $typoscriptConfiguration['settings'] = $typoscriptService->convertPlainArrayToTypoScriptArray($settings);
         return $typoscriptConfiguration;
