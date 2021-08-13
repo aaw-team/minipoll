@@ -403,7 +403,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     protected function getTyposcriptConfiguration()
     {
         $frameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
-        $settings = $frameworkConfiguration['settings'];
+        $settings = is_array($frameworkConfiguration['settings']) ? $frameworkConfiguration['settings'] : [];
         $typoscriptConfiguration = \array_diff_key($frameworkConfiguration, \array_flip(['mvc', 'persistence', 'features', 'userFunc', 'extensionName', 'pluginName', 'vendorName', 'view', 'controllerConfiguration', 'settings']));
 
         /** @var TypoScriptService $typoscriptService */
