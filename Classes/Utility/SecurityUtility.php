@@ -113,20 +113,10 @@ final class SecurityUtility
 
     /**
      * @param int $length
-     * @throws \InvalidArgumentException
      * @return string
      */
     public static function generateRandomBytes($length)
     {
-        if (!\is_int($length) || $length < 1) {
-            throw new \InvalidArgumentException('$input must be integer greater than zero');
-        }
-        if (\version_compare(TYPO3_version, '8', '<')) {
-            if (\version_compare(PHP_VERSION, '7', '<')) {
-                return GeneralUtility::generateRandomBytes($length);
-            }
-            return \random_bytes($length);
-        }
         return GeneralUtility::makeInstance(Random::class)->generateRandomBytes($length);
     }
 }
