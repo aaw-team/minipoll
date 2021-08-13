@@ -22,12 +22,12 @@ namespace AawTeam\Minipoll\Domain\Model;
 class Answer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
     /**
-     * @var \AawTeam\Minipoll\Domain\Model\Participation
+     * @var Participation
      */
     protected $participation;
 
     /**
-     * @var \AawTeam\Minipoll\Domain\Model\PollOption
+     * @var PollOption
      */
     protected $pollOption;
 
@@ -37,7 +37,7 @@ class Answer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $value;
 
     /**
-     * @param \AawTeam\Minipoll\Domain\Model\Participation $participation
+     * @param Participation $participation
      */
     public function setParticipation(Participation $participation)
     {
@@ -45,7 +45,7 @@ class Answer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return \AawTeam\Minipoll\Domain\Model\Participation
+     * @return Participation
      */
     public function getParticipation()
     {
@@ -53,7 +53,7 @@ class Answer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @param \AawTeam\Minipoll\Domain\Model\PollOption $pollOption
+     * @param PollOption $pollOption
      */
     public function setPollOption(PollOption $pollOption)
     {
@@ -61,7 +61,7 @@ class Answer extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return \AawTeam\Minipoll\Domain\Model\PollOption
+     * @return PollOption
      */
     public function getPollOption()
     {

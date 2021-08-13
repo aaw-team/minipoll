@@ -16,13 +16,16 @@ namespace AawTeam\Minipoll\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+
 /**
  * Participation model
  */
 class Participation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
     /**
-     * @var \AawTeam\Minipoll\Domain\Model\Poll
+     * @var Poll
      */
     protected $poll;
 
@@ -32,17 +35,17 @@ class Participation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $ip;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+     * @var FrontendUser
      */
     protected $frontendUser;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<AawTeam\Minipoll\Domain\Model\Answer>
+     * @var ObjectStorage<Answer>
      */
     protected $answers;
 
     /**
-     * @param \AawTeam\Minipoll\Domain\Model\Poll $poll
+     * @param Poll $poll
      */
     public function setPoll(Poll $poll)
     {
@@ -50,7 +53,7 @@ class Participation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return \AawTeam\Minipoll\Domain\Model\Poll
+     * @return Poll
      */
     public function getPoll()
     {
@@ -74,15 +77,15 @@ class Participation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @param \TYPO3\CMS\Extbase\Domain\Model\FrontendUser $frontendUser
+     * @param FrontendUser $frontendUser
      */
-    public function setFrontendUser(\TYPO3\CMS\Extbase\Domain\Model\FrontendUser $frontendUser)
+    public function setFrontendUser(FrontendUser $frontendUser)
     {
         $this->frontendUser = $frontendUser;
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+     * @return FrontendUser
      */
     public function getFrontendUser()
     {
@@ -90,15 +93,15 @@ class Participation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $options
+     * @param ObjectStorage $options
      */
-    public function setAnswers(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $answers)
+    public function setAnswers(ObjectStorage $answers)
     {
         $this->answers = $answers;
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<AawTeam\Minipoll\Domain\Model\Answer>
+     * @return ObjectStorage<Answer>
      */
     public function getAnswers()
     {
@@ -106,7 +109,7 @@ class Participation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @param \AawTeam\Minipoll\Domain\Model\Answer $answers
+     * @param Answer $answers
      */
     public function addAnswer(Answer $answers)
     {
@@ -114,7 +117,7 @@ class Participation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @param \AawTeam\Minipoll\Domain\Model\Answer $answers
+     * @param Answer $answers
      */
     public function removeAnswer(Answer $answers)
     {

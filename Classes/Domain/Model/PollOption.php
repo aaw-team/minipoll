@@ -16,6 +16,8 @@ namespace AawTeam\Minipoll\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+
 /**
  * PollOption model
  */
@@ -27,12 +29,12 @@ class PollOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $title;
 
     /**
-     * @var \AawTeam\Minipoll\Domain\Model\Poll
+     * @var Poll
      */
     protected $poll;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<AawTeam\Minipoll\Domain\Model\Answer>
+     * @var ObjectStorage<Answer>
      */
     protected $answers;
 
@@ -53,7 +55,7 @@ class PollOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @param \AawTeam\Minipoll\Domain\Model\Poll $poll
+     * @param Poll $poll
      */
     public function setPoll(Poll $poll)
     {
@@ -61,7 +63,7 @@ class PollOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return \AawTeam\Minipoll\Domain\Model\Poll
+     * @return Poll
      */
     public function getPoll()
     {
@@ -69,15 +71,15 @@ class PollOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $options
+     * @param ObjectStorage $options
      */
-    public function setAnswers(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $answers)
+    public function setAnswers(ObjectStorage $answers)
     {
         $this->answers = $answers;
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<AawTeam\Minipoll\Domain\Model\Answer>
+     * @return ObjectStorage<Answer>
      */
     public function getAnswers()
     {
@@ -85,7 +87,7 @@ class PollOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @param \AawTeam\Minipoll\Domain\Model\Answer $answer
+     * @param Answer $answer
      */
     public function addAnswer(Answer $answer)
     {
@@ -93,7 +95,7 @@ class PollOption extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @param \AawTeam\Minipoll\Domain\Model\Answer $answer
+     * @param Answer $answer
      */
     public function removeAnswer(Answer $answer)
     {

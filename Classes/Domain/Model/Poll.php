@@ -16,6 +16,8 @@ namespace AawTeam\Minipoll\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+
 /**
  * Poll model
  */
@@ -80,12 +82,12 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $displayResults;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<AawTeam\Minipoll\Domain\Model\PollOption>
+     * @var ObjectStorage<PollOption>
      */
     protected $options;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<AawTeam\Minipoll\Domain\Model\Participation>
+     * @var ObjectStorage<Participation>
      */
     protected $participations;
 
@@ -234,15 +236,15 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $options
+     * @param ObjectStorage $options
      */
-    public function setOptions(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $options)
+    public function setOptions(ObjectStorage $options)
     {
         $this->options = $options;
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<AawTeam\Minipoll\Domain\Model\PollOption>
+     * @return ObjectStorage<PollOption>
      */
     public function getOptions()
     {
@@ -266,15 +268,15 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $participations
+     * @param ObjectStorage $participations
      */
-    public function setParticipations(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $participations)
+    public function setParticipations(ObjectStorage $participations)
     {
         $this->participations = $participations;
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<AawTeam\Minipoll\Domain\Model\Participation>
+     * @return ObjectStorage<Participation>
      */
     public function getParticipations()
     {
