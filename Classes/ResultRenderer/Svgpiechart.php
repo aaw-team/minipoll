@@ -19,6 +19,7 @@ namespace AawTeam\Minipoll\ResultRenderer;
 use AawTeam\Minipoll\Domain\Model\PollOption;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
 /**
  * Svgpiechart ResultRenderer
@@ -236,11 +237,14 @@ class Svgpiechart extends AbstractResultRenderer
      */
     protected function registerJavascripts()
     {
+        /** @var FilePathSanitizer $filePathSanitizer */
+        $filePathSanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
+
         if ($this->configuration['includeTooltipJs'] && $this->configuration['includeJquery']) {
-            $this->getPageRenderer()->addJsFooterLibrary('minipoll-jquery', $this->getTyposcriptFrontendController()->tmpl->getFileName('EXT:minipoll/Resources/Public/Js/jquery-3.2.1.min.js'));
+            $this->getPageRenderer()->addJsFooterLibrary('minipoll-jquery', $filePathSanitizer->sanitize('EXT:minipoll/Resources/Public/Js/jquery-3.2.1.min.js'));
         }
         if ($this->configuration['includeTooltipJs']) {
-            $this->getPageRenderer()->addJsFooterFile($this->getTyposcriptFrontendController()->tmpl->getFileName('EXT:minipoll/Resources/Public/Js/svgpiechart.js'), 'text/javascript', false);
+            $this->getPageRenderer()->addJsFooterFile($filePathSanitizer->sanitize('EXT:minipoll/Resources/Public/Js/svgpiechart.js'), 'text/javascript', false);
             $this->getPageRenderer()->addJsFooterInlineCode(static::class, '$(".tx_minipoll-svgpiechart").svgpiechart();', false);
         }
     }
