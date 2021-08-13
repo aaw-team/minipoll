@@ -19,7 +19,7 @@
         </div>
 
         <mp:ifCanVote poll="{poll}">
-            <f:link.action action="detail" arguments="{poll:poll.uid}" additionalParams="{additionalGetParams}" class="tx_minipoll-button">
+            <f:link.action action="detail" arguments="{poll:poll.uid}" addQueryString="1" class="tx_minipoll-button">
                 <f:translate key="link.action.detail" />
             </f:link.action>
         </mp:ifCanVote>

@@ -12,7 +12,7 @@
 
 <f:render partial="Poll/Title" arguments="{_all}" />
 <f:render partial="Poll/Description" arguments="{_all}" />
-<f:form action="vote" arguments="{poll:poll.uid}" additionalParams="{additionalGetParams}">
+<f:form action="vote" arguments="{poll:poll.uid}" addQueryString="1">
     <f:comment>These two input fields are part of the honeypot check, do not remove!</f:comment>
     <div class="tx_minipoll_hp">
         <f:form.hidden name="hp[one]" value="" />

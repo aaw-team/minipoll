@@ -140,7 +140,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                 Registry::addDisplayedPoll($poll->getUid());
             }
         }
-        $this->view->assign('additionalGetParams', $this->pollUtility->calculateAdditionalGetParams($this->settings['preserveGETVars']));
         $this->view->assign('polls', $polls);
     }
 
@@ -166,7 +165,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             }
             Registry::addDisplayedPoll($poll->getUid());
         }
-        $this->view->assign('additionalGetParams', $this->pollUtility->calculateAdditionalGetParams($this->settings['preserveGETVars']));
         $this->view->assign('poll', $poll);
     }
 
@@ -305,12 +303,13 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $this->addFlashMessage('message.success.createParticipation', '', AbstractMessage::OK);
 
         // Redirect to stats action
-        // cannot use $this->redirect() as $additionalGetParams must be respected
-        $additionalGetParams = $this->pollUtility->calculateAdditionalGetParams($this->settings['preserveGETVars']);
+        // cannot use $this->redirect() as the current query string must be respected
         $uriBuilder = $this->uriBuilder->reset();
         $uriBuilder->setCreateAbsoluteUri(true)
                    ->setUseCacheHash(true)
-                   ->setArguments($additionalGetParams);
+                   ->setAddQueryString(true)
+                   ->setAddQueryStringMethod('GET');
+
         \TYPO3\CMS\Core\Utility\HttpUtility::redirect($uriBuilder->uriFor('showResult', ['poll' => $poll->getUid()]));
 
         // This should never happen..
@@ -342,7 +341,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             // This should never happen..
             return 'Error: something went terribly wrong!';
         }
-        $this->view->assign('additionalGetParams', $this->pollUtility->calculateAdditionalGetParams($this->settings['preserveGETVars']));
         $this->view->assign('poll', $poll);
     }
 
