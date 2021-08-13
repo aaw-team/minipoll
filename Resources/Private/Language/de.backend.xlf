@@ -4,12 +4,20 @@
         <header/>
         <body>
             <trans-unit id="plugin.title">
-                <source>Minipoll</source>
-                <target>Minipoll</target>
+                <source>Minipoll: List</source>
+                <target>Minipoll: Liste</target>
             </trans-unit>
             <trans-unit id="plugin.description">
-                <source>Adds a poll or a list of polls to the website</source>
-                <target>Fügt der Website eine Umfrage oder eine Liste von Umfragen hinzu</target>
+                <source>Adds a list of polls to the website</source>
+                <target>Fügt der Website eine Liste von Umfragen hinzu</target>
+            </trans-unit>
+            <trans-unit id="plugin_detail.title">
+                <source>Minipoll: Detail</source>
+                <target>Minipoll: Detail</target>
+            </trans-unit>
+            <trans-unit id="plugin_detail.description">
+                <source>Adds a poll to the website</source>
+                <target>Fügt der Website eine Umfrage hinzu</target>
             </trans-unit>
             <trans-unit id="tca.poll.title">
                 <source>Poll</source>
@@ -154,18 +162,6 @@
             <trans-unit id="flexform.pluginPoll.sheet.general">
                 <source>General</source>
                 <target>Allgemein</target>
-            </trans-unit>
-            <trans-unit id="flexform.pluginPoll.field.switchableControllerActions">
-                <source>What should be displayed</source>
-                <target>Was soll angezeigt werden</target>
-            </trans-unit>
-            <trans-unit id="flexform.pluginPoll.field.switchableControllerActions.list">
-                <source>List all polls</source>
-                <target>Alle Umfragen auflisten</target>
-            </trans-unit>
-            <trans-unit id="flexform.pluginPoll.field.switchableControllerActions.detail">
-                <source>Show a single poll</source>
-                <target>Eine einzelne Umfrage anzeigen</target>
             </trans-unit>
             <trans-unit id="flexform.pluginPoll.field.pollUid">
                 <source>Poll to show</source>

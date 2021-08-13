@@ -18,7 +18,12 @@ defined ('TYPO3_MODE') or die ('Access denied.');
 
 // Configure plugin
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin('Minipoll', 'Poll', [
-    \AawTeam\Minipoll\Controller\PollController::class => 'index,list,detail,vote,showResult'
+    \AawTeam\Minipoll\Controller\PollController::class => 'list,detail,vote,showResult'
+], [
+    \AawTeam\Minipoll\Controller\PollController::class => 'vote'
+]);
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin('Minipoll', 'PollDetail', [
+    \AawTeam\Minipoll\Controller\PollController::class => 'detail,vote,showResult'
 ], [
     \AawTeam\Minipoll\Controller\PollController::class => 'vote'
 ]);
@@ -36,6 +41,15 @@ mod.wizards.newContentElement.wizardItems.plugins {
                 list_type = minipoll_poll
             }
         }
+        minipoll_polldetail {
+            iconIdentifier = content-plugin-minipoll-poll
+            title = LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:plugin_detail.title
+            description = LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:plugin_detail.description
+            tt_content_defValues {
+                CType = list
+                list_type = minipoll_polldetail
+            }
+        }
     }
 }');
 
@@ -51,6 +65,9 @@ $iconRegistry->registerIcon('minipoll-poll', \TYPO3\CMS\Core\Imaging\IconProvide
 $iconRegistry->registerIcon('minipoll-poll-option', \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class, [
     'source' => 'EXT:minipoll/Resources/Public/Icons/poll-option.svg'
 ]);
+
+// Register upgrade wizard
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update'][\AawTeam\Minipoll\Update\SplitMinipollPluginsBySwitchableControllerActions::class] = \AawTeam\Minipoll\Update\SplitMinipollPluginsBySwitchableControllerActions::class;
 
 // Include autoloader fot the third-party code
 if (!\class_exists('ParagonIE\\ConstantTime\\Encoding')) {

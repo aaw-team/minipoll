@@ -4,10 +4,16 @@
         <header/>
         <body>
             <trans-unit id="plugin.title">
-                <source>Minipoll</source>
+                <source>Minipoll: List</source>
             </trans-unit>
             <trans-unit id="plugin.description">
-                <source>Adds a poll or a list of polls to the website</source>
+                <source>Adds a list of polls to the website</source>
+            </trans-unit>
+            <trans-unit id="plugin_detail.title">
+                <source>Minipoll: Detail</source>
+            </trans-unit>
+            <trans-unit id="plugin_detail.description">
+                <source>Adds a poll to the website</source>
             </trans-unit>
             <trans-unit id="tca.poll.title">
                 <source>Poll</source>
@@ -113,15 +119,6 @@
             </trans-unit>
             <trans-unit id="flexform.pluginPoll.sheet.general">
                 <source>General</source>
-            </trans-unit>
-            <trans-unit id="flexform.pluginPoll.field.switchableControllerActions">
-                <source>What should be displayed</source>
-            </trans-unit>
-            <trans-unit id="flexform.pluginPoll.field.switchableControllerActions.list">
-                <source>List all polls</source>
-            </trans-unit>
-            <trans-unit id="flexform.pluginPoll.field.switchableControllerActions.detail">
-                <source>Show a single poll</source>
             </trans-unit>
             <trans-unit id="flexform.pluginPoll.field.pollUid">
                 <source>Poll to show</source>
