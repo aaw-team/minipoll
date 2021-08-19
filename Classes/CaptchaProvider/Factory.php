@@ -16,6 +16,7 @@ namespace AawTeam\Minipoll\CaptchaProvider;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -148,18 +149,14 @@ class Factory
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    protected static function getDefaultProviderAlias()
+    protected static function getDefaultProviderAlias(): ?string
     {
-        if (\version_compare(PHP_VERSION, '7', '<')) {
-            $extConf = @\unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['minipoll']);
-        } else {
-            $extConf = @\unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['minipoll'], ['allowed_classes' => false]);
+        $defaultCaptchaProvider = trim((string)GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('minipoll', 'defaultCaptchaProvider'));
+        if ($defaultCaptchaProvider === ''){
+            return null;
         }
-        if (\is_array($extConf) && $extConf['defaultCaptchaProvider']) {
-            return (string) $extConf['defaultCaptchaProvider'];
-        }
-        return '';
+        return $defaultCaptchaProvider;
     }
 }
