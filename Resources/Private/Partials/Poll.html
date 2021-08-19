@@ -5,10 +5,10 @@
 <div class="tx_minipoll-poll">
     <mp:ifCanVote poll="{poll}">
         <f:then>
-            <f:render partial="Poll/Form.html" arguments="{_all}" />
+            <f:render partial="Poll/Form" arguments="{_all}" />
         </f:then>
         <f:else>
-            <f:render partial="Poll/Results.html" arguments="{_all}" />
+            <f:render partial="Poll/Results" arguments="{_all}" />
         </f:else>
     </mp:ifCanVote>
 </div>
