@@ -153,7 +153,7 @@ class PollUtility
      */
     protected function poll2PageCacheTag(Poll $poll): string
     {
-        return 'minipoll_' . $poll->getUid();
+        return 'tx_minipoll_' . $poll->getUid();
     }
 
     /**

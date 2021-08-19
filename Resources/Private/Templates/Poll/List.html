@@ -5,6 +5,7 @@
 <div class="tx_minipoll">
     <f:if condition="{polls -> f:count()} > 0">
         <f:for each="{polls}" as="poll">
+            <mp:registerPollInPageCache poll="{poll}" />
             <f:render partial="Poll.html" arguments="{_all}" />
         </f:for>
     </f:if>
