@@ -310,7 +310,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         // cannot use $this->redirect() as the current query string must be respected
         $uriBuilder = $this->uriBuilder->reset();
         $uriBuilder->setCreateAbsoluteUri(true)
-                   ->setUseCacheHash(true)
                    ->setAddQueryString(true)
                    ->setAddQueryStringMethod('GET');
 
