@@ -2,6 +2,25 @@
       xmlns:mp="http://typo3.org/ns/AawTeam/Minipoll/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
-<f:flashMessages />
+<div class="tx_minipoll">
+
+    <f:flashMessages />
+
+    <f:if condition="{poll}">
+        <div class="tx_minipoll-footer">
+            <mp:ifCanVote poll="{poll}">
+                <f:link.action action="detail" arguments="{poll:poll.uid}" addQueryString="1" addQueryStringMethod="GET" class="tx_minipoll-button">
+                    <f:translate key="link.action.detail" />
+                </f:link.action>
+            </mp:ifCanVote>
+            <mp:ifCanDisplayResults poll="{poll}">
+                <f:link.action action="showResult" arguments="{poll:poll.uid}" addQueryString="1" addQueryStringMethod="GET" class="tx_minipoll-button tx_minipoll-button-gray">
+                    <f:translate key="link.action.showresult" />
+                </f:link.action>
+            </mp:ifCanDisplayResults>
+        </div>
+    </f:if>
+
+</div>
 
 </html>

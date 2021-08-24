@@ -313,7 +313,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
                    ->setAddQueryString(true)
                    ->setAddQueryStringMethod('GET');
 
-        \TYPO3\CMS\Core\Utility\HttpUtility::redirect($uriBuilder->uriFor('showResult', ['poll' => $poll->getUid()]));
+        \TYPO3\CMS\Core\Utility\HttpUtility::redirect($uriBuilder->uriFor('displayMessage', ['poll' => $poll->getUid()]));
 
         // This should never happen..
         return 'Error: something went terribly wrong!';
@@ -368,8 +368,10 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param string $title
      * @param int $severity
      */
-    public function displayMessageAction()
-    {}
+    public function displayMessageAction(\AawTeam\Minipoll\Domain\Model\Poll $poll = null)
+    {
+        $this->view->assign('poll', $poll);
+    }
 
     /**
      * Extend parent method: translate $messageBody and $messageTitle
