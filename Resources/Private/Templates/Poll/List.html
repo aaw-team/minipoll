@@ -2,13 +2,14 @@
       xmlns:mp="http://typo3.org/ns/AawTeam/Minipoll/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
-<div class="tx_minipoll">
+<f:layout name="Default" />
+
+<f:section name="content">
     <f:if condition="{polls -> f:count()} > 0">
         <f:for each="{polls}" as="poll">
-            <mp:registerPollInPageCache poll="{poll}" />
-            <f:render partial="Poll" arguments="{_all}" />
+            <f:render partial="Poll/AjaxContainer" arguments="{_all}" />
         </f:for>
     </f:if>
-</div>
+</f:section>
 
 </html>

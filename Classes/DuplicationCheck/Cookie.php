@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\DuplicationCheck;
 
 /*
@@ -31,10 +32,10 @@ class Cookie implements DuplicationCheckInterface
      * @param Poll $poll
      * @return bool
      */
-    public function canVote(Poll $poll)
+    public function canVote(Poll $poll): bool
     {
         $value = $this->getCookieValue();
-        return !\in_array($poll->getUid(), $value);
+        return !in_array($poll->getUid(), $value);
     }
 
     /**
@@ -42,7 +43,7 @@ class Cookie implements DuplicationCheckInterface
      * @param Participation $participation
      * @return bool
      */
-    public function disableVote(Poll $poll, Participation $participation)
+    public function disableVote(Poll $poll, Participation $participation): bool
     {
         $value = $this->getCookieValue();
         $value[] = $poll->getUid();
@@ -54,7 +55,7 @@ class Cookie implements DuplicationCheckInterface
      * @param Poll $poll
      * @return bool
      */
-    public function canDisplayResults(Poll $poll)
+    public function canDisplayResults(Poll $poll): bool
     {
         return !$this->canVote($poll);
     }
@@ -65,22 +66,22 @@ class Cookie implements DuplicationCheckInterface
      * @see Cookie::getCookieValue()
      * @param array $value
      */
-    protected function setCookieValue(array $value)
+    protected function setCookieValue(array $value): void
     {
         // Filter array
         // key: int >= 0
         // value: int > 0
-        $value = \array_filter($value, function($v, $k) {
-            return \is_int($k) && $k >= 0 && \is_int($v) && $v > 0;
+        $value = array_filter($value, function($v, $k) {
+            return is_int($k) && $k >= 0 && is_int($v) && $v > 0;
         }, ARRAY_FILTER_USE_BOTH);
 
         if (empty($value)) {
             return;
         }
         // Base64 encode the json as php would urldecode the object in $_COOKIE
-        $cookieData = Base64::encode(\json_encode($value));
+        $cookieData = Base64::encode(json_encode($value));
         $cookieValue = SecurityUtility::appendHmacToString($cookieData);
-        \setcookie('tx_minipoll', $cookieValue, $GLOBALS['EXEC_TIME'] + 3600 * 24 * 356);
+        setcookie('tx_minipoll', $cookieValue, $GLOBALS['EXEC_TIME'] + 3600 * 24 * 356);
         // Set the same value to the global
         $_COOKIE['tx_minipoll'] = $cookieValue;
     }
@@ -91,9 +92,9 @@ class Cookie implements DuplicationCheckInterface
      * @see Cookie::setCookieValue()
      * @return array
      */
-    protected function getCookieValue()
+    protected function getCookieValue(): array
     {
-        if (!\array_key_exists('tx_minipoll', $_COOKIE)) {
+        if (!array_key_exists('tx_minipoll', $_COOKIE)) {
             return [];
         }
         $rawCookieValue = (string) $_COOKIE['tx_minipoll'];
@@ -104,8 +105,8 @@ class Cookie implements DuplicationCheckInterface
         } catch (InvalidHmacException $e) {
             return [];
         }
-        $value = @\json_decode(Base64::decode($cookieValue), true);
-        return (\is_array($value))
+        $value = @json_decode(Base64::decode($cookieValue), true);
+        return (is_array($value))
             ? $value
             : [];
     }

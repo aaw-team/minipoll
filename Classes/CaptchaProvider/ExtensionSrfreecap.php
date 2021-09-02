@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\CaptchaProvider;
 
 /*
@@ -18,6 +19,8 @@ namespace AawTeam\Minipoll\CaptchaProvider;
 
 use AawTeam\Minipoll\Domain\Model\Poll;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use AawTeam\Minipoll\PageRendering\Resource;
+use AawTeam\Minipoll\PageRendering\ResourceCollection;
 
 /**
  * ExtensionSrfreecap
@@ -29,36 +32,36 @@ class ExtensionSrfreecap implements CaptchaProviderInterface
 {
     /**
      * {@inheritDoc}
-     * @see \AawTeam\Minipoll\CaptchaProvider\CaptchaProviderInterface::getName()
+     * @see CaptchaProviderInterface::getName()
      */
-    public function getName()
+    public function getName(): string
     {
         return 'TYPO3 Extension "sr_freecap"';
     }
 
     /**
      * {@inheritDoc}
-     * @see \AawTeam\Minipoll\CaptchaProvider\CaptchaProviderInterface::isAvailable()
+     * @see CaptchaProviderInterface::isAvailable()
      */
-    public function isAvailable()
+    public function isAvailable(): bool
     {
         return \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('sr_freecap');
     }
 
     /**
      * {@inheritDoc}
-     * @see \AawTeam\Minipoll\CaptchaProvider\CaptchaProviderInterface::hasMultipleInstancesSupport()
+     * @see CaptchaProviderInterface::hasMultipleInstancesSupport()
      */
-    public function hasMultipleInstancesSupport()
+    public function hasMultipleInstancesSupport(): bool
     {
         return false;
     }
 
     /**
      * {@inheritDoc}
-     * @see \AawTeam\Minipoll\CaptchaProvider\CaptchaProviderInterface::validate()
+     * @see CaptchaProviderInterface::validate()
      */
-    public function validate($fieldValue, Poll $poll)
+    public function validate(string $fieldValue, Poll $poll): bool
     {
         /** @var \TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator $validator */
         $validator = GeneralUtility::makeInstance(\SJBR\SrFreecap\Validation\Validator\CaptchaValidator::class);
@@ -68,10 +71,21 @@ class ExtensionSrfreecap implements CaptchaProviderInterface
 
     /**
      * {@inheritDoc}
-     * @see \AawTeam\Minipoll\CaptchaProvider\CaptchaProviderInterface::createCaptchaArray()
+     * @see CaptchaProviderInterface::createCaptchaArray()
      */
-    public function createCaptchaArray(Poll $poll)
+    public function createCaptchaArray(Poll $poll): array
     {
         return [];
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see CaptchaProviderInterface::getAdditionalResources()
+     */
+    public function getAdditionalResources(): ?ResourceCollection
+    {
+        return GeneralUtility::makeInstance(ResourceCollection::class)->withResource(
+            Resource::createJsFooterFile('EXT:sr_freecap/Resources/Public/JavaScript/freeCap.js')
+        );
     }
 }

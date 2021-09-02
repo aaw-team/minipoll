@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\Domain\Repository;
 
 /*
@@ -16,6 +17,9 @@ namespace AawTeam\Minipoll\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
+
 /**
  * PollOptionRepository
  */
@@ -23,7 +27,7 @@ class PollOptionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
     public function initializeObject()
     {
-        $querySettings = $this->objectManager->get(QuerySettingsInterface::class);
+        $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(false);
         $this->defaultQuerySettings = $querySettings;
     }

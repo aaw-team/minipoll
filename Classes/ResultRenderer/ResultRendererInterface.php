@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\ResultRenderer;
 
 /*
@@ -17,6 +18,7 @@ namespace AawTeam\Minipoll\ResultRenderer;
  */
 
 use AawTeam\Minipoll\Domain\Model\Poll;
+use AawTeam\Minipoll\PageRendering\ResourceCollection;
 
 /**
  * ResultRendererInterface
@@ -28,10 +30,20 @@ interface ResultRendererInterface
      * @param array $configuration
      * @return void
      */
-    public function setup(Poll $poll, array $configuration);
+    public function setup(Poll $poll, array $configuration): void;
 
     /**
      * @return array
      */
-    public function getRenderedResults();
+    public function getRenderedResults(): array;
+
+    /**
+     * @return string
+     */
+    public function getViewPartialName(): string;
+
+    /**
+     * @return ResourceCollection|null
+     */
+    public function getAdditionalResources(): ?ResourceCollection;
 }

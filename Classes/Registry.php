@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll;
 
 /*
@@ -36,10 +37,10 @@ final class Registry implements \TYPO3\CMS\Core\SingletonInterface
      * @throws \InvalidArgumentException
      * @return void
      */
-    public static function addVotedPoll($pollUid)
+    public static function addVotedPoll(int $pollUid): void
     {
-        if (!\is_int($pollUid) || $pollUid < 1) {
-            throw new \InvalidArgumentException('$pollUid must be int greater than zero');
+        if ($pollUid < 1) {
+            throw new \InvalidArgumentException('$pollUid must be greater than zero');
         }
         self::$votedPolls[$pollUid] = $pollUid;
     }
@@ -47,14 +48,14 @@ final class Registry implements \TYPO3\CMS\Core\SingletonInterface
     /**
      * @param int $pollUid
      * @throws \InvalidArgumentException
-     * @return boolean
+     * @return bool
      */
-    public static function isVotedPoll($pollUid)
+    public static function isVotedPoll(int $pollUid): bool
     {
-        if (!\is_int($pollUid) || $pollUid < 1) {
-            throw new \InvalidArgumentException('$pollUid must be int greater than zero');
+        if ($pollUid < 1) {
+            throw new \InvalidArgumentException('$pollUid must be greater than zero');
         }
-        return \array_key_exists($pollUid, self::$votedPolls);
+        return array_key_exists($pollUid, self::$votedPolls);
     }
 
     /**
@@ -62,10 +63,10 @@ final class Registry implements \TYPO3\CMS\Core\SingletonInterface
      * @throws \InvalidArgumentException
      * @return void
      */
-    public static function addDisplayedPoll($pollUid)
+    public static function addDisplayedPoll(int $pollUid): void
     {
-        if (!\is_int($pollUid) || $pollUid < 1) {
-            throw new \InvalidArgumentException('$pollUid must be int greater than zero');
+        if ($pollUid < 1) {
+            throw new \InvalidArgumentException('$pollUid must be greater than zero');
         }
         self::$displayedPolls[$pollUid] = $pollUid;
     }
@@ -73,13 +74,13 @@ final class Registry implements \TYPO3\CMS\Core\SingletonInterface
     /**
      * @param int $pollUid
      * @throws \InvalidArgumentException
-     * @return boolean
+     * @return bool
      */
-    public static function isDisplayedPoll($pollUid)
+    public static function isDisplayedPoll(int $pollUid): bool
     {
-        if (!\is_int($pollUid) || $pollUid < 1) {
-            throw new \InvalidArgumentException('$pollUid must be int greater than zero');
+        if ($pollUid < 1) {
+            throw new \InvalidArgumentException('$pollUid must be greater than zero');
         }
-        return \array_key_exists($pollUid, self::$displayedPolls);
+        return array_key_exists($pollUid, self::$displayedPolls);
     }
 }

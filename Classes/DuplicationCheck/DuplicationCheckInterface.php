@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\DuplicationCheck;
 
 /*
@@ -30,7 +31,7 @@ interface DuplicationCheckInterface
      * @param Poll $poll
      * @return bool
      */
-    public function canVote(Poll $poll);
+    public function canVote(Poll $poll): bool;
 
     /**
      * This method is called, right after a new participation on a poll has been
@@ -42,7 +43,7 @@ interface DuplicationCheckInterface
      * @param Participation $participation
      * @return bool
      */
-    public function disableVote(Poll $poll, Participation $participation);
+    public function disableVote(Poll $poll, Participation $participation): bool;
 
     /**
      * Returns true, when displaying results from the poll $poll is possible.
@@ -50,5 +51,5 @@ interface DuplicationCheckInterface
      * @param Poll $poll
      * @return bool
      */
-    public function canDisplayResults(Poll $poll);
+    public function canDisplayResults(Poll $poll): bool;
 }

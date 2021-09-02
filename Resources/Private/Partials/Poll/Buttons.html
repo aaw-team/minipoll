@@ -12,7 +12,7 @@
 </mp:ifCanVote>
 
 <mp:ifCanDisplayResults poll="{poll}">
-    <f:link.action action="showResult" arguments="{poll:poll.uid}" addQueryString="1" addQueryStringMethod="GET" class="tx_minipoll-button tx_minipoll-button-gray">
+    <f:link.action action="showResult" controller="Poll" pluginName="Poll" arguments="{poll:poll.uid}" section="{f:if(condition:settings.addSectionToLinks, then:'tx_minipoll-poll-{poll.uid}')}" addQueryString="1" addQueryStringMethod="GET" argumentsToBeExcludedFromQueryString="{0:'tx_minipoll_ajax'}" data="{minipoll-showresult:true}" class="tx_minipoll-button tx_minipoll-button-gray">
         <f:translate key="link.action.showresult" />
     </f:link.action>
 </mp:ifCanDisplayResults>

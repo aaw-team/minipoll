@@ -1,13 +1,16 @@
-plugin.tx_minipoll.settings {
-    // cat=minipoll/color/001; type=string; label=LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:constants.defaultColorList
-    resultRenderer.defaultColorList = #5c98dd,#d11428,#5dc351,#ffb631,#31eaea,#b57fe6
-}
-
-plugin.tx_minipoll.view {
-    // cat=minipoll/templates/b1; type=string; label=Fluid templates path
-    templateRootPath =
-    // cat=minipoll/templates/b2; type=string; label=Fluid layouts path
-    layoutRootPath = 
-    // cat=minipoll/templates/b3; type=string; label=Fluid partials path
-    partialRootPath =
+plugin.tx_minipoll {
+    settings {
+        // cat=minipoll/enable/001; type=int; label=AJAX pageType number
+        ajaxPageType = 1764
+        // cat=minipoll/color/001; type=string; label=LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:constants.defaultColorList
+        resultRenderer.defaultColorList = #5c98dd,#d11428,#5dc351,#ffb631,#31eaea,#b57fe6
+    }
+    view {
+        // cat=minipoll/templates/b1; type=string; label=Fluid templates path
+        templateRootPath =
+        // cat=minipoll/templates/b2; type=string; label=Fluid layouts path
+        layoutRootPath = 
+        // cat=minipoll/templates/b3; type=string; label=Fluid partials path
+        partialRootPath =
+    }
 }

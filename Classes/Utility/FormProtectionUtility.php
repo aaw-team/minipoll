@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\Utility;
 
 /*
@@ -17,6 +18,8 @@ namespace AawTeam\Minipoll\Utility;
  */
 
 use AawTeam\Minipoll\Domain\Model\Poll;
+use TYPO3\CMS\Core\FormProtection\AbstractFormProtection;
+use TYPO3\CMS\Core\FormProtection\FormProtectionFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -26,13 +29,13 @@ class FormProtectionUtility
 {
     /**
      * @param Poll $poll
-     * @see \TYPO3\CMS\Core\FormProtection\AbstractFormProtection::generateToken()
+     * @see AbstractFormProtection::generateToken()
      * @return string
      */
-    public function generateTokenForPoll(Poll $poll)
+    public function generateTokenForPoll(Poll $poll): string
     {
         if ($this->isFormProtectionNeeded()) {
-            return $this->getFormProtectionInstance()->generateToken('pollForm', 'vote', $poll->getUid());
+            return $this->getFormProtectionInstance()->generateToken(...$this->createTokenGenerationParams($poll));
         } else {
             return GeneralUtility::hmac(SecurityUtility::generateRandomBytes(16));
         }
@@ -41,21 +44,21 @@ class FormProtectionUtility
     /**
      * @param string $token
      * @param Poll $poll
-     * @see \TYPO3\CMS\Core\FormProtection\AbstractFormProtection::validateToken()
-     * @return boolean
+     * @see AbstractFormProtection::validateToken()
+     * @return bool
      */
-    public function verifyTokenForPoll($token, Poll $poll)
+    public function verifyTokenForPoll(string $token, Poll $poll): bool
     {
         return $this->isFormProtectionNeeded()
-            ? $this->getFormProtectionInstance()->validateToken($token, 'pollForm', 'vote', $poll->getUid())
+            ? $this->getFormProtectionInstance()->validateToken($token, ...$this->createTokenGenerationParams($poll))
             : true;
     }
 
     /**
      * @return void
-     * @see \TYPO3\CMS\Core\FormProtection\AbstractFormProtection::persistSessionToken()
+     * @see AbstractFormProtection::persistSessionToken()
      */
-    public function persistSessionToken()
+    public function persistSessionToken(): void
     {
         if ($this->isFormProtectionNeeded()) {
             $this->getFormProtectionInstance()->persistSessionToken();
@@ -64,9 +67,9 @@ class FormProtectionUtility
 
     /**
      * @return void
-     * @see \TYPO3\CMS\Core\FormProtection\AbstractFormProtection::clean()
+     * @see AbstractFormProtection::clean()
      */
-    public function clean()
+    public function clean(): void
     {
         if ($this->isFormProtectionNeeded()) {
             $this->getFormProtectionInstance()->clean();
@@ -74,19 +77,32 @@ class FormProtectionUtility
     }
 
     /**
-     * @return boolean
+     * @param Poll $poll
+     * @return array
      */
-    protected function isFormProtectionNeeded()
+    protected function createTokenGenerationParams(Poll $poll): array
     {
-        $formProtection = $this->getFormProtectionInstance();
-        return ($formProtection instanceof \TYPO3\CMS\Core\FormProtection\FrontendFormProtection);
+        return [
+            'pollForm',
+            'vote',
+            $poll->getUid(),
+        ];
     }
 
     /**
-     * @return \TYPO3\CMS\Core\FormProtection\AbstractFormProtection
+     * @return bool
      */
-    protected function getFormProtectionInstance()
+    protected function isFormProtectionNeeded(): bool
     {
-        return \TYPO3\CMS\Core\FormProtection\FormProtectionFactory::get();
+        $formProtection = $this->getFormProtectionInstance();
+        return !($formProtection instanceof \TYPO3\CMS\Core\FormProtection\DisabledFormProtection);
+    }
+
+    /**
+     * @return AbstractFormProtection
+     */
+    protected function getFormProtectionInstance(): AbstractFormProtection
+    {
+        return FormProtectionFactory::get();
     }
 }

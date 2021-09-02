@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\DuplicationCheck;
 
 /*
@@ -17,7 +18,7 @@ namespace AawTeam\Minipoll\DuplicationCheck;
  */
 
 use AawTeam\Minipoll\Domain\Model\Poll;
-use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * DuplicationCheck factory
@@ -35,19 +36,6 @@ class Factory
     ];
 
     /**
-     * @var ObjectManagerInterface
-     */
-    protected $objectManager;
-
-    /**
-     * @param ObjectManagerInterface $objectManager
-     */
-    public function injectObjectManager(ObjectManagerInterface $objectManager)
-    {
-        $this->objectManager = $objectManager;
-    }
-
-    /**
      * @param Poll $poll
      * @return DuplicationCheckInterface
      */
@@ -62,7 +50,7 @@ class Factory
             $className = $duplicationCheckName;
         }
 
-        $instance = $this->objectManager->get($className);
+        $instance = GeneralUtility::makeInstance($className);
         if (!($instance instanceof DuplicationCheckInterface)) {
             throw new \RuntimeException('Class "' . \htmlspecialchars($className) . '" must implement ' . DuplicationCheckInterface::class);
         }

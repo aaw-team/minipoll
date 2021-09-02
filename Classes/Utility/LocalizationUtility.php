@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\Utility;
 
 /*
@@ -23,20 +24,13 @@ class LocalizationUtility
 {
     /**
      * @param string $key
-     * @param string|array $arguments
+     * @param array $arguments
      * @return string
      */
-    public static function translate($key, $arguments = null)
+    public static function translate(string $key, array $arguments = null): string
     {
-        if (\is_string($arguments)) {
-            $arguments = [$arguments];
-        } elseif ($arguments !== null && !\is_array($arguments)) {
-            throw new \InvalidArgumentException('$arguments must be string or array');
-        }
         $translated = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($key, 'minipoll', $arguments);
-        if ($translated === false) {
-            throw new \InvalidArgumentException('Too few arguments');
-        } elseif ($translated === null) {
+        if ($translated === null) {
             $translated = $key;
         }
         return $translated;

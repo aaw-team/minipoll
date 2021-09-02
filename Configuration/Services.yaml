@@ -1,0 +1,21 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  AawTeam\Minipoll\:
+    resource: '../Classes/*'
+
+  # Make DuplicationChecks public (to be able to instantiate in the Factory)
+  AawTeam\Minipoll\DuplicationCheck\Cookie:
+    public: true
+  AawTeam\Minipoll\DuplicationCheck\Dummy:
+    public: true
+  AawTeam\Minipoll\DuplicationCheck\FrontendUser:
+    public: true
+  AawTeam\Minipoll\DuplicationCheck\Ip:
+    public: true
+  # Make PollUtility public (to be able to instantiate in the ViewHelper classes)
+  AawTeam\Minipoll\Utility\PollUtility:
+    public: true

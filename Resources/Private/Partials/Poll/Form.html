@@ -12,7 +12,7 @@
 
 <f:render partial="Poll/Title" arguments="{_all}" />
 <f:render partial="Poll/Description" arguments="{_all}" />
-<f:form action="vote" arguments="{poll:poll.uid}" addQueryString="1" addQueryStringMethod="GET">
+<f:form action="vote" controller="Ajax" pluginName="Ajax" arguments="{poll:poll.uid}" section="{f:if(condition:settings.addSectionToLinks, then:'tx_minipoll-poll-{poll.uid}')}" addQueryString="1" addQueryStringMethod="GET" argumentsToBeExcludedFromQueryString="{0:'tx_minipoll_ajax'}" data="{minipoll-vote:true}" id="tx_minipoll-form-{poll.uid}">
     <f:comment>These two input fields are part of the honeypot check, do not remove!</f:comment>
     <div class="tx_minipoll_hp">
         <f:form.hidden name="hp[one]" value="" />

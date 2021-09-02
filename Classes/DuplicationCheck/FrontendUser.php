@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\DuplicationCheck;
 
 /*
@@ -19,6 +20,8 @@ namespace AawTeam\Minipoll\DuplicationCheck;
 use AawTeam\Minipoll\Domain\Model\Participation;
 use AawTeam\Minipoll\Domain\Model\Poll;
 use AawTeam\Minipoll\Domain\Repository\ParticipationRepository;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * FrontendUser duplication check
@@ -42,12 +45,12 @@ class FrontendUser implements DuplicationCheckInterface
      * @param Poll $poll
      * @return bool
      */
-    public function canVote(Poll $poll)
+    public function canVote(Poll $poll): bool
     {
         if (!$this->isFrontednUserLoggedIn()) {
             return false;
         }
-        return $this->participationRepository->countByPollAndFrontendUser($poll, $this->getFrontendUser()->user['uid']) == 0;
+        return $this->participationRepository->countByPollAndFrontendUser($poll, $this->getFrontendUserUid()) == 0;
     }
 
     /**
@@ -55,7 +58,7 @@ class FrontendUser implements DuplicationCheckInterface
      * @param Participation $participation
      * @return bool
      */
-    public function disableVote(Poll $poll, Participation $participation)
+    public function disableVote(Poll $poll, Participation $participation): bool
     {
         return true;
     }
@@ -64,7 +67,7 @@ class FrontendUser implements DuplicationCheckInterface
      * @param Poll $poll
      * @return bool
      */
-    public function canDisplayResults(Poll $poll)
+    public function canDisplayResults(Poll $poll): bool
     {
         if (!$this->isFrontednUserLoggedIn()) {
             return false;
@@ -73,26 +76,21 @@ class FrontendUser implements DuplicationCheckInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    protected function isFrontednUserLoggedIn()
+    protected function isFrontednUserLoggedIn(): bool
     {
-        return \is_array($this->getFrontendUser()->user && $this->getFrontendUser()->user['uid']);
+        return GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('frontend.user', 'isLoggedIn');
     }
 
     /**
-     * @return \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication
+     * @return int|null
      */
-    protected function getFrontendUser()
+    protected function getFrontendUserUid(): ?int
     {
-        return $this->getTyposcriptFrontendController()->fe_user;
-    }
-
-    /**
-     * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
-     */
-    protected function getTyposcriptFrontendController()
-    {
-        return $GLOBALS['TSFE'];
+        if (!$this->isFrontednUserLoggedIn()) {
+            return null;
+        }
+        return (int)GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('frontend.user', 'id');
     }
 }

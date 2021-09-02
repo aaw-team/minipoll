@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\Controller;
 
 /*
@@ -19,6 +20,7 @@ namespace AawTeam\Minipoll\Controller;
 use AawTeam\Minipoll\CaptchaProvider\Factory as CaptchaProviderFactory;
 use AawTeam\Minipoll\Domain\Model\Answer;
 use AawTeam\Minipoll\Domain\Model\Participation;
+use AawTeam\Minipoll\Domain\Model\Poll;
 use AawTeam\Minipoll\Domain\Model\PollOption;
 use AawTeam\Minipoll\Domain\Repository\ParticipationRepository;
 use AawTeam\Minipoll\Domain\Repository\PollRepository;
@@ -27,8 +29,12 @@ use AawTeam\Minipoll\Utility\FormProtectionUtility;
 use AawTeam\Minipoll\Utility\LocalizationUtility;
 use AawTeam\Minipoll\Utility\PollUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
-use TYPO3\CMS\Core\TypoScript\TypoScriptService;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
+use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 
 /**
  * Poll controller
@@ -54,6 +60,16 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @var FormProtectionUtility
      */
     protected $formProtectionUtility;
+
+    /**
+     * @var PersistenceManagerInterface
+     */
+    protected $persistenceManager;
+
+    /**
+     * @var FrontendUserRepository
+     */
+    protected $frontendUserRepository;
 
     /**
      * @param PollRepository $pollRepository
@@ -88,97 +104,137 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     * Here we get when the plugin is included via typoscript (never via flexforms)
-     * @return string
+     * @param PersistenceManagerInterface $persistenceManager
      */
-    public function indexAction()
+    public function injectPersistenceManager(PersistenceManagerInterface $persistenceManager)
     {
-        $configuration = $this->getTyposcriptConfiguration();
-
-        $display = $configuration['display'];
-        if ($configuration['display.']) {
-            $display = $this->configurationManager->getContentObject()->stdWrap($display, $configuration['display.']);
-        }
-
-        switch ($display) {
-            case 'list' :
-                $this->forward('list');
-                break;
-            case 'detail' :
-                $pollUid = $configuration['settings']['pollUid'];
-                if ($configuration['settings']['pollUid.']) {
-                    $pollUid = $this->configurationManager->getContentObject()->stdWrap($pollUid, $configuration['settings']['pollUid.']);
-                }
-
-                if ($pollUid < 1) {
-                    $this->forwardToDisplayMessageAction('message.error.noPollUidFound', 'message.error.title', AbstractMessage::ERROR);
-                    exit;
-                }
-
-                $this->forward('detail', null, null, ['poll' => $pollUid]);
-                break;
-            default :
-                $this->forwardToDisplayMessageAction('message.error.unknownDisplayOption', 'message.error.title', AbstractMessage::ERROR);
-                exit;
-        }
-
-        return 'Error: something went terribly wrong!';
+        $this->persistenceManager = $persistenceManager;
     }
+
+    /**
+     * @param FrontendUserRepository $frontendUserRepository
+     */
+    public function injectFrontendUserRepository(FrontendUserRepository $frontendUserRepository)
+    {
+        $this->frontendUserRepository = $frontendUserRepository;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see \TYPO3\CMS\Extbase\Mvc\Controller\ActionController::initializeAction()
+     */
+    public function initializeAction()
+    {
+        // Register AJAX Javascript
+        // @todo: allow compression once the js is done
+        /** @var PageRenderer $pageRenderer */
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        $pageRenderer->addJsFooterFile(
+            'EXT:minipoll/Resources/Public/Js/MinipollAjax.js',
+            'text/javascript',
+            false
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see \TYPO3\CMS\Extbase\Mvc\Controller\ActionController::initializeView()
+     */
+    public function initializeView(ViewInterface $view)
+    {
+        parent::initializeView($view);
+        $this->view->assignMultiple([
+            'ajaxInitialize' => true,
+        ]);
+    }
+
+//     /**
+//      * Here we get when the plugin is included via typoscript (never via flexforms)
+//      * @return string
+//      */
+//     public function indexAction()
+//     {
+//         $configuration = $this->getTyposcriptConfiguration();
+
+//         $display = $configuration['display'];
+//         if ($configuration['display.']) {
+//             $display = $this->configurationManager->getContentObject()->stdWrap($display, $configuration['display.']);
+//         }
+
+//         switch ($display) {
+//             case 'list' :
+//                 $this->forward('list');
+//                 break;
+//             case 'detail' :
+//                 $pollUid = $configuration['settings']['pollUid'];
+//                 if ($configuration['settings']['pollUid.']) {
+//                     $pollUid = $this->configurationManager->getContentObject()->stdWrap($pollUid, $configuration['settings']['pollUid.']);
+//                 }
+
+//                 if ($pollUid < 1) {
+//                     $this->forwardToDisplayMessageAction('message.error.noPollUidFound', 'message.error.title', AbstractMessage::ERROR);
+//                     exit;
+//                 }
+
+//                 $this->forward('detail', null, null, ['poll' => $pollUid]);
+//                 break;
+//             default :
+//                 $this->forwardToDisplayMessageAction('message.error.unknownDisplayOption', 'message.error.title', AbstractMessage::ERROR);
+//                 exit;
+//         }
+
+//         return 'Error: something went terribly wrong!';
+//     }
 
     /**
      * @return void
      */
     public function listAction()
     {
-        $polls = $this->pollRepository->findAll();
-        if ($this->settings['excludeAlreadyDisplayedPolls']) {
-            foreach ($polls as $key => $poll) {
-                if (Registry::isDisplayedPoll($poll->getUid())) {
-                    $polls->offsetUnset($key);
-                    continue;
-                }
-                Registry::addDisplayedPoll($poll->getUid());
-            }
+        // Redirect to detailAction when settings.pollUid is defined (in FlexForm configuration)
+        if ($this->settings['pollUid'] ?? 0 > 0) {
+            $this->forward('detail', null, null, ['poll' => (int)$this->settings['pollUid']]);
         }
+
+        $polls = $this->pollRepository->findAll();
+//         if ($this->settings['excludeAlreadyDisplayedPolls']) {
+//             foreach ($polls as $key => $poll) {
+//                 if (Registry::isDisplayedPoll($poll->getUid())) {
+//                     $polls->offsetUnset($key);
+//                     continue;
+//                 }
+//                 Registry::addDisplayedPoll($poll->getUid());
+//             }
+//         }
         $this->view->assign('polls', $polls);
     }
 
     /**
-     * @param \AawTeam\Minipoll\Domain\Model\Poll $poll
-     * @return string
+     * @param Poll $poll
      */
-    public function detailAction(\AawTeam\Minipoll\Domain\Model\Poll $poll = null)
+    public function detailAction(Poll $poll)
     {
-        if ($poll === null) {
-            $pollUid = (int) $this->settings['pollUid'];
-
-            if ($pollUid < 1) {
-                $this->forwardToDisplayMessageAction('message.error.noPollUidFound', 'message.error.title', AbstractMessage::ERROR);
-                exit;
-            }
-            $poll = $this->pollRepository->findByIdentifier($pollUid);
-        }
-        if ($this->settings['excludeAlreadyDisplayedPolls']) {
-            if (Registry::isDisplayedPoll($poll->getUid())) {
-                // Forward with no message, this will not display anything
-                $this->forward('displayMessage');
-            }
-            Registry::addDisplayedPoll($poll->getUid());
-        }
-        $this->pollUtility->addPollToPageCache($poll);
+//         if ($this->settings['excludeAlreadyDisplayedPolls']) {
+//             if (Registry::isDisplayedPoll($poll->getUid())) {
+//                 // Forward with no message, this will not display anything
+//                 $this->forward('displayMessage');
+//             }
+//             Registry::addDisplayedPoll($poll->getUid());
+//         }
+//         $this->pollUtility->addPollToPageCache($poll);
         $this->view->assign('poll', $poll);
     }
 
     /**
      *
-     * @param \AawTeam\Minipoll\Domain\Model\Poll $poll
+     * @param Poll $poll
      * @param array $answers
      * @param array $hp
      * @param string $captcha
      * @param string $csrfToken
      * @return string
      */
-    public function voteAction(\AawTeam\Minipoll\Domain\Model\Poll $poll, array $answers = null, array $hp = null, $captcha = null, $csrfToken = null)
+    public function voteAction(Poll $poll, array $answers = null, array $hp = null, string $captcha = null, string $csrfToken = null)
     {
         if (Registry::isVotedPoll($poll->getUid())) {
             // Forward with no message, this will not display anything
@@ -263,11 +319,11 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         }
 
         // Create Answer objects
-        /** @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage $answerObjects */
-        $answerObjects = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\ObjectStorage::class);
+        /** @var ObjectStorage $answerObjects */
+        $answerObjects = GeneralUtility::makeInstance(ObjectStorage::class);
         foreach ($answers as $optionUid) {
             /** @var Answer $answer */
-            $answer = $this->objectManager->get(Answer::class);
+            $answer = GeneralUtility::makeInstance(Answer::class);
             $answer->setPid($poll->getPid());
             $answer->setPollOption($options[$optionUid]);
             $answerObjects->attach($answer);
@@ -275,7 +331,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         // Create a new participation
         /** @var Participation $participation */
-        $participation = $this->objectManager->get(Participation::class);
+        $participation = GeneralUtility::makeInstance(Participation::class);
         $participation->setPoll($poll);
         $participation->setPid($poll->getPid());
         $participation->setIp(GeneralUtility::getIndpEnv('REMOTE_ADDR'));
@@ -283,9 +339,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         // Add frontendUser (if one is logged in)
         if (\is_array($this->getTyposcriptFrontendController()->fe_user->user) && $this->getTyposcriptFrontendController()->fe_user->user['uid']) {
-            /** @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository $frontendUserRepository */
-            $frontendUserRepository = $this->objectManager->get(\TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository::class);
-            $frontendUser = $frontendUserRepository->findByIdentifier($this->getTyposcriptFrontendController()->fe_user->user['uid']);
+            $frontendUser = $this->frontendUserRepository->findByIdentifier($this->getTyposcriptFrontendController()->fe_user->user['uid']);
             $participation->setFrontendUser($frontendUser);
         }
 
@@ -296,9 +350,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $this->participationRepository->add($participation);
 
         // Persist data
-        /** @var $persistenceManager \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager */
-        $persistenceManager = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class);
-        $persistenceManager->persistAll();
+        $this->persistenceManager->persistAll();
 
         // Flush cache
         $this->pollUtility->clearPageCacheByPoll($poll);
@@ -320,32 +372,33 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     }
 
     /**
-     *
-     * @param \AawTeam\Minipoll\Domain\Model\Poll $poll
-     * @return string
+     * @param Poll $poll
      */
-    public function showResultAction(\AawTeam\Minipoll\Domain\Model\Poll $poll)
+    public function showResultAction(Poll $poll)
     {
-        if ($this->settings['excludeAlreadyDisplayedPolls']) {
-            if (Registry::isDisplayedPoll($poll->getUid())) {
-                // Forward with no message, this will not display anything
-                $this->forward('displayMessage');
-            }
-            Registry::addDisplayedPoll($poll->getUid());
-        }
+//         if ($this->settings['excludeAlreadyDisplayedPolls']) {
+//             if (Registry::isDisplayedPoll($poll->getUid())) {
+//                 // Forward with no message, this will not display anything
+//                 $this->forward('displayMessage');
+//             }
+//             Registry::addDisplayedPoll($poll->getUid());
+//         }
 
         if (!$this->pollUtility->canDisplayResultsInPoll($poll)) {
+
+            die('ERROR: Cannot display poll');
+
             // Add user message
             $this->addErrorMessageAsFlashMessage('message.error.cannotDisplayResults');
 
             // Forward to detailAction
             $this->forward('detail', null, null, ['poll' => $poll->getUid()]);
-
-            // This should never happen..
-            return 'Error: something went terribly wrong!';
         }
-        $this->pollUtility->addPollToPageCache($poll);
-        $this->view->assign('poll', $poll);
+//         $this->pollUtility->addPollToPageCache($poll);
+        $this->view->assignMultiple([
+            'poll' => $poll,
+            'ajaxInitialize' => 'results',
+        ]);
     }
 
     /**
@@ -368,7 +421,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param string $title
      * @param int $severity
      */
-    public function displayMessageAction(\AawTeam\Minipoll\Domain\Model\Poll $poll = null)
+    public function displayMessageAction(Poll $poll = null)
     {
         $this->view->assign('poll', $poll);
     }
@@ -401,21 +454,21 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         return $this->addFlashMessage($messageBody, $messageTitle, AbstractMessage::ERROR);
     }
 
-    /**
-     * @return array
-     */
-    protected function getTyposcriptConfiguration()
-    {
-        $frameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
-        $settings = is_array($frameworkConfiguration['settings']) ? $frameworkConfiguration['settings'] : [];
-        $typoscriptConfiguration = \array_diff_key($frameworkConfiguration, \array_flip(['mvc', 'persistence', 'features', 'userFunc', 'extensionName', 'pluginName', 'vendorName', 'view', 'controllerConfiguration', 'settings']));
+//     /**
+//      * @return array
+//      */
+//     protected function getTyposcriptConfiguration()
+//     {
+//         $frameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+//         $settings = is_array($frameworkConfiguration['settings']) ? $frameworkConfiguration['settings'] : [];
+//         $typoscriptConfiguration = \array_diff_key($frameworkConfiguration, \array_flip(['mvc', 'persistence', 'features', 'userFunc', 'extensionName', 'pluginName', 'vendorName', 'view', 'controllerConfiguration', 'settings']));
 
-        /** @var TypoScriptService $typoscriptService */
-        $typoscriptService = $this->objectManager->get(TypoScriptService::class);
-        $typoscriptConfiguration = $typoscriptService->convertPlainArrayToTypoScriptArray($typoscriptConfiguration);
-        $typoscriptConfiguration['settings'] = $typoscriptService->convertPlainArrayToTypoScriptArray($settings);
-        return $typoscriptConfiguration;
-    }
+//         /** @var TypoScriptService $typoscriptService */
+//         $typoscriptService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\TypoScript\TypoScriptService::class);
+//         $typoscriptConfiguration = $typoscriptService->convertPlainArrayToTypoScriptArray($typoscriptConfiguration);
+//         $typoscriptConfiguration['settings'] = $typoscriptService->convertPlainArrayToTypoScriptArray($settings);
+//         return $typoscriptConfiguration;
+//     }
 
     /**
      * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController

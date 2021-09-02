@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\Configuration;
 
 /*
@@ -17,6 +18,7 @@ namespace AawTeam\Minipoll\Configuration;
  */
 
 use AawTeam\Minipoll\CaptchaProvider\Factory as CaptchaProviderFactory;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -29,7 +31,7 @@ class ExtensionManager
      * @param object $pObj
      * @return string
      */
-    public function getCaptchaProviderField(array $params, $pObj)
+    public function getCaptchaProviderField(array $params, $pObj): string
     {
         $return = '<select name="' . $params['fieldName'] . '"><option value=""></option>';
         $captchaProviders = CaptchaProviderFactory::getRegisteredCaptchaProviders();
@@ -39,9 +41,9 @@ class ExtensionManager
             if ($instance->isAvailable()) {
                 $selected = $params['fieldValue'] == $alias ? ' selected="selected"' : '';
                 $return .= sprintf('<option value="%s"%s>%s</option>',
-                                \htmlspecialchars($alias),
+                                htmlspecialchars($alias),
                                 $selected,
-                                \htmlspecialchars($this->translate($instance->getName()))
+                                htmlspecialchars($this->translate($instance->getName()))
                            );
             }
         }
@@ -52,7 +54,7 @@ class ExtensionManager
      * @param string $key
      * @return string
      */
-    protected function translate($key)
+    protected function translate(string $key): string
     {
         $translated = $this->getLanguageService()->sL($key);
         if (!$translated) {
@@ -62,9 +64,9 @@ class ExtensionManager
     }
 
     /**
-     * @return \TYPO3\CMS\Lang\LanguageService
+     * @return LanguageService
      */
-    protected function getLanguageService()
+    protected function getLanguageService(): LanguageService
     {
         return $GLOBALS['LANG'];
     }

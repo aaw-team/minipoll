@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\DuplicationCheck;
 
 /*
@@ -43,7 +44,7 @@ class Ip implements DuplicationCheckInterface
      * @param Poll $poll
      * @return bool
      */
-    public function canVote(Poll $poll)
+    public function canVote(Poll $poll): bool
     {
         return $this->participationRepository->countByPollAndIpAddress($poll, GeneralUtility::getIndpEnv('REMOTE_ADDR')) == 0;
     }
@@ -53,7 +54,7 @@ class Ip implements DuplicationCheckInterface
      * @param Participation $participation
      * @return bool
      */
-    public function disableVote(Poll $poll, Participation $participation)
+    public function disableVote(Poll $poll, Participation $participation): bool
     {
         return true;
     }
@@ -62,7 +63,7 @@ class Ip implements DuplicationCheckInterface
      * @param Poll $poll
      * @return bool
      */
-    public function canDisplayResults(Poll $poll)
+    public function canDisplayResults(Poll $poll): bool
     {
         return !$this->canVote($poll);
     }

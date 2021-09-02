@@ -1,0 +1,17 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:mp="http://typo3.org/ns/AawTeam/Minipoll/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<mp:registerResources poll="{poll}" />
+
+<div id="tx_minipoll-poll-{poll.uid}" class="tx_minipoll-poll"
+     data-minipoll-ajax="{ajaxInitialize}"
+     data-minipoll-ajax-detail="{f:uri.action(pageType:settings.ajaxPageType, action:'pollDetail', controller:'Ajax', pluginName:'Ajax', arguments:{poll:poll.uid}, section:'tx_minipoll-poll-{poll.uid}', addQueryString:1, addQueryStringMethod:'GET', argumentsToBeExcludedFromQueryString:{0:'tx_minipoll_poll'})}"
+     data-minipoll-ajax-results="{f:uri.action(pageType:settings.ajaxPageType, action:'showPollResult', controller:'Ajax', pluginName:'Ajax', arguments:{poll:poll.uid}, section:'tx_minipoll-poll-{poll.uid}', addQueryString:1, addQueryStringMethod:'GET', argumentsToBeExcludedFromQueryString:{0:'tx_minipoll_poll'})}"
+     data-minipoll-ajax-vote="{f:uri.action(pageType:settings.ajaxPageType, action:'votePoll', controller:'Ajax', pluginName:'Ajax', arguments:{poll:poll.uid}, section:'tx_minipoll-poll-{poll.uid}', addQueryString:1, addQueryStringMethod:'GET', argumentsToBeExcludedFromQueryString:{0:'tx_minipoll_poll'})}"
+     data-minipoll-captcha="{mp:poll.captchaProviderAlias()}"
+    >
+    <div>TODO: Display a spinner here..</div>
+</div>
+
+</html>

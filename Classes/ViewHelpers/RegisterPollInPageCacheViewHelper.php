@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\ViewHelpers;
 
 /*
@@ -18,9 +19,6 @@ namespace AawTeam\Minipoll\ViewHelpers;
 
 use AawTeam\Minipoll\Domain\Model\Poll;
 use AawTeam\Minipoll\Utility\PollUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
@@ -51,12 +49,10 @@ class RegisterPollInPageCacheViewHelper extends AbstractViewHelper
     }
 
     /**
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
+     *
      */
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
+    public function render()
     {
-        GeneralUtility::makeInstance(ObjectManager::class)->get(PollUtility::class)->addPollToPageCache($arguments['poll']);
+        $this->pollUtility->addPollToPageCache($this->arguments['poll']);
     }
 }

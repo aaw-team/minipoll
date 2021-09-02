@@ -22,10 +22,10 @@ defined ('TYPO3_MODE') or die ('Access denied.');
 ], [
     \AawTeam\Minipoll\Controller\PollController::class => 'vote,displayMessage'
 ]);
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin('Minipoll', 'PollDetail', [
-    \AawTeam\Minipoll\Controller\PollController::class => 'detail,vote,showResult,displayMessage'
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin('Minipoll', 'Ajax', [
+    \AawTeam\Minipoll\Controller\AjaxController::class => 'pollDetail,showPollResult,votePoll'
 ], [
-    \AawTeam\Minipoll\Controller\PollController::class => 'vote,displayMessage'
+    \AawTeam\Minipoll\Controller\AjaxController::class => 'pollDetail,showPollResult,votePoll'
 ]);
 
 // Add the plugin to new content element wizard
@@ -39,15 +39,6 @@ mod.wizards.newContentElement.wizardItems.plugins {
             tt_content_defValues {
                 CType = list
                 list_type = minipoll_poll
-            }
-        }
-        minipoll_polldetail {
-            iconIdentifier = content-plugin-minipoll-poll
-            title = LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:plugin_detail.title
-            description = LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:plugin_detail.description
-            tt_content_defValues {
-                CType = list
-                list_type = minipoll_polldetail
             }
         }
     }
@@ -76,7 +67,7 @@ $iconRegistry->registerIcon('minipoll-poll-option', \TYPO3\CMS\Core\Imaging\Icon
 ]);
 
 // Register upgrade wizard
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update'][\AawTeam\Minipoll\Update\SplitMinipollPluginsBySwitchableControllerActions::class] = \AawTeam\Minipoll\Update\SplitMinipollPluginsBySwitchableControllerActions::class;
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update'][\AawTeam\Minipoll\Update\RemoveSwitchableControllerActions::class] = \AawTeam\Minipoll\Update\RemoveSwitchableControllerActions::class;
 
 // Include autoloader fot the third-party code
 if (!\class_exists('ParagonIE\\ConstantTime\\Encoding')) {

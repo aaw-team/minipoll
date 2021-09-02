@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\DuplicationCheck;
 
 /*
@@ -30,7 +31,7 @@ class Dummy implements DuplicationCheckInterface
      * @param Poll $poll
      * @return bool
      */
-    public function canVote(Poll $poll)
+    public function canVote(Poll $poll): bool
     {
         return true;
     }
@@ -39,7 +40,7 @@ class Dummy implements DuplicationCheckInterface
      * @param Poll $poll
      * @return bool
      */
-    public function disableVote(Poll $poll, Participation $participation)
+    public function disableVote(Poll $poll, Participation $participation): bool
     {
         return true;
     }
@@ -48,7 +49,7 @@ class Dummy implements DuplicationCheckInterface
      * @param Poll $poll
      * @return bool
      */
-    public function canDisplayResults(Poll $poll)
+    public function canDisplayResults(Poll $poll): bool
     {
         return true;
     }

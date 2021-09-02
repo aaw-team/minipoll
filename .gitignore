@@ -7,3 +7,5 @@
 node_modules
 npm-debug.log
 yarn.lock
+Resources/Private/PHP/vendor
+Resources/Private/PHP/composer.lock

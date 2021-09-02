@@ -26,8 +26,8 @@ $EM_CONF[$_EXTKEY] = [
         ],
         'conflicts' => [],
         'suggests' => [
-            'captcha' => '2.0.2',
-            'sr_freecap' => ''
+            //'captcha' => '2.0.2',
+            'sr_freecap' => '2.6.0'
         ],
     ],
 ];

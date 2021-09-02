@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\CaptchaProvider;
 
 /*
@@ -17,6 +18,7 @@ namespace AawTeam\Minipoll\CaptchaProvider;
  */
 
 use AawTeam\Minipoll\Domain\Model\Poll;
+use AawTeam\Minipoll\PageRendering\ResourceCollection;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
@@ -29,9 +31,9 @@ class ExtensionCaptcha implements CaptchaProviderInterface
 {
     /**
      * {@inheritDoc}
-     * @see \AawTeam\Minipoll\CaptchaProvider\CaptchaProviderInterface::getName()
+     * @see CaptchaProviderInterface::getName()
      */
-    public function getName()
+    public function getName(): string
     {
         return 'TYPO3 Extension "captcha"';
     }
@@ -40,40 +42,50 @@ class ExtensionCaptcha implements CaptchaProviderInterface
      * EXT:captcha is available when installed in version 2.0.2 or later.
      *
      * {@inheritDoc}
-     * @see \AawTeam\Minipoll\CaptchaProvider\CaptchaProviderInterface::isAvailable()
+     * @see CaptchaProviderInterface::isAvailable()
      */
-    public function isAvailable()
+    public function isAvailable(): bool
     {
+        return false;
         return ExtensionManagementUtility::isLoaded('captcha')
             && \version_compare(ExtensionManagementUtility::getExtensionVersion('captcha'), '2.0.2', '>=');
     }
 
     /**
      * {@inheritDoc}
-     * @see \AawTeam\Minipoll\CaptchaProvider\CaptchaProviderInterface::hasMultipleInstancesSupport()
+     * @see CaptchaProviderInterface::hasMultipleInstancesSupport()
      */
-    public function hasMultipleInstancesSupport()
+    public function hasMultipleInstancesSupport(): bool
     {
         return true;
     }
 
     /**
      * {@inheritDoc}
-     * @see \AawTeam\Minipoll\CaptchaProvider\CaptchaProviderInterface::validate()
+     * @see CaptchaProviderInterface::validate()
      */
-    public function validate($fieldValue, Poll $poll)
+    public function validate(string $fieldValue, Poll $poll): bool
     {
         return \ThinkopenAt\Captcha\Utility::checkCaptcha($fieldValue, $poll->getUid());
     }
 
     /**
      * {@inheritDoc}
-     * @see \AawTeam\Minipoll\CaptchaProvider\CaptchaProviderInterface::createCaptchaArray()
+     * @see CaptchaProviderInterface::createCaptchaArray()
      */
-    public function createCaptchaArray(Poll $poll)
+    public function createCaptchaArray(Poll $poll): array
     {
         return [
             'image' => \ThinkopenAt\Captcha\Utility::makeCaptcha($poll->getUid()),
         ];
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see CaptchaProviderInterface::getAdditionalResources()
+     */
+    public function getAdditionalResources(): ?ResourceCollection
+    {
+        return null;
     }
 }

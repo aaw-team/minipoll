@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\Utility;
 
 /*
@@ -31,14 +32,13 @@ final class SecurityUtility
 
     /**
      * @param string $input
-     * @param bool $rawOutput
      * @throws \InvalidArgumentException
      * @return string
      */
-    public static function appendHmacToString($input)
+    public static function appendHmacToString(string $input): string
     {
-        if (!\is_string($input) || Binary::safeStrlen($input) < 1) {
-            throw new \InvalidArgumentException('$input must be not empty string');
+        if (Binary::safeStrlen($input) < 1) {
+            throw new \InvalidArgumentException('$input must not be empty');
         }
         return $input . self::hmacWithTYPO3EncryptionKey($input);
     }
@@ -49,14 +49,14 @@ final class SecurityUtility
      * @throws InvalidHmacException
      * @return string
      */
-    public static function validateAndStripHmac($input)
+    public static function validateAndStripHmac(string $input): string
     {
-        if (!\is_string($input) || Binary::safeStrlen($input) < (1 + self::HMAC_LENGTH)) {
-            throw new \InvalidArgumentException('$input must be not empty string');
+        if (Binary::safeStrlen($input) < (1 + self::HMAC_LENGTH)) {
+            throw new \InvalidArgumentException('$input must not be empty');
         }
         $userData = Binary::safeSubstr($input, 0, Binary::safeStrlen($input) - self::HMAC_LENGTH);
         $hmac = Binary::safeSubstr($input, self::HMAC_LENGTH * -1);
-        if (!self::hashEquals(self::hmacWithTYPO3EncryptionKey($userData), $hmac)) {
+        if (!hash_equals(self::hmacWithTYPO3EncryptionKey($userData), $hmac)) {
             throw new InvalidHmacException('Invalid HMAC', 1489758944);
         }
         return $userData;
@@ -64,10 +64,9 @@ final class SecurityUtility
 
     /**
      * @param string $input
-     * @throws \InvalidArgumentException
      * @return string
      */
-    public static function hmacWithTYPO3EncryptionKey($input)
+    public static function hmacWithTYPO3EncryptionKey(string $input): string
     {
         return self::hmac($input, $GLOBALS['SYS']['encryptionKey']);
     }
@@ -77,45 +76,19 @@ final class SecurityUtility
      * @param string $key
      * @return string
      */
-    public static function hmac($input, $key)
+    public static function hmac(string $input, string $key): string
     {
-        if (!\is_string($input) || Binary::safeStrlen($input) < 1) {
-            throw new \InvalidArgumentException('$input must be not empty string');
+        if (Binary::safeStrlen($input) < 1) {
+            throw new \InvalidArgumentException('$input must not be empty');
         }
-        return \hash_hmac(self::HMAC_ALGO, $input, $key, false);
-    }
-
-    /**
-     * Timing attack safe string comparison
-     *
-     * @param string $knownString
-     * @param string $userString
-     * @throws \InvalidArgumentException
-     * @return boolean
-     */
-    public static function hashEquals($knownString, $userString)
-    {
-        if (\function_exists('hash_equals')) {
-            return \hash_equals($knownString, $userString);
-        }
-
-        if (!\is_string($knownString)) {
-            throw new \InvalidArgumentException('$knownString must be string');
-        } elseif (!\is_string($userString)) {
-            throw new \InvalidArgumentException('$userString must be string');
-        } elseif (Binary::safeStrlen($knownString) != Binary::safeStrlen($userString)) {
-            return false;
-        }
-
-        $randomBlind = self::generateRandomBytes(16);
-        return self::hmac($knownString, $randomBlind) === self::hmac($userString, $randomBlind);
+        return hash_hmac(self::HMAC_ALGO, $input, $key);
     }
 
     /**
      * @param int $length
      * @return string
      */
-    public static function generateRandomBytes($length)
+    public static function generateRandomBytes(int $length): string
     {
         return GeneralUtility::makeInstance(Random::class)->generateRandomBytes($length);
     }

@@ -7,7 +7,9 @@
     <f:render partial="Poll/Description" arguments="{_all}" />
 
     <mp:poll.results poll="{poll}">
-        <f:render partial="Poll/Results/{resultRendererName}" arguments="{_all}" />
+        <f:if condition="{resultRendererPartialName}">
+            <f:render partial="Poll/Results/{resultRendererPartialName}" arguments="{_all}" />
+        </f:if>
     </mp:poll.results>
 
     <div class="tx_minipoll-footer">
@@ -19,7 +21,7 @@
         </div>
 
         <mp:ifCanVote poll="{poll}">
-            <f:link.action action="detail" arguments="{poll:poll.uid}" addQueryString="1" addQueryStringMethod="GET" class="tx_minipoll-button">
+            <f:link.action action="detail" controller="Poll" pluginName="Poll" arguments="{poll:poll.uid}" section="{f:if(condition:settings.addSectionToLinks, then:'tx_minipoll-poll-{poll.uid}')}" addQueryString="1" addQueryStringMethod="GET" argumentsToBeExcludedFromQueryString="{0:'tx_minipoll_ajax'}" data="{minipoll-detail:true}" class="tx_minipoll-button">
                 <f:translate key="link.action.detail" />
             </f:link.action>
         </mp:ifCanVote>

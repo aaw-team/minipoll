@@ -28,9 +28,9 @@ use TYPO3\CMS\Install\Updates\RepeatableInterface;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
- * SplitMinipollPluginsBySwitchableControllerActions
+ * RemoveSwitchableControllerActions
  */
-class SplitMinipollPluginsBySwitchableControllerActions implements UpgradeWizardInterface, ChattyInterface, RepeatableInterface
+class RemoveSwitchableControllerActions implements UpgradeWizardInterface, ChattyInterface, RepeatableInterface
 {
     /**
      * @param OutputInterface $output
@@ -61,7 +61,7 @@ class SplitMinipollPluginsBySwitchableControllerActions implements UpgradeWizard
      */
     public function getTitle(): string
     {
-        return '[EXT:minipoll] Migrate Minipoll plugins away from switchableControllerActions';
+        return '[EXT:minipoll] Remove switchableControllerActions from minipoll plugin FlexForm settings';
     }
 
     /**
@@ -70,7 +70,7 @@ class SplitMinipollPluginsBySwitchableControllerActions implements UpgradeWizard
      */
     public function getDescription(): string
     {
-        return 'Because Switchable Controller Actions will not be supported anymore, the plugin configurations need to be split up in two separate plugins. This wizard takes care of this, and updates the stored FlexForm settings.';
+        return 'Because Switchable Controller Actions will not be supported in the future, the plugin configuration needs to be updated. This wizard takes care of this, and updates the stored FlexForm settings.';
     }
 
     /**
@@ -172,14 +172,6 @@ class SplitMinipollPluginsBySwitchableControllerActions implements UpgradeWizard
             || !is_array($flexFormArray['data']['sDEF']['lDEF'])
         ) {
             return null;
-        }
-
-        $isOldStylePlugin = is_array($flexFormArray['data']['sDEF']['lDEF']['switchableControllerActions']);
-        $isOldStyleDetailsPlugin = $isOldStylePlugin && $flexFormArray['data']['sDEF']['lDEF']['switchableControllerActions']['vDEF'] === 'Poll->detail;Poll->vote;Poll->showResult';
-
-        if ($isOldStyleDetailsPlugin) {
-            // Change list_type
-            $row['list_type'] = 'minipoll_polldetail';
         }
 
         // Remove sDEF->switchableControllerActions

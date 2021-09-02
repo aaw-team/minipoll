@@ -77,7 +77,7 @@
             </trans-unit>
             <trans-unit id="text.result.totalvotes">
                 <source>Total: %s</source>
-                <target>Instgesamt: %s</target>
+                <target>Insgesamt: %s</target>
             </trans-unit>
             <trans-unit id="text.votecount_p">
                 <source>%s votes</source>

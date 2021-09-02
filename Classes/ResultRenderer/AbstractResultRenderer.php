@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\ResultRenderer;
 
 /*
@@ -18,6 +19,7 @@ namespace AawTeam\Minipoll\ResultRenderer;
 
 use AawTeam\Minipoll\Domain\Model\Poll;
 use AawTeam\Minipoll\Domain\Model\PollOption;
+use AawTeam\Minipoll\PageRendering\ResourceCollection;
 use AawTeam\Minipoll\ViewModel\PollOptionViewModel;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -28,7 +30,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 abstract class AbstractResultRenderer implements ResultRendererInterface
 {
     /**
-     * @var \AawTeam\Minipoll\Domain\Model\Poll
+     * @var Poll
      */
     protected $poll;
 
@@ -44,22 +46,31 @@ abstract class AbstractResultRenderer implements ResultRendererInterface
 
     /**
      * {@inheritDoc}
-     * @see \AawTeam\Minipoll\ResultRenderer\ResultRendererInterface::setup()
+     * @see ResultRendererInterface::setup()
      */
-    public function setup(Poll $poll, array $configuration)
+    public function setup(Poll $poll, array $configuration): void
     {
         $this->poll = $poll;
         $this->configuration = $configuration;
     }
 
     /**
+     * {@inheritDoc}
+     * @see ResultRendererInterface::getAdditionalResources()
+     */
+    public function getAdditionalResources(): ?ResourceCollection
+    {
+        return null;
+    }
+
+    /**
      * @return array
      */
-    protected function getPollOptionsAsViewModels()
+    protected function getPollOptionsAsViewModels(): array
     {
         $orderedOptions = $this->poll->getOptions()->toArray();
         if ($this->configuration['orderBy'] == 'answers') {
-            uasort($orderedOptions, function(PollOption $p1, PollOption $p2) {
+            uasort($orderedOptions, function(PollOption $p1, PollOption $p2): int {
                 $c1 = $p1->getAnswers()->count();
                 $c2 = $p2->getAnswers()->count();
                 if ($c1 == $c2) {
@@ -68,13 +79,13 @@ abstract class AbstractResultRenderer implements ResultRendererInterface
                 return ($c2 - $c1);
             });
         } elseif ($this->configuration['orderBy'] == 'random') {
-            uasort($orderedOptions, function(PollOption $p1, PollOption $p2) {
-                return \mt_rand(-1,1);
+            uasort($orderedOptions, function(PollOption $p1, PollOption $p2): int {
+                return random_int(-1,1);
             });
         }
 
         if ($this->configuration['reverseOrder'] == 1) {
-            $orderedOptions = \array_reverse($orderedOptions);
+            $orderedOptions = array_reverse($orderedOptions);
         }
 
         $viewModels = [];
@@ -90,18 +101,13 @@ abstract class AbstractResultRenderer implements ResultRendererInterface
      * @throws \InvalidArgumentException
      * @return array
      */
-    protected function getConfigurationOptionPerItem($option, $itemCount)
+    protected function getConfigurationOptionPerItem(string $option, int $itemCount): array
     {
-        if (!\is_string($option)) {
-            throw new \InvalidArgumentException('$option must be string');
-        } elseif (!\is_int($itemCount)) {
-            throw new \InvalidArgumentException('$itemCount must be int');
-        }
         if ($itemCount < 1 ) {
             return [];
         }
         if (!isset($this->configuration[$option])) {
-            return \array_fill(0, $itemCount, '');
+            return array_fill(0, $itemCount, '');
         }
 
         // Get typoscript configuration
@@ -120,22 +126,17 @@ abstract class AbstractResultRenderer implements ResultRendererInterface
      * @param int $itemCount
      * @return array
      */
-    protected function getConfigurationOptionPerItemFromList($list, $itemCount)
+    protected function getConfigurationOptionPerItemFromList(string $list, int $itemCount): array
     {
-        if (!\is_string($list)) {
-            throw new \InvalidArgumentException('$list must be string');
-        } elseif (!\is_int($itemCount)) {
-            throw new \InvalidArgumentException('$itemCount must be int');
-        }
         if ($itemCount < 1 ) {
             return [];
         }
         $optionsList = GeneralUtility::trimExplode(',', $list, true);
-        $optionsCount = \count($optionsList);
+        $optionsCount = count($optionsList);
         if ($optionsCount < 1) {
-            return \array_fill(0, $itemCount, '');
+            return array_fill(0, $itemCount, '');
         } elseif ($optionsCount == 1) {
-            return \array_fill(0, $itemCount, $optionsList[0]);
+            return array_fill(0, $itemCount, $optionsList[0]);
         }
         $return = [];
         for ($i = 0; $i < $itemCount; ++$i) {
@@ -149,14 +150,8 @@ abstract class AbstractResultRenderer implements ResultRendererInterface
      * @param int $itemCount
      * @return array
      */
-    protected function getConfigurationOptionPerItemFromOptionSplit($list, $itemCount)
+    protected function getConfigurationOptionPerItemFromOptionSplit(string $list, int $itemCount): array
     {
-        if (!\is_string($list)) {
-            throw new \InvalidArgumentException('$list must be string');
-        } elseif (!\is_int($itemCount)) {
-            throw new \InvalidArgumentException('$itemCount must be int');
-        }
-
         $splitConf = $this->getTyposcriptService()->explodeConfigurationForOptionSplit(['list' => $list], $itemCount);
 
         $return = [];
@@ -172,20 +167,12 @@ abstract class AbstractResultRenderer implements ResultRendererInterface
      *
      * @return array
      */
-    protected function getTyposcriptConfiguration()
+    protected function getTyposcriptConfiguration(): array
     {
         if ($this->typoscriptConfiguration === null) {
             $this->typoscriptConfiguration = $this->getTyposcriptService()->convertPlainArrayToTypoScriptArray($this->configuration);
         }
         return $this->typoscriptConfiguration;
-    }
-
-    /**
-     * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
-     */
-    protected function getTyposcriptFrontendController()
-    {
-        return $GLOBALS['TSFE'];
     }
 
     /**

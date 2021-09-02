@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\CaptchaProvider;
 
 /*
@@ -17,6 +18,7 @@ namespace AawTeam\Minipoll\CaptchaProvider;
  */
 
 use AawTeam\Minipoll\Domain\Model\Poll;
+use AawTeam\Minipoll\PageRendering\ResourceCollection;
 
 /**
  * CaptchaProviderInterface
@@ -28,14 +30,14 @@ interface CaptchaProviderInterface
      *
      * @return string
      */
-    public function getName();
+    public function getName(): string;
 
     /**
      * Returns false when the functionality is not available, true otherwise.
      *
      * @return bool
      */
-    public function isAvailable();
+    public function isAvailable(): bool;
 
     /**
      * Returns true, when the captcha provider supports more than one captcha
@@ -43,17 +45,17 @@ interface CaptchaProviderInterface
      *
      * @return bool
      */
-    public function hasMultipleInstancesSupport();
+    public function hasMultipleInstancesSupport(): bool;
 
     /**
      * Returns true when the value in $fieldValue is a valid captcha string,
      * false otherwise.
      *
      * @param string $fieldValue
-     * @param \AawTeam\Minipoll\Domain\Model\Poll $poll
+     * @param Poll $poll
      * @return bool
      */
-    public function validate($fieldValue, Poll $poll);
+    public function validate(string $fieldValue, Poll $poll): bool;
 
     /**
      * Returns an array containing variables, that will be assigned to the
@@ -65,5 +67,13 @@ interface CaptchaProviderInterface
      * @param Poll $poll
      * @return array
      */
-    public function createCaptchaArray(Poll $poll);
+    public function createCaptchaArray(Poll $poll): array;
+
+    /**
+     * Returns an array containing any additional resources that should be
+     * included on the page with the plugin.
+     *
+     * @return ResourceCollection|null
+     */
+    public function getAdditionalResources(): ?ResourceCollection;
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\ResultRenderer;
 
 /*
@@ -16,10 +17,10 @@ namespace AawTeam\Minipoll\ResultRenderer;
  * The TYPO3 project - inspiring people to share!
  */
 
-use AawTeam\Minipoll\Domain\Model\PollOption;
+use AawTeam\Minipoll\PageRendering\Resource;
+use AawTeam\Minipoll\PageRendering\ResourceCollection;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
 /**
  * Svgpiechart ResultRenderer
@@ -29,9 +30,8 @@ class Svgpiechart extends AbstractResultRenderer
     /**
      * @return array
      */
-    public function getRenderedResults()
+    public function getRenderedResults(): array
     {
-        $this->registerJavascripts();
         return [
             'width' => (int) $this->configuration['width'],
             'height' => (int) $this->configuration['height'],
@@ -47,7 +47,7 @@ class Svgpiechart extends AbstractResultRenderer
      * @throws \Exception
      * @return array
      */
-    protected function getSlices()
+    protected function getSlices(): array
     {
         if (!MathUtility::canBeInterpretedAsInteger($this->configuration['width']) || (int) $this->configuration['width'] <= 0) {
             throw new \Exception('width must be a positive int');
@@ -62,15 +62,15 @@ class Svgpiechart extends AbstractResultRenderer
             throw new \Exception('textRadius must be a positive int or float');
         }
 
-        $radius = $this->configuration['radius']; // Radius of the circle
-        $textRadius = $this->configuration['textRadius']; // Radius of the circle at which the text will be aligned
-        $centerX = $centerY = 0; // Center of the circle
+        $radius = (float)$this->configuration['radius']; // Radius of the circle
+        $textRadius = (float)$this->configuration['textRadius']; // Radius of the circle at which the text will be aligned
+        $centerX = $centerY = .0; // Center of the circle
 
         $startX = $centerX; // The starting point of the circle
         $startY = $centerY - $radius;
 
         // Control vars
-        $previousRadianSum = 0.0; // This is 0 because we start at the top of the pie
+        $previousRadianSum = .0; // This is 0 because we start at the top of the pie
         $previousEndX = $startX;
         $previousEndY = $startY;
 
@@ -83,7 +83,7 @@ class Svgpiechart extends AbstractResultRenderer
             $totalAnswers += $pollOption->getAnswers()->count();
         }
 
-        $optionsCount = \count($pollOptions);
+        $optionsCount = count($pollOptions);
         // Get color configuration
         $colors = $this->getConfigurationOptionPerItem('colors', $optionsCount);
         // Get cssClass configuration
@@ -125,7 +125,7 @@ class Svgpiechart extends AbstractResultRenderer
             }
 
             // Build the return array
-            $return[] = \array_merge($slice, [
+            $return[] = array_merge($slice, [
                 'fill' => $colors[$key],
                 'class' => $cssClasses[$key],
                 'id' => $key,
@@ -142,18 +142,18 @@ class Svgpiechart extends AbstractResultRenderer
      *
      * @return array
      */
-    function getSlice(
-        $percent,
-        $radius,
-        $textRadius,
-        $startX,
-        $startY,
-        $centerX,
-        $centerY,
-        &$previousEndX,
-        &$previousEndY,
-        &$previousRadianSum
-    ) {
+    protected function getSlice(
+        float $percent,
+        float $radius,
+        float $textRadius,
+        float $startX,
+        float $startY,
+        float $centerX,
+        float $centerY,
+        float &$previousEndX,
+        float &$previousEndY,
+        float &$previousRadianSum
+    ): array {
         // Calculate radians with percentage
         $radian = $this->percentToRadian($percent);
 
@@ -185,8 +185,8 @@ class Svgpiechart extends AbstractResultRenderer
         $path .= "Z";
 
         // Calculate the center point of the current slice
-        $cX = $startX + \sin($radian/2 + $previousRadianSum) * $textRadius;
-        $cY = ($startY + $radius - $textRadius) + (\cos($radian/2 + $previousRadianSum) * -1 + 1) * $textRadius;
+        $cX = $startX + sin($radian/2 + $previousRadianSum) * $textRadius;
+        $cY = ($startY + $radius - $textRadius) + (cos($radian/2 + $previousRadianSum) * -1 + 1) * $textRadius;
 
         // Update the previous end for the next slice
         $previousEndX = $endX;
@@ -212,9 +212,9 @@ class Svgpiechart extends AbstractResultRenderer
      *
      * @return double
      */
-    function percentToRadian($percent)
+    protected function percentToRadian(float $percent): float
     {
-        return 0.02 * $percent * \pi();
+        return 0.02 * $percent * pi();
     }
 
     /**
@@ -222,7 +222,7 @@ class Svgpiechart extends AbstractResultRenderer
      *
      * @return float
      */
-    function getPercentage($totalAnswers, $answers)
+    protected function getPercentage(int $totalAnswers, int $answers): float
     {
         $percent = 0.0;
         if ($totalAnswers > 0 && $answers > 0) {
@@ -233,27 +233,33 @@ class Svgpiechart extends AbstractResultRenderer
     }
 
     /**
-     * @return void
+     * {@inheritDoc}
+     * @see ResultRendererInterface::getViewPartialName()
      */
-    protected function registerJavascripts()
+    public function getViewPartialName(): string
     {
-        /** @var FilePathSanitizer $filePathSanitizer */
-        $filePathSanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
-
-        if ($this->configuration['includeTooltipJs'] && $this->configuration['includeJquery']) {
-            $this->getPageRenderer()->addJsFooterLibrary('minipoll-jquery', $filePathSanitizer->sanitize('EXT:minipoll/Resources/Public/Js/jquery-3.2.1.min.js'));
-        }
-        if ($this->configuration['includeTooltipJs']) {
-            $this->getPageRenderer()->addJsFooterFile($filePathSanitizer->sanitize('EXT:minipoll/Resources/Public/Js/svgpiechart.js'), 'text/javascript', false);
-            $this->getPageRenderer()->addJsFooterInlineCode(static::class, '$(".tx_minipoll-svgpiechart").svgpiechart();', false);
-        }
+        return 'Svgpiechart';
     }
 
     /**
-     * @return \TYPO3\CMS\Core\Page\PageRenderer
+     * {@inheritDoc}
+     * @see ResultRendererInterface::getAdditionalResources()
      */
-    protected function getPageRenderer()
+    public function getAdditionalResources(): ?ResourceCollection
     {
-        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
+        /** @var ResourceCollection $collection */
+        $collection = GeneralUtility::makeInstance(ResourceCollection::class);
+
+        if ($this->configuration['includeTooltipJs'] && $this->configuration['includeJquery']) {
+            $collection = $collection->withResource(Resource::createJsFooterLibrary('EXT:minipoll/Resources/Public/Js/jquery-3.2.1.min.js'));
+        }
+        if ($this->configuration['includeTooltipJs']) {
+            $collection = $collection->withResource(
+                Resource::createJsFooterFile('EXT:minipoll/Resources/Public/Js/svgpiechart.js')
+            )->withResource(
+                Resource::createJsFooterInline('$(".tx_minipoll-svgpiechart").svgpiechart();')
+            );
+        }
+        return $collection;
     }
 }

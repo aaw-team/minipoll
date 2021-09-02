@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\ViewHelpers;
 
 /*
@@ -19,7 +20,6 @@ namespace AawTeam\Minipoll\ViewHelpers;
 use AawTeam\Minipoll\Domain\Model\Poll;
 use AawTeam\Minipoll\Utility\PollUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractConditionViewHelper;
 
@@ -33,22 +33,18 @@ class IfCanVoteViewHelper extends AbstractConditionViewHelper
      */
     public function initializeArguments()
     {
+        parent::initializeArguments();
         $this->registerArgument('poll', Poll::class, 'The poll to evaluate', true);
     }
 
     /**
-     * @param array $arguments
-     * @param RenderingContextInterface $renderingContext
-     * @return boolean
+     * {@inheritDoc}
+     * @see AbstractConditionViewHelper::verdict()
      */
     public static function verdict(array $arguments, RenderingContextInterface $renderingContext)
     {
-        /** @var ObjectManager $objectManager */
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-
         /** @var PollUtility $pollUtility */
-        $pollUtility = $objectManager->get(PollUtility::class);
-
+        $pollUtility = GeneralUtility::makeInstance(PollUtility::class);
         return $pollUtility->canVoteInPoll($arguments['poll']);
     }
 }

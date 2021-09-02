@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\Utility;
 
 /*
@@ -21,9 +22,7 @@ use AawTeam\Minipoll\Domain\Model\Poll;
 use AawTeam\Minipoll\DuplicationCheck\Factory as DuplicationCheckFactory;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
-
 
 /**
  * PollUtility
@@ -31,23 +30,23 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 class PollUtility
 {
     /**
-     * @var ObjectManagerInterface
+     * @var DuplicationCheckFactory
      */
-    protected $objectManager;
+    protected $duplicationCheckFactory;
 
     /**
-     * @param ObjectManagerInterface $objectManager
+     * @param DuplicationCheckFactory $duplicationCheckFactory
      */
-    public function injectObjectManager(ObjectManagerInterface $objectManager)
+    public function injectDuplicationCheckFactory(DuplicationCheckFactory $duplicationCheckFactory)
     {
-        $this->objectManager = $objectManager;
+        $this->duplicationCheckFactory = $duplicationCheckFactory;
     }
 
     /**
      * @param Poll $poll
-     * @return boolean
+     * @return bool
      */
-    public function canDisplayResultsInPoll(Poll $poll)
+    public function canDisplayResultsInPoll(Poll $poll): bool
     {
         if ($poll->getDisplayResults() === Poll::DISPLAY_RESULTS_ALWAYS) {
             return true;
@@ -56,33 +55,30 @@ class PollUtility
         }
 
         // Try to find out whether one has voted already
-        $duplicationCheck = $this->getDuplicationCheck($poll);
-        return $duplicationCheck->canDisplayResults($poll);
+        return $this->getDuplicationCheck($poll)->canDisplayResults($poll);
     }
 
     /**
      * @param Poll $poll
-     * @return boolean
+     * @return bool
      */
-    public function canVoteInPoll(Poll $poll)
+    public function canVoteInPoll(Poll $poll): bool
     {
         // Early return when poll is closed
         if ($poll->getIsClosed()) {
             return false;
         }
 
-        $duplicationCheck = $this->getDuplicationCheck($poll);
-        return $duplicationCheck->canVote($poll);
+        return $this->getDuplicationCheck($poll)->canVote($poll);
     }
 
     /**
      * @param Poll $poll
-     * @return boolean
+     * @return bool
      */
-    public function disableVoteInPoll(Poll $poll, Participation $participation)
+    public function disableVoteInPoll(Poll $poll, Participation $participation): bool
     {
-        $duplicationCheck = $this->getDuplicationCheck($poll);
-        return $duplicationCheck->disableVote($poll, $participation);
+        return $this->getDuplicationCheck($poll)->disableVote($poll, $participation);
     }
 
     /**
@@ -91,9 +87,7 @@ class PollUtility
      */
     protected function getDuplicationCheck(Poll $poll)
     {
-        /** @var DuplicationCheckFactory $duplicationCheckFactory */
-        $duplicationCheckFactory = $this->objectManager->get(DuplicationCheckFactory::class);
-        return $duplicationCheckFactory->getDuplicationCheck($poll);
+        return $this->duplicationCheckFactory->getDuplicationCheck($poll);
     }
 
     /**
@@ -114,11 +108,11 @@ class PollUtility
      */
     public function getCaptchaProviderAliasFromSettings(array $settings)
     {
-        if (!\array_key_exists('captcha', $settings)) {
+        if (!array_key_exists('captcha', $settings)) {
             return false;
         }
 
-        $alias = \trim($settings['captcha']);
+        $alias = trim($settings['captcha']);
         if (empty($alias)) {
             return false;
         } elseif ($alias == 1) {
@@ -145,6 +139,39 @@ class PollUtility
         GeneralUtility::makeInstance(CacheManager::class)->getCache('pages')->flushByTag(
             $this->poll2PageCacheTag($poll)
         );
+    }
+
+    /**
+     * @param Poll $poll
+     * @return array
+     */
+    public function pollToArray(Poll $poll): array
+    {
+        $pollArray = [
+            'uid' => $poll->getUid(),
+            'title' => $poll->getTitle(),
+            'description' => $poll->getDescription(),
+            'participations' => [],
+        ];
+        foreach ($poll->getParticipations() as $participation) {
+            $pollArray['participations'][$participation->getUid()] = [
+                'uid' => $participation->getUid(),
+                'answers' => [],
+            ];
+
+            foreach ($participation->getAnswers() as $answer) {
+                $pollArray['participations'][$participation->getUid()]['answers'][$answer->getUid()] = [
+                    'uid' => $answer->getUid(),
+                    'pollOption' => [
+                        'uid' => $answer->getPollOption()->getUid(),
+                        'title' => $answer->getPollOption()->getTitle(),
+                    ],
+                    'value' => $answer->getValue(),
+                ];
+            }
+        }
+
+        return $pollArray;
     }
 
     /**

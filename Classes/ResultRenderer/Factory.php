@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\ResultRenderer;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;

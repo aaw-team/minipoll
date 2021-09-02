@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace AawTeam\Minipoll\ResultRenderer;
 
 /*
@@ -24,10 +25,10 @@ class Css extends AbstractResultRenderer
     /**
      * @return array
      */
-    public function getRenderedResults()
+    public function getRenderedResults(): array
     {
         $options = $this->getPollOptionsAsViewModels();
-        $optionsCount = \count($options);
+        $optionsCount = count($options);
         $colors = $this->getConfigurationOptionPerItem('colors', $optionsCount);
         $cssClasses = $this->getConfigurationOptionPerItem('cssClasses', $optionsCount);
 
@@ -38,5 +39,14 @@ class Css extends AbstractResultRenderer
         return [
             'options' => $options
         ];
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see ResultRendererInterface::getViewPartialName()
+     */
+    public function getViewPartialName(): string
+    {
+        return 'Css';
     }
 }

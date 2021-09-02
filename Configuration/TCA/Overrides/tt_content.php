@@ -21,20 +21,10 @@
     'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:plugin.title',
     'EXT:minipoll/Resources/Public/Icons/plugin-minipoll-poll.svg'
 );
-// Register detail plugin
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'AawTeam.Minipoll',
-    'PollDetail',
-    'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:plugin_detail.title',
-    'EXT:minipoll/Resources/Public/Icons/plugin-minipoll-poll.svg'
-);
-
-// Disable unused fields when the list plugin is shown
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['minipoll_poll'] = 'select_key,pages,recursive';
 
 // Add flexform for the detail plugin
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('minipoll_polldetail', 'FILE:EXT:minipoll/Configuration/Flexform/PluginPoll.xml');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('minipoll_poll', 'FILE:EXT:minipoll/Configuration/Flexform/PluginPoll.xml');
 // Show tt_content.pi_flexform when the detail plugin is shown
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['minipoll_polldetail'] = 'pi_flexform';
-// Disable unused fields when the detail plugin is shown
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['minipoll_polldetail'] = 'select_key,pages,recursive';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['minipoll_poll'] = 'pi_flexform';
+// Disable unused fields when the list plugin is shown
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['minipoll_poll'] = 'select_key,pages,recursive';
