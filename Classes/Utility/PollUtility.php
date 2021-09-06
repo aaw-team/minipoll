@@ -55,7 +55,7 @@ class PollUtility
         }
 
         // Try to find out whether one has voted already
-        return $this->getDuplicationCheck($poll)->canDisplayResults($poll);
+        return $this->getDuplicationCheck($poll)->isVoted($poll);
     }
 
     /**
@@ -69,16 +69,16 @@ class PollUtility
             return false;
         }
 
-        return $this->getDuplicationCheck($poll)->canVote($poll);
+        return !$this->getDuplicationCheck($poll)->isVoted($poll);
     }
 
     /**
      * @param Poll $poll
-     * @return bool
+     * @param Participation $participation
      */
-    public function disableVoteInPoll(Poll $poll, Participation $participation): bool
+    public function disableVoteInPoll(Poll $poll, Participation $participation): void
     {
-        return $this->getDuplicationCheck($poll)->disableVote($poll, $participation);
+        $this->getDuplicationCheck($poll)->registerVote($poll, $participation);
     }
 
     /**

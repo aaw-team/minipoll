@@ -41,30 +41,47 @@ class Ip implements DuplicationCheckInterface
     }
 
     /**
-     * @param Poll $poll
-     * @return bool
+     * {@inheritDoc}
+     * @see DuplicationCheckInterface::isAvailable()
      */
-    public function canVote(Poll $poll): bool
-    {
-        return $this->participationRepository->countByPollAndIpAddress($poll, GeneralUtility::getIndpEnv('REMOTE_ADDR')) == 0;
-    }
-
-    /**
-     * @param Poll $poll
-     * @param Participation $participation
-     * @return bool
-     */
-    public function disableVote(Poll $poll, Participation $participation): bool
+    public function isAvailable(): bool
     {
         return true;
     }
 
     /**
-     * @param Poll $poll
-     * @return bool
+     * {@inheritDoc}
+     * @see DuplicationCheckInterface::isVoted()
      */
-    public function canDisplayResults(Poll $poll): bool
+    public function isVoted(Poll $poll): bool
     {
-        return !$this->canVote($poll);
+        $query = $this->participationRepository->createQuery();
+        $query->matching(
+            $query->logicalAnd(
+                $query->equals('poll', $poll->getUid()),
+                $query->equals('ip', $this->getIpAddress())
+            )
+        );
+        return $query->execute()->count() > 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see DuplicationCheckInterface::registerVote()
+     */
+    public function registerVote(Poll $poll, Participation $participation): void
+    {
+        $ipAddress = $this->getIpAddress();
+        if ($participation->getIp() !== $ipAddress) {
+            $participation->setIp($ipAddress);
+        }
+    }
+
+    /**
+     * @return string
+     */
+    protected function getIpAddress(): string
+    {
+        return (string)GeneralUtility::getIndpEnv('REMOTE_ADDR');
     }
 }

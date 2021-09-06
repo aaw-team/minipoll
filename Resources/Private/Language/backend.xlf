@@ -61,13 +61,16 @@
                 <source>None</source>
             </trans-unit>
             <trans-unit id="tca.poll.field.duplication_check.cookie">
-                <source>Cookie</source>
+                <source>Native cookie</source>
             </trans-unit>
             <trans-unit id="tca.poll.field.duplication_check.ip">
                 <source>IP address</source>
             </trans-unit>
             <trans-unit id="tca.poll.field.duplication_check.feuser">
                 <source>Frontend User</source>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.duplication_check.frontend-session">
+                <source>Frontend session</source>
             </trans-unit>
             <trans-unit id="tca.poll.field.display_results">
                 <source>Display results</source>

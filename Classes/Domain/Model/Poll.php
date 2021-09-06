@@ -35,6 +35,7 @@ class Poll extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     const DUPLICATION_CHECK_IP = 'ip';
     const DUPLICATION_CHECK_COOKIE = 'cookie';
     const DUPLICATION_CHECK_FEUSER = 'feuser';
+    const DUPLICATION_CHECK_FRONTEND_SESSION = 'frontend-session';
     const DUPLICATION_CHECK_NONE = 'none';
 
     /**

@@ -99,6 +99,10 @@ return [
                         \AawTeam\Minipoll\Domain\Model\Poll::DUPLICATION_CHECK_FEUSER
                     ],
                     [
+                        'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.duplication_check.frontend-session',
+                        \AawTeam\Minipoll\Domain\Model\Poll::DUPLICATION_CHECK_FRONTEND_SESSION
+                    ],
+                    [
                         'LLL:EXT:minipoll/Resources/Private/Language/backend.xlf:tca.poll.field.duplication_check.none',
                         \AawTeam\Minipoll\Domain\Model\Poll::DUPLICATION_CHECK_NONE
                     ]

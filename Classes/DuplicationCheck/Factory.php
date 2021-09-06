@@ -32,6 +32,7 @@ class Factory
         Poll::DUPLICATION_CHECK_IP => Ip::class,
         Poll::DUPLICATION_CHECK_COOKIE => Cookie::class,
         Poll::DUPLICATION_CHECK_FEUSER => FrontendUser::class,
+        Poll::DUPLICATION_CHECK_FRONTEND_SESSION => FrontendSession::class,
         Poll::DUPLICATION_CHECK_NONE => Dummy::class
     ];
 
@@ -53,6 +54,8 @@ class Factory
         $instance = GeneralUtility::makeInstance($className);
         if (!($instance instanceof DuplicationCheckInterface)) {
             throw new \RuntimeException('Class "' . \htmlspecialchars($className) . '" must implement ' . DuplicationCheckInterface::class);
+        } elseif (!$instance->isAvailable()) {
+            throw new \RuntimeException('The duplication checker "' . \htmlspecialchars($className) . '" is not available.');
         }
         return $instance;
     }

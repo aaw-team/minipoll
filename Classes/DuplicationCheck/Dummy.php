@@ -28,29 +28,27 @@ use AawTeam\Minipoll\Domain\Model\Poll;
 class Dummy implements DuplicationCheckInterface
 {
     /**
-     * @param Poll $poll
-     * @return bool
+     * {@inheritDoc}
+     * @see DuplicationCheckInterface::isAvailable()
      */
-    public function canVote(Poll $poll): bool
+    public function isAvailable(): bool
     {
         return true;
     }
 
     /**
-     * @param Poll $poll
-     * @return bool
+     * {@inheritDoc}
+     * @see DuplicationCheckInterface::isVoted()
      */
-    public function disableVote(Poll $poll, Participation $participation): bool
+    public function isVoted(Poll $poll): bool
     {
-        return true;
+        return false;
     }
 
     /**
-     * @param Poll $poll
-     * @return bool
+     * {@inheritDoc}
+     * @see DuplicationCheckInterface::registerVote()
      */
-    public function canDisplayResults(Poll $poll): bool
-    {
-        return true;
-    }
+    public function registerVote(Poll $poll, Participation $participation): void
+    {}
 }

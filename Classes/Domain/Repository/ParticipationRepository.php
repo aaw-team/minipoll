@@ -33,28 +33,4 @@ class ParticipationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $querySettings->setRespectStoragePage(false);
         $this->defaultQuerySettings = $querySettings;
     }
-
-    public function countByPollAndIpAddress(Poll $poll, string $ipAddress): int
-    {
-        $query = $this->createQuery();
-        $query->matching(
-            $query->logicalAnd(
-                $query->equals('poll', $poll->getUid()),
-                $query->equals('ip', $ipAddress)
-            )
-        );
-        return $query->execute()->count();
-    }
-
-    public function countByPollAndFrontendUser(Poll $poll, int $frontendUser): int
-    {
-        $query = $this->createQuery();
-        $query->matching(
-            $query->logicalAnd(
-                $query->equals('poll', $poll->getUid()),
-                $query->equals('frontend_user', $frontendUser)
-            )
-        );
-        return $query->execute()->count();
-    }
 }

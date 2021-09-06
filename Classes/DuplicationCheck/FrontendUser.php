@@ -22,6 +22,7 @@ use AawTeam\Minipoll\Domain\Model\Poll;
 use AawTeam\Minipoll\Domain\Repository\ParticipationRepository;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
 
 /**
  * FrontendUser duplication check
@@ -34,6 +35,11 @@ class FrontendUser implements DuplicationCheckInterface
     protected $participationRepository;
 
     /**
+     * @var FrontendUserRepository
+     */
+    protected $frontendUserRepository;
+
+    /**
      * @param ParticipationRepository $participationRepository
      */
     public function injectParticipationRepository(ParticipationRepository $participationRepository)
@@ -42,37 +48,55 @@ class FrontendUser implements DuplicationCheckInterface
     }
 
     /**
-     * @param Poll $poll
-     * @return bool
+     * @param FrontendUserRepository $frontendUserRepository
      */
-    public function canVote(Poll $poll): bool
+    public function injectFrontendUserRepository(FrontendUserRepository $frontendUserRepository)
     {
-        if (!$this->isFrontednUserLoggedIn()) {
-            return false;
-        }
-        return $this->participationRepository->countByPollAndFrontendUser($poll, $this->getFrontendUserUid()) == 0;
+        $this->frontendUserRepository = $frontendUserRepository;
     }
 
     /**
-     * @param Poll $poll
-     * @param Participation $participation
-     * @return bool
+     * {@inheritDoc}
+     * @see DuplicationCheckInterface::isAvailable()
      */
-    public function disableVote(Poll $poll, Participation $participation): bool
+    public function isAvailable(): bool
     {
-        return true;
+        return $this->isFrontednUserLoggedIn();
     }
 
     /**
-     * @param Poll $poll
-     * @return bool
+     * {@inheritDoc}
+     * @see DuplicationCheckInterface::isVoted()
      */
-    public function canDisplayResults(Poll $poll): bool
+    public function isVoted(Poll $poll): bool
     {
         if (!$this->isFrontednUserLoggedIn()) {
-            return false;
+            throw new \LogicException('Cannot check poll votes, no frontend user is logged in');
         }
-        return !$this->canVote($poll);
+
+        $query = $this->participationRepository->createQuery();
+        $query->matching(
+            $query->logicalAnd(
+                $query->equals('poll', $poll->getUid()),
+                $query->equals('frontend_user', $this->getFrontendUserUid())
+            )
+        );
+        return $query->execute()->count() > 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see DuplicationCheckInterface::registerVote()
+     */
+    public function registerVote(Poll $poll, Participation $participation): void
+    {
+        if (!$this->isFrontednUserLoggedIn()) {
+            throw new \LogicException('Cannot register vote, no frontend user is logged in');
+        }
+        if (!$participation->getFrontendUser() || $participation->getFrontendUser()->getUid() !== $this->getFrontendUserUid()) {
+            $frontendUser = $this->frontendUserRepository->findByIdentifier($this->getFrontendUserUid());
+            $participation->setFrontendUser($frontendUser);
+        }
     }
 
     /**

@@ -80,8 +80,8 @@
                 <target>Keine</target>
             </trans-unit>
             <trans-unit id="tca.poll.field.duplication_check.cookie">
-                <source>Cookie</source>
-                <target>Cookie</target>
+                <source>Native cookie</source>
+                <target>Native cookie</target>
             </trans-unit>
             <trans-unit id="tca.poll.field.duplication_check.ip">
                 <source>IP address</source>
@@ -90,6 +90,10 @@
             <trans-unit id="tca.poll.field.duplication_check.feuser">
                 <source>Frontend User</source>
                 <target>Website Benutzer</target>
+            </trans-unit>
+            <trans-unit id="tca.poll.field.duplication_check.frontend-session">
+                <source>Frontend session</source>
+                <target>Frontend Sitzung</target>
             </trans-unit>
             <trans-unit id="tca.poll.field.display_results">
                 <source>Display results</source>

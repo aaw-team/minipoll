@@ -19,95 +19,69 @@ namespace AawTeam\Minipoll\DuplicationCheck;
 
 use AawTeam\Minipoll\Domain\Model\Participation;
 use AawTeam\Minipoll\Domain\Model\Poll;
-use AawTeam\Minipoll\Exception\InvalidHmacException;
-use AawTeam\Minipoll\Utility\SecurityUtility;
-use ParagonIE\ConstantTime\Base64;
+use Symfony\Component\HttpFoundation\Cookie as SymfonyHttpFoundationCookie;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Cookie duplication check
+ *
+ * Sets a cookie for every voted poll.
+ *
+ * @todo: make cookie settings configurable?
  */
 class Cookie implements DuplicationCheckInterface
 {
     /**
-     * @param Poll $poll
-     * @return bool
+     * {@inheritDoc}
+     * @see DuplicationCheckInterface::isAvailable()
      */
-    public function canVote(Poll $poll): bool
+    public function isAvailable(): bool
     {
-        $value = $this->getCookieValue();
-        return !in_array($poll->getUid(), $value);
-    }
-
-    /**
-     * @param Poll $poll
-     * @param Participation $participation
-     * @return bool
-     */
-    public function disableVote(Poll $poll, Participation $participation): bool
-    {
-        $value = $this->getCookieValue();
-        $value[] = $poll->getUid();
-        $this->setCookieValue($value);
         return true;
     }
 
     /**
+     * {@inheritDoc}
+     * @see DuplicationCheckInterface::isVoted()
+     */
+    public function isVoted(Poll $poll): bool
+    {
+        // If the cookie is set, the poll is voted (cookie value does not matter)
+        return array_key_exists($this->getCookieName($poll), $_COOKIE);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see DuplicationCheckInterface::registerVote()
+     */
+    public function registerVote(Poll $poll, Participation $participation): void
+    {
+        // Let the expiration date be calculated by PHP's date/time implementation. the timezone will be handeled internally (TYPO3 calls date_default_timezone_set() during bootstrap)
+        $cookieExpire = \DateTime::createFromFormat('Y-m-d\TH:i:s', date('Y-m-d\TH:i:s', $GLOBALS['EXEC_TIME']))->add(new \DateInterval('P1Y'));
+        $cookieDomain = GeneralUtility::getIndpEnv('TYPO3_HOST_ONLY');
+        $cookieSecure = (bool)GeneralUtility::getIndpEnv('TYPO3_SSL');
+        $cookieSameSite = SymfonyHttpFoundationCookie::SAMESITE_LAX;
+
+        $cookie = new SymfonyHttpFoundationCookie(
+            $this->getCookieName($poll),
+            '1',
+            $cookieExpire,
+            null,
+            $cookieDomain,
+            $cookieSecure,
+            true,
+            false,
+            $cookieSameSite
+        );
+        header('Set-Cookie: ' . $cookie->__toString(), false);
+    }
+
+    /**
      * @param Poll $poll
-     * @return bool
+     * @return string
      */
-    public function canDisplayResults(Poll $poll): bool
+    protected function getCookieName(Poll $poll): string
     {
-        return !$this->canVote($poll);
-    }
-
-    /**
-     * Stores the array in $value in an authenticated (HMAC) cookie
-     *
-     * @see Cookie::getCookieValue()
-     * @param array $value
-     */
-    protected function setCookieValue(array $value): void
-    {
-        // Filter array
-        // key: int >= 0
-        // value: int > 0
-        $value = array_filter($value, function($v, $k) {
-            return is_int($k) && $k >= 0 && is_int($v) && $v > 0;
-        }, ARRAY_FILTER_USE_BOTH);
-
-        if (empty($value)) {
-            return;
-        }
-        // Base64 encode the json as php would urldecode the object in $_COOKIE
-        $cookieData = Base64::encode(json_encode($value));
-        $cookieValue = SecurityUtility::appendHmacToString($cookieData);
-        setcookie('tx_minipoll', $cookieValue, $GLOBALS['EXEC_TIME'] + 3600 * 24 * 356);
-        // Set the same value to the global
-        $_COOKIE['tx_minipoll'] = $cookieValue;
-    }
-
-    /**
-     * Retrieves an array from an authenticated cookie.
-     *
-     * @see Cookie::setCookieValue()
-     * @return array
-     */
-    protected function getCookieValue(): array
-    {
-        if (!array_key_exists('tx_minipoll', $_COOKIE)) {
-            return [];
-        }
-        $rawCookieValue = (string) $_COOKIE['tx_minipoll'];
-
-        $cookieValue = null;
-        try {
-            $cookieValue = SecurityUtility::validateAndStripHmac($rawCookieValue);
-        } catch (InvalidHmacException $e) {
-            return [];
-        }
-        $value = @json_decode(Base64::decode($cookieValue), true);
-        return (is_array($value))
-            ? $value
-            : [];
+        return 'tx_minipoll-' . $poll->getUid();
     }
 }
