@@ -3,7 +3,6 @@ plugin.tx_minipoll {
         ajaxPageType = {$plugin.tx_minipoll.settings.ajaxPageType}
         addSectionToLinks = 1
         captcha = 0
-//         excludeAlreadyDisplayedPolls = 1
         resultRenderer {
             show = css,svgpiechart
             global {

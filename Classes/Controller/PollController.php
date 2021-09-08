@@ -24,7 +24,6 @@ use AawTeam\Minipoll\Domain\Model\Poll;
 use AawTeam\Minipoll\Domain\Model\PollOption;
 use AawTeam\Minipoll\Domain\Repository\ParticipationRepository;
 use AawTeam\Minipoll\Domain\Repository\PollRepository;
-use AawTeam\Minipoll\Registry;
 use AawTeam\Minipoll\Utility\FormProtectionUtility;
 use AawTeam\Minipoll\Utility\LocalizationUtility;
 use AawTeam\Minipoll\Utility\PollUtility;
@@ -196,17 +195,7 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             $this->forward('detail', null, null, ['poll' => (int)$this->settings['pollUid']]);
         }
 
-        $polls = $this->pollRepository->findAll();
-//         if ($this->settings['excludeAlreadyDisplayedPolls']) {
-//             foreach ($polls as $key => $poll) {
-//                 if (Registry::isDisplayedPoll($poll->getUid())) {
-//                     $polls->offsetUnset($key);
-//                     continue;
-//                 }
-//                 Registry::addDisplayedPoll($poll->getUid());
-//             }
-//         }
-        $this->view->assign('polls', $polls);
+        $this->view->assign('polls', $this->pollRepository->findAll());
     }
 
     /**
@@ -214,13 +203,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function detailAction(Poll $poll)
     {
-//         if ($this->settings['excludeAlreadyDisplayedPolls']) {
-//             if (Registry::isDisplayedPoll($poll->getUid())) {
-//                 // Forward with no message, this will not display anything
-//                 $this->forward('displayMessage');
-//             }
-//             Registry::addDisplayedPoll($poll->getUid());
-//         }
 //         $this->pollUtility->addPollToPageCache($poll);
         $this->view->assign('poll', $poll);
     }
@@ -236,12 +218,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function voteAction(Poll $poll, array $answers = null, array $hp = null, string $captcha = null, string $csrfToken = null)
     {
-        if (Registry::isVotedPoll($poll->getUid())) {
-            // Forward with no message, this will not display anything
-            $this->forward('displayMessage');
-        }
-        Registry::addVotedPoll($poll->getUid());
-
         // CSRF check
         $csrfCheckPassed = $this->formProtectionUtility->verifyTokenForPoll($csrfToken, $poll);
         $this->formProtectionUtility->clean();
@@ -376,14 +352,6 @@ class PollController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function showResultAction(Poll $poll)
     {
-//         if ($this->settings['excludeAlreadyDisplayedPolls']) {
-//             if (Registry::isDisplayedPoll($poll->getUid())) {
-//                 // Forward with no message, this will not display anything
-//                 $this->forward('displayMessage');
-//             }
-//             Registry::addDisplayedPoll($poll->getUid());
-//         }
-
         if (!$this->pollUtility->canDisplayResultsInPoll($poll)) {
 
             die('ERROR: Cannot display poll');

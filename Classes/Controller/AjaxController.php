@@ -158,14 +158,6 @@ class AjaxController extends ActionController
 
         $messages= [];
 
-
-
-//         if (Registry::isVotedPoll($poll->getUid())) {
-//             // Forward with no message, this will not display anything
-//             $this->forward('displayMessage');
-//         }
-//         Registry::addVotedPoll($poll->getUid());
-
         // CSRF check
         if (!$this->formProtectionUtility->verifyTokenForPoll($csrfToken, $poll)) {
             $messages[] = LocalizationUtility::translate('message.error.title') . ' ' . LocalizationUtility::translate('message.error.csrfToken');
