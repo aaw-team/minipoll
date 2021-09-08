@@ -72,6 +72,12 @@ function makeGETRequest(requestUri, pollContainer) {
         } else {
             console.error('Error: no poll data received', data);
         }
+
+        // Inform other code
+        pollContainer.dispatchEvent(new CustomEvent('minipoll_get', {
+            bubbles: true,
+            detail: { poll: () => data.poll }
+        }));
     });
 }
 
@@ -108,13 +114,11 @@ function makePOSTRequest(requestUri, body, pollContainer) {
             console.info('Error: no poll data received', data);
         }
 
-        // Re-load captcha
-        if (pollContainer.dataset.minipollCaptcha === 'sr_freecap' && typeof SrFreecap === 'object') {
-            let captchaElements = pollContainer.querySelectorAll("[id^=tx_srfreecap_captcha_image_]");
-            if (captchaElements.length === 1) {
-                SrFreecap.newImage(captchaElements[0].id.split('tx_srfreecap_captcha_image_')[1]);
-            }
-        }
+        // Inform other code
+        pollContainer.dispatchEvent(new CustomEvent('minipoll_post', {
+            bubbles: true,
+            detail: { poll: () => data.poll }
+        }));
     });
 }
 

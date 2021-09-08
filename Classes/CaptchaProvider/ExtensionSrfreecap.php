@@ -86,6 +86,20 @@ class ExtensionSrfreecap implements CaptchaProviderInterface
     {
         return GeneralUtility::makeInstance(ResourceCollection::class)->withResource(
             Resource::createJsFooterFile('EXT:sr_freecap/Resources/Public/JavaScript/freeCap.js')
+        )->withResource(
+            Resource::createJsFooterInline('
+document.addEventListener("DOMContentLoaded", function() {
+    let elements = document.querySelectorAll("div.tx_minipoll-poll[data-minipoll-ajax]");
+    for (let i=0; i<elements.length; i++) {
+        elements[i].addEventListener("minipoll_post", e => {
+            let captchaElements = e.target.querySelectorAll("[id^=tx_srfreecap_captcha_image_]");
+            if (captchaElements.length === 1) {
+                console.debug("Re-loading sr_freecap captcha");
+                SrFreecap.newImage(captchaElements[0].id.split("tx_srfreecap_captcha_image_")[1]);
+            }
+        });
+    }
+});')
         );
     }
 }
