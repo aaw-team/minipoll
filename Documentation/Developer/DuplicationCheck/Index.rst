@@ -2,6 +2,7 @@
 
 .. _section-developer-duplicationcheck:
 
+====================
 Duplication Checking
 ====================
 
@@ -12,7 +13,7 @@ checks do not fit your needs.
 .. _section-developer-duplicationcheck-addownduplicationcheck:
 
 Add your own duplicationCheck
------------------------------
+=============================
 
 Add a duplicationCheck class, that implements
 ``AawTeam\Minipoll\DuplicationCheck\DuplicationCheckInterface``. For further

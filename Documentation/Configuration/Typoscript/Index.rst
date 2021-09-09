@@ -2,13 +2,14 @@
 
 .. _section-configuration-typoscript:
 
+====================
 TypoScript Reference
 ====================
 
 .. _section-configuration-typoscript-constants:
 
 Constants
----------
+=========
 
 Some global values can be configured with constants in
 :typoscript:`plugin.tx_minipoll.settings`.
@@ -50,7 +51,7 @@ resultRenderer.defaultColorList
 .. _section-configuration-typoscript-stup:
 
 Setup
------
+=====
 
 The main configuration of the extension is done in
 ``plugin.tx_minipoll.settings``.

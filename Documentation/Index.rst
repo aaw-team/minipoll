@@ -4,55 +4,65 @@
 .. _start:
 
 =============================================================
-Minipoll
+Minipoll - Polls for TYPO3
 =============================================================
 
-.. only:: html
+:Version:
+   |release|
 
-    :Classification:
-        minipoll
+:Language:
+   en
 
-    :Version:
-        1.0.0
+:Description:
+   Manual of the TYPO3 extension "Minipoll - Polls for TYPO3" (minipoll)
 
-    :Language:
-        en
+:Authors:
+   Christian Futterlieb
 
-    :Description:
-        Manual covering TYPO3 extension minipoll
+:Email:
+   development@agenturamwasser.ch
 
-    :Keywords:
-        poll, online-poll, charts
+:License:
+   Open Publication License available from `www.opencontent.org/openpub/
+   <http://www.opencontent.org/openpub/>`_
 
-    :Copyright:
-        2017 by Agentur am Wasser | Maeder & Partner AG (https://web.agenturamwasser.ch)
-
-    :Author:
-        Christian Futterlieb
-
-    :Email:
-        development@agenturamwasser.ch
-
-    :License:
-        This document is published under the Open Publication License
-        available from https://www.opencontent.org/openpub/
-
-    :Rendered:
-        |today|
-
-    The content of this document is related to TYPO3,
-    a GNU/GPL CMS/Framework available from `typo3.org <https://typo3.org/>`__.
+:Rendered:
+   |today|
 
 
-    **Table of Contents**
+.. rst-class:: horizbuttons-tip-m
+
+- :ref:`section-sitemap`
+
+The content of this document is related to TYPO3 CMS, a GNU/GPL CMS/Framework
+available from `www.typo3.org <https://typo3.org/>`_
+
+
+**Contributors**
+
+You are welcome to help improve this guide. Just click on "Edit me on GitHub" on
+the top right to submit your change request.
+
+
+Table of Contents
+-----------------
 
 .. toctree::
-    :maxdepth: 3
-    :titlesonly:
+   :maxdepth: 3
+   :titlesonly:
+   :caption: Manual
 
-    Introduction/Index
-    User/Index
-    Administrator/Index
-    Configuration/Index
-    Developer/Index
-    Links
+   Introduction/Index
+   User/Index
+   Administrator/Index
+   Configuration/Index
+   Developer/Index
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Miscellaneous
+
+   Links
+   Changelog
+   Sitemap
+   Targets

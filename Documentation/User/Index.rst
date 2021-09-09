@@ -3,13 +3,14 @@
 
 .. _section-user-manual:
 
+============
 Users Manual
 ============
 
 .. _section-user-create-poll
 
 Create a poll
--------------
+=============
 
 Create a new poll record on a page as you would do it with any other record by
 selecting it from the avaliable records list:
@@ -50,7 +51,7 @@ possibilities.
 .. _section-user-poll-settings
 
 Poll settings
--------------
+=============
 
 Under the tab "Settings" you'll find, guess what, the poll's settings:
 

@@ -2,6 +2,7 @@
 
 .. _section-developer-resultrendering:
 
+================
 Result rendering
 ================
 
@@ -10,7 +11,7 @@ Minpoll brings an easy way to add your own result rendering.
 .. _section-developer-resultrendering-addownresultrenderer:
 
 Add your own resultRenderer
----------------------------
+===========================
 
 Add a resultRenderer class, that implements
 ``AawTeam\Minipoll\ResultRenderer\ResultRendererInterface``. For further
@@ -52,7 +53,7 @@ By now, you can include your ResultRenderer in TypoScript setup (see also:
 .. _section-developer-resultrendering-abstractrenderer:
 
 The AbstractResultRenderer class
---------------------------------
+================================
 
 The abstract class ``AawTeam\Minipoll\ResultRenderer\AbstractResultRenderer`` is
 currently used to provide common functionalities such as taking care of the

@@ -2,6 +2,7 @@
 
 .. _section-developer-captcha:
 
+===============
 Captcha support
 ===============
 
@@ -12,7 +13,7 @@ provided, as well as an eays system to add user defined captchas.
 .. _section-developer-captcha-addowncaptcha:
 
 Add your own captchaProvider
-----------------------------
+============================
 
 Add a captchaProvider class, that implements the CaptchaProvider interface. For
 further explanation of the interface, see the code, the methods are documented

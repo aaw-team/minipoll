@@ -3,6 +3,7 @@
 
 .. _section-configuration-extensionmanager:
 
+===============================
 Extension Manager Configuration
 ===============================
 

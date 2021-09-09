@@ -3,13 +3,14 @@
 
 .. _section-admin-manual:
 
+====================
 Administrator Manual
 ====================
 
 .. _section-installation:
 
 Installation
-------------
+============
 
 To install the extension, perform the following steps:
 
@@ -20,7 +21,7 @@ To install the extension, perform the following steps:
 .. _section-admin-captcha:
 
 Captcha Integration
--------------------
+===================
 
 Minipoll is built to work with any captcha implementation. Out-of-the-box, the
 TYPO3 extension sr_freecap
@@ -35,7 +36,7 @@ might follow.
 .. _section-admin-templating:
 
 Templating
-----------
+==========
 
 Templating is realized with fluid. The templates are fairly easy, most of the
 work is done in partials. By default no layout view scripts are being used.
@@ -61,7 +62,7 @@ the code.
 .. _section-admin-typoscript-oldschool:
 
 Adding a minipoll plugin with typoscript
-----------------------------------------
+========================================
 
 If you want to add the plugin via Typoscript the "old school" way, the extension
 provides a static template right for this purpose: "Minipoll (Old school)". When

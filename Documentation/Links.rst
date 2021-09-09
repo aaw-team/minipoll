@@ -3,8 +3,9 @@
 
 .. _section-links:
 
+=====
 Links
------
+=====
 
 :TER:
 	https://typo3.org/extensions/repository/view/minipoll

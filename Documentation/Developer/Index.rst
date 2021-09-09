@@ -3,6 +3,7 @@
 
 .. _section-developer-manual:
 
+=================
 Developers Manual
 =================
 

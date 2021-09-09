@@ -2,6 +2,7 @@
 
 .. _section-configuration-resultRenderer:
 
+============================
 ResultRenderer Configuration
 ============================
 
@@ -20,7 +21,7 @@ explained below:
 .. _section-configuration-resultRenderer-chooserenderers:
 
 Choose which resultRenderers to use
------------------------------------
+===================================
 
 To use one or more resultRenderers, add them to the list in
 ``resultRenderer.show``. Note that the order of the list represents the order
@@ -36,7 +37,7 @@ in which the resultRenderers are invoked.
 .. _section-configuration-resultRenderer-global:
 
 Global Options
---------------
+==============
 
 This section describes the options that are available to all the
 resultRenderers. The global options are merged with those of the actual result
@@ -82,7 +83,7 @@ reverses the direction:
         }
 
 Available Global Options
-^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------
 
 .. only:: html
 
@@ -204,7 +205,7 @@ cssClasses
 .. _section-configuration-resultRenderer-css:
 
 ResultRenderer Css
-------------------
+==================
 
 This renderer displays the results as bars, using, well, CSS. It uses the global
 options only and defines no additional ones.
@@ -212,7 +213,7 @@ options only and defines no additional ones.
 .. _section-configuration-resultRenderer-svgpiechart:
 
 ResultRenderer Svgpiechart
---------------------------
+==========================
 
 This renderer creates a piechart of the results as an inline svg by creating the
 svg-xml on-the-fly. It uses the global options and defines following additional

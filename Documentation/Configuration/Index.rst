@@ -3,6 +3,7 @@
 
 .. _section-configuration:
 
+=======================
 Configuration Reference
 =======================
 
@@ -13,4 +14,3 @@ Configuration Reference
     ExtensionManager/Index
     Typoscript/Index
     ResultRenderer/Index
-

@@ -3,6 +3,7 @@
 
 .. _section-introduction:
 
+============
 Introduction
 ============
 
@@ -10,7 +11,7 @@ Introduction
 .. _section-what-it-does:
 
 What does it do?
-----------------
+================
 
 This extension brings polls to TYPO3. It is designed for easy use and brings a
 small but powerful set of features.
@@ -18,7 +19,7 @@ small but powerful set of features.
 .. _section-screenshots
 
 Screenshots
------------
+===========
 
 .. figure:: ../Images/Introduction/PollResults.png
    :alt: Poll results
@@ -28,7 +29,7 @@ Screenshots
 .. _section-features:
 
 Feature list
-------------
+============
 
 * Create polls with as many answers as needed
 * Allow one or more answers
@@ -43,8 +44,8 @@ Feature list
 .. _section-credits:
 
 Credits
--------
+=======
 
-Thanks to the `Agentur am Wasser <https://web.agenturamwasser.ch/>`_, our
+Thanks to the `Agentur am Wasser <https://www.agenturamwasser.ch/>`_, our
 company, for giving us the possibility to realize this extension and share it
 with the TYPO3 community.
