@@ -1,63 +1,65 @@
-var gulp           = require('gulp');
-var autoprefixer   = require('gulp-autoprefixer');
-var sass           = require('gulp-sass');
-var uglify         = require('gulp-uglify');
-var pump           = require('pump');
+const gulp           = require('gulp');
+const autoprefixer   = require('gulp-autoprefixer');
+const sass           = require('gulp-sass');
+const uglify         = require('gulp-uglify');
+const pump           = require('pump');
 
-var sassConfig = {
-    outputStyle: 'compressed',
+const sassConfig = {
+    outputStyle: 'expanded',
     indentWidth: 4
 };
 
-var autoprefixerConfig = {
-    browsers: [
-        'last 3 versions',
-        'ie >= 9'
-    ]
+const autoprefixerConfig = {
+    overrideBrowserslist: 'last 3 versions, Firefox ESR, not ie 11, not dead'
 };
 
-var uglifyConfig = {
-    preserveComments: 'license'
+const uglifyConfig = {
+    output: {
+        comments: '/^!/'
+    }
 };
 
 /**
  * sassify the scss files and autoprefix them
  */
-gulp.task('build:css', function() {
+var buildSass = function() {
     return gulp.src('Sass/*.scss')
         .pipe(sass(sassConfig)
             .on('error', sass.logError))
         .pipe(autoprefixer(autoprefixerConfig))
         .pipe(gulp.dest('../Public/Css/'));
-});
+};
 
-gulp.task('build:js', function(cb) {
+var buildJs = function(cb) {
     pump([
         gulp.src('Js/*.js'),
         uglify(uglifyConfig),
         gulp.dest('../Public/Js/')
     ], cb);
-});
+};
 
-gulp.task('build', ['build:css','build:js']);
+// watch files and build again
+var doWatch = function() {
+    gulp.watch(['Sass/**/*.scss'], buildSass);
+    gulp.watch(['Js/**/*.js'], buildJs);
+};
 
-/**
- * task which watches files and executes
- * sass-dev and concat-css tasks
- */
-gulp.task('watch', ['build'], function() {
-    // watch sass
-    gulp.watch(['Sass/**/*.scss'], ['build:css']).on('change', function(event) {
-        console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
-    });
-
-    // watch js
-    gulp.watch(['Js/**/*.js'], ['build:js']).on('change', function(event) {
-        console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
-    });
-});
+/**********************************************
+ * "Public tasks" - can be called via
+ * aawbase {taskname}
+ *********************************************/
 
 /**
- * default task
+ * Build task: Calls all required sub tasks
  */
-gulp.task('default', ['build']);
+ gulp.task('build', gulp.series(buildSass, buildJs));
+
+ /**
+  * Watch task: Watches the files and executes the required tasks.
+  */
+ gulp.task('watch', gulp.series('build', doWatch));
+
+ /**
+  * Default task: Calls the build task
+  */
+ gulp.task('default', gulp.series('build'));
