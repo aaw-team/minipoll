@@ -19,6 +19,7 @@ namespace AawTeam\Minipoll\DuplicationCheck;
 
 use AawTeam\Minipoll\Domain\Model\Participation;
 use AawTeam\Minipoll\Domain\Model\Poll;
+use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpFoundation\Cookie as SymfonyHttpFoundationCookie;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -47,7 +48,7 @@ class Cookie implements DuplicationCheckInterface
     public function isVoted(Poll $poll): bool
     {
         // If the cookie is set, the poll is voted (cookie value does not matter)
-        return array_key_exists($this->getCookieName($poll), $_COOKIE);
+        return array_key_exists($this->getCookieName($poll), $this->getRequest()->getCookieParams());
     }
 
     /**
@@ -83,5 +84,13 @@ class Cookie implements DuplicationCheckInterface
     protected function getCookieName(Poll $poll): string
     {
         return 'tx_minipoll-' . $poll->getUid();
+    }
+
+    /**
+     * @return ServerRequestInterface
+     */
+    protected function getRequest(): ServerRequestInterface
+    {
+        return $GLOBALS['TYPO3_REQUEST'];
     }
 }
