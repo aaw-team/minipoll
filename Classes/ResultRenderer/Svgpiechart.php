@@ -251,7 +251,7 @@ class Svgpiechart extends AbstractResultRenderer
         $collection = GeneralUtility::makeInstance(ResourceCollection::class);
 
         if ($this->configuration['includeTooltipJs'] && $this->configuration['includeJquery']) {
-            $collection = $collection->withResource(Resource::createJsFooterLibrary('EXT:minipoll/Resources/Public/Js/jquery-3.2.1.min.js'));
+            $collection = $collection->withResource(Resource::createJsFooterLibrary('EXT:minipoll/Resources/Public/Js/jquery-3.6.0.min.js'));
         }
         if ($this->configuration['includeTooltipJs']) {
             $collection = $collection->withResource(
