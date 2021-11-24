@@ -94,10 +94,15 @@ Minipoll.prototype.makeGETRequest = function(requestUri) {
         }
 
         // Inform other code
-        this.content.dispatchEvent(new CustomEvent('minipoll_get', {
+        this.container.dispatchEvent(new CustomEvent('minipoll_get', {
             bubbles: true,
             detail: { poll: () => data.poll }
         }));
+
+        // check for svgpiechart
+        if (this.container.querySelectorAll('.tx_minipoll-svgpiechart').length) {
+            $(this.container.querySelectorAll('.tx_minipoll-svgpiechart')[0]).svgpiechart();
+        }
 
         // stop spinner
         this.container.classList.remove('tx_minipoll-loading');
@@ -146,7 +151,7 @@ Minipoll.prototype.makePOSTRequest = function(requestUri, body) {
         }
 
         // Inform other code
-        this.content.dispatchEvent(new CustomEvent('minipoll_post', {
+        this.container.dispatchEvent(new CustomEvent('minipoll_post', {
             bubbles: true,
             detail: { poll: () => data.poll }
         }));
