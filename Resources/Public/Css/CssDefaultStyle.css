@@ -136,6 +136,7 @@
 
 .tx_minipoll .tx_minipoll-svgpiechart {
     margin-bottom: 0.625em;
+    cursor: default;
 }
 
 .tx_minipoll .tx_minipoll-svgpiechart svg {
