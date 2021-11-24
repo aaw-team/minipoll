@@ -17,11 +17,12 @@
 
 .tx_minipoll {
     // import components
-    @import "components/_poll.scss";
-    @import "components/_button.scss";
-    @import "components/_chart.scss";
-    @import "components/_piechart.scss";
-    @import "components/_captcha.scss";
-    @import "components/_flashMessage.scss";
-    @import "components/_footer.scss";
+    @import "components/button";
+    @import "components/captcha";
+    @import "components/chart";
+    @import "components/flashMessage";
+    @import "components/footer";
+    @import "components/piechart";
+    @import "components/poll";
+    @import "components/spinner";
 }

@@ -1,0 +1,44 @@
+// lovely spinner from: https://codepen.io/supah/pen/BjYLdW
+.tx_minipoll-spinner {
+    display: none;
+}
+.tx_minipoll-loading .tx_minipoll-spinner {
+    display: block;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -25px;
+    margin-top: -25px;
+    transform: rotate(0deg);
+
+    animation: tx_minipoll-rotate 2s linear infinite;
+
+    circle {
+        stroke: #9dcdff;
+        stroke-linecap: round;
+        animation: tx_minipoll-dash 1.5s ease-in-out infinite;
+    }
+}
+
+@keyframes tx_minipoll-rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes tx_minipoll-dash {
+    0% {
+        stroke-dasharray: 1, 150;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -35;
+    }
+    100% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -124;
+    }
+}

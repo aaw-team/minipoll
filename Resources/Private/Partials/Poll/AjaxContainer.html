@@ -11,7 +11,11 @@
      data-minipoll-ajax-vote="{f:uri.action(pageType:settings.ajaxPageType, action:'votePoll', controller:'Ajax', pluginName:'Ajax', arguments:{poll:poll.uid}, section:'tx_minipoll-poll-{poll.uid}', addQueryString:1, addQueryStringMethod:'GET', argumentsToBeExcludedFromQueryString:{0:'tx_minipoll_poll'})}"
      data-minipoll-captcha="{mp:poll.captchaProviderAlias()}"
     >
-    <div>TODO: Display a spinner here..</div>
+    <div data-minipoll-content="1"></div>
+    <div data-minipoll-messages="1"></div>
+    <svg class="tx_minipoll-spinner" viewBox="0 0 50 50">
+        <circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+    </svg>
 </div>
 
 </html>

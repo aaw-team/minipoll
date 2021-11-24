@@ -41,13 +41,9 @@ plugin.tx_minipoll {
 }
 
 /**
- * Import the contents of the css file as default css string
+ * Import the contents of the css file
  */
-plugin.tx_minipoll._CSS_DEFAULT_STYLE (
-
-@import 'EXT:minipoll/Resources/Public/Css/CssDefaultStyle.css'
-
-)
+plugin.tx_minipoll._CSS_DEFAULT_STYLE = @import url('/typo3conf/ext/minipoll/Resources/Public/Css/CssDefaultStyle.css');
 
 /**
  * AJAX configuration

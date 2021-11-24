@@ -111,9 +111,9 @@ class AjaxController extends ActionController
     {
         $response = [];
 
-        $response['messages'] = [
-            htmlspecialchars('Rendering the poll: ' . $poll->getTitle()),
-        ];
+        // $response['messages'] = [
+        //     htmlspecialchars('Rendering the poll: ' . $poll->getTitle()),
+        // ];
 
         $this->view->assignMultiple([
             'poll' => $poll,
