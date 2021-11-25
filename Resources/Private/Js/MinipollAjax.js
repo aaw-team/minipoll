@@ -73,6 +73,8 @@ Minipoll.prototype.makeGETRequest = function(requestUri) {
         if (response.status != 200) {
             this.showMessage('Ein Fehler ist aufgetreten', true);
             console.error('Something has gone wrong', response);
+            // stop spinner
+            this.container.classList.remove('tx_minipoll-loading');
         }
         return response.json();
     })
@@ -137,6 +139,8 @@ Minipoll.prototype.makePOSTRequest = function(requestUri, body) {
         if (response.status != 200) {
             this.showMessage('Ein Fehler ist aufgetreten', true);
             console.error('Something has gone wrong', response);
+            // stop spinner
+            this.container.classList.remove('tx_minipoll-loading');
         }
         return response.json();
     })
