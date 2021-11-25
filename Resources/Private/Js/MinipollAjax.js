@@ -70,27 +70,34 @@ Minipoll.prototype.makeGETRequest = function(requestUri) {
         referrerPolicy: 'same-origin'
     })
     .then(response => {
-        return response.json()
+        if (response.status != 200) {
+            this.showMessage('Ein Fehler ist aufgetreten', true);
+            console.error('Something has gone wrong', response);
+        }
+        return response.json();
     })
     .then(data => {
-        //console.log('Got data', data);
-        // if (data.messages && data.messages.length) {
-        //     for (y=0; y < data.messages.length; y++) {
-        //         this.showMessage(data.messages[y], true);
-        //         console.info('Got a message from server: "' + data.messages[y] + '"');
-        //     }
-        // }
-        if (data.poll && data.poll.html) {
-            this.content.innerHTML = data.poll.html;
-            this.addMinipollEventListeners(data);
-        } else if (data.messages && data.messages.length) {
-            for (y=0; y < data.messages.length; y++) {
-                this.showMessage(data.messages[y], true);
-                console.info('Got a message from server: "' + data.messages[y] + '"');
+        if (data.success) {
+            if (data.poll && data.poll.html) {
+                this.content.innerHTML = data.poll.html;
+                this.addMinipollEventListeners(data);
+            }
+            if (data.messages && data.messages.length) {
+                for (y=0; y < data.messages.length; y++) {
+                    this.showMessage(data.messages[y]);
+                    console.info('Got a message from server: "' + data.messages[y] + '"');
+                }
             }
         } else {
-            this.showMessage('Fehler: keine Poll Daten erhalten');
-            console.error('No poll data received', data);
+            if (data.messages && data.messages.length) {
+                for (y=0; y < data.messages.length; y++) {
+                    this.showMessage(data.messages[y]);
+                    console.info('Got a message from server: "' + data.messages[y] + '"');
+                }
+            } else {
+                this.showMessage('Ein Fehler ist aufgetreten', true);
+                console.error('Something has gone wrong', data);
+            }
         }
 
         // Inform other code
@@ -127,27 +134,35 @@ Minipoll.prototype.makePOSTRequest = function(requestUri, body) {
         redirect: 'error'
     })
     .then(response => {
-        return response.json()
+        if (response.status != 200) {
+            this.showMessage('Ein Fehler ist aufgetreten', true);
+            console.error('Something has gone wrong', response);
+        }
+        return response.json();
     })
     .then(data => {
-        // if (data.messages && data.messages.length > 0) {
-        //     for (y=0; y < data.messages.length; y++) {
-        //         this.showMessage(data.messages[y], true);
-        //         console.info('Got a message from server: "' + data.messages[y] + '"');
-        //     }
-        // }
-        if (data.poll && data.poll.html) {
-            this.content.innerHTML = data.poll.html;
-            this.addMinipollEventListeners(data);
-        } else if (data.messages && data.messages.length) {
-            for (y=0; y < data.messages.length; y++) {
-                this.showMessage(data.messages[y], true);
-                console.info('Got a message from server: "' + data.messages[y] + '"');
+        if (data.success) {
+            if (data.poll && data.poll.html) {
+                this.content.innerHTML = data.poll.html;
+                this.addMinipollEventListeners(data);
             }
-        } else {
-            this.showMessage('Fehler: keine Poll Daten erhalten');
-            console.error('No poll data received', data);
+            if (data.messages && data.messages.length) {
+                for (y=0; y < data.messages.length; y++) {
+                    this.showMessage(data.messages[y]);
+                    console.info('Got a message from server: "' + data.messages[y] + '"');
+                }
+            }
             this.makeGETRequest(this.container.dataset.minipollAjaxDetail);
+        } else {
+            if (data.messages && data.messages.length) {
+                for (y=0; y < data.messages.length; y++) {
+                    this.showMessage(data.messages[y], true);
+                    console.info('Got a message from server: "' + data.messages[y] + '"');
+                }
+            } else {
+                this.showMessage('Ein Fehler ist aufgetreten', true);
+                console.error('Something has gone wrong', data);
+            }
         }
 
         // Inform other code
@@ -161,10 +176,10 @@ Minipoll.prototype.makePOSTRequest = function(requestUri, body) {
     });
 };
 
-Minipoll.prototype.showMessage = function(message, ok) {
+Minipoll.prototype.showMessage = function(message, error) {
     let div = document.createElement('div');
-    if (ok) {
-        div.classList.add('tx_minipoll-ok');
+    if (error) {
+        div.classList.add('tx_minipoll-error');
     }
     div.innerText = message;
     this.messages.appendChild(div);

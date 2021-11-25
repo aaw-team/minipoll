@@ -5,9 +5,17 @@ div[data-minipoll-messages] {
         padding: $generalSpacing*0.5;
         margin-top: $generalSpacing;
         border: 0.063em solid $messageBorderColor;
+        animation: tx_minipoll-blink .3s;
+        animation-iteration-count: 2;
+
+        &.tx_minipoll-error {
+            border-color: $messageBorderColorError;
+        }
 
         + div {
             margin-top: $generalSpacing*0.25;
         }
     }
 }
+
+@keyframes tx_minipoll-blink { 50% { border-color:#fff ; }  }

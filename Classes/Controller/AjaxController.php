@@ -121,6 +121,7 @@ class AjaxController extends ActionController
         $pollArray = []; //$this->pollUtility->pollToArray($poll);
         $pollArray['html'] = $this->view->render();
         $response['poll'] = $pollArray;
+        $response['success'] = true;
 
         return json_encode($response);
     }
@@ -140,6 +141,7 @@ class AjaxController extends ActionController
             ]);
             $pollArray['html'] = $this->view->render();
             $response['poll'] = $pollArray;
+            $response['success'] = true;
         }
 
         return json_encode($response);
@@ -264,7 +266,8 @@ class AjaxController extends ActionController
         $messages[] = LocalizationUtility::translate('message.success.createParticipation');
 
         $response = [
-            'messages' => $messages
+            'messages' => $messages,
+            'success' => true
         ];
         return json_encode($response);
     }

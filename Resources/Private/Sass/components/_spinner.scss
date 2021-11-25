@@ -4,21 +4,36 @@
 }
 .tx_minipoll-loading .tx_minipoll-spinner {
     display: block;
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    margin-left: -25px;
-    margin-top: -25px;
-    transform: rotate(0deg);
 
-    animation: tx_minipoll-rotate 2s linear infinite;
+    &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255,255,255,.6);
+    }
 
-    circle {
-        stroke: #9dcdff;
-        stroke-linecap: round;
-        animation: tx_minipoll-dash 1.5s ease-in-out infinite;
+    svg {
+        display: block;
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -25px;
+        margin-top: -25px;
+        transform: rotate(0deg);
+
+        animation: tx_minipoll-rotate 2s linear infinite;
+
+        circle {
+            stroke: #9dcdff;
+            stroke-linecap: round;
+            animation: tx_minipoll-dash 1.5s ease-in-out infinite;
+        }
     }
 }
 
