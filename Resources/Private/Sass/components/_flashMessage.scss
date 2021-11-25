@@ -1,28 +1,21 @@
-.typo3-messages {
-    list-style: none;
-    padding: 0;
+div[data-minipoll-messages] {
     margin: 0;
-    margin-bottom: $generalSpacing;
 
-    li {
+    > div {
         padding: $generalSpacing*0.5;
-        margin-bottom: $generalSpacing*0.25;
-        border: 0.063em solid $gray;
+        margin-top: $generalSpacing;
+        border: 0.063em solid $messageBorderColor;
+        animation: tx_minipoll-blink .3s;
+        animation-iteration-count: 2;
 
-        &:last-child {
-            margin-bottom: 0;
+        &.tx_minipoll-error {
+            border-color: $messageBorderColorError;
+        }
+
+        + div {
+            margin-top: $generalSpacing*0.25;
         }
     }
-
-    h4 {
-        margin: 0;
-    }
-
-    li.alert-danger {
-        border-color: #c43030;
-    }
-
-    li.alert-success {
-        border-color: #65c465;
-    }
 }
+
+@keyframes tx_minipoll-blink { 50% { border-color:#fff ; }  }

@@ -256,8 +256,6 @@ class Svgpiechart extends AbstractResultRenderer
         if ($this->configuration['includeTooltipJs']) {
             $collection = $collection->withResource(
                 Resource::createJsFooterFile('EXT:minipoll/Resources/Public/Js/svgpiechart.js')
-            )->withResource(
-                Resource::createJsFooterInline('$(".tx_minipoll-svgpiechart").svgpiechart();')
             );
         }
         return $collection;

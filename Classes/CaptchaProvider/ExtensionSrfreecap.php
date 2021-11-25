@@ -88,15 +88,23 @@ class ExtensionSrfreecap implements CaptchaProviderInterface
             Resource::createJsFooterFile('EXT:sr_freecap/Resources/Public/JavaScript/freeCap.js')
         )->withResource(
             Resource::createJsFooterInline('
+function handleCaptcha(e, element) {
+    let captchaElements = e.target.querySelectorAll("[id^=tx_srfreecap_captcha_image_]");
+    if (captchaElements.length === 1) {
+        SrFreecap.newImage(captchaElements[0].id.split("tx_srfreecap_captcha_image_")[1]);
+        $(captchaElements[0]).on("load", function() {
+            e.target.querySelectorAll("[id^=tx_minipoll-captcha-]")[0].value = "";
+        });
+    }
+}
 document.addEventListener("DOMContentLoaded", function() {
     let elements = document.querySelectorAll("div.tx_minipoll-poll[data-minipoll-ajax]");
     for (let i=0; i<elements.length; i++) {
+        elements[i].addEventListener("minipoll_get", e => {
+            handleCaptcha(e, elements[i]);
+        });
         elements[i].addEventListener("minipoll_post", e => {
-            let captchaElements = e.target.querySelectorAll("[id^=tx_srfreecap_captcha_image_]");
-            if (captchaElements.length === 1) {
-                console.debug("Re-loading sr_freecap captcha");
-                SrFreecap.newImage(captchaElements[0].id.split("tx_srfreecap_captcha_image_")[1]);
-            }
+            handleCaptcha(e, elements[i]);
         });
     }
 });')

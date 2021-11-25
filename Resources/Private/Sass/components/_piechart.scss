@@ -4,6 +4,7 @@ $tooltipBorder: #f3f3f3 !default;
 
 .tx_minipoll-svgpiechart {
     margin-bottom: $generalSpacing*0.5;
+    cursor: default;
 
     svg {
         max-width: 100%;
